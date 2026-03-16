@@ -1,7 +1,7 @@
-Gestion de projet
+Project management
 =================
 
-Voici les documents de gestion de projet du TER :
+Here are the TER project management documents:
 
 - `Cahier des charges <../Gestion de projet/Cahier_des_charges.pdf>`_
 - `Plan de développement <../Gestion de projet/Plan_de_dev.pdf>`_
