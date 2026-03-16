@@ -17,5 +17,5 @@ documentation for details.
 
    installation
    architecture
-   project management
+   project_management
 
