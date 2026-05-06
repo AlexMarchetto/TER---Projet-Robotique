@@ -1,21 +1,37 @@
-.. TER Projet Robotique documentation master file, created by
-   sphinx-quickstart on Mon Mar 16 10:21:46 2026.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+TER Projet Robotique
+====================
 
-TER Projet Robotique documentation
-==================================
+Welcome to the official documentation of the TER Robotique project.
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+This documentation presents the installation process, the project architecture,
+the software and hardware components, as well as the project management resources.
 
+Project overview
+----------------
+
+The goal of this project is to design and develop a robotic system combining
+software and hardware components.
+
+The documentation is organized into several sections:
+
+- Installation and setup
+- Software architecture
+- Hardware architecture
+- Project management
+- Technical resources and documentation
+
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
-   :caption: Table of contents
+   :caption: Documentation
 
    installation
-   architecture
-   project management
+   project_management/index
 
+Indices and tables
+------------------
+
+* :ref:`genindex`
+* :ref:`search`
