@@ -29,6 +29,8 @@ Contents
 
    installation
    project_management/index
+   robot/index
+   world/index
 
 Indices and tables
 ------------------

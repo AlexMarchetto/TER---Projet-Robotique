@@ -1,5 +1,6 @@
+##################
 Project Management
-==================
+##################
 
 This section contains the main project management documents used during the
 development of the TER Robotique project.
@@ -7,8 +8,9 @@ development of the TER Robotique project.
 These documents describe the project organization, planning, specifications,
 and development process followed throughout the project.
 
+*******************
 Available documents
--------------------
+*******************
 
 The following resources are available:
 
@@ -16,8 +18,9 @@ The following resources are available:
 - `Plan de développement <../_static/project_management/Plan_de_dev.pdf>`_
 - `Diagramme de Gantt <../_static/project_management/DiagrammeDeGantt.xlsx>`_
 
+*********************
 Document descriptions
----------------------
+*********************
 
 **Cahier des charges**
 
@@ -34,8 +37,9 @@ and implementation process of the project.
 This planning document presents the project schedule, milestones,
 task distribution, and development timeline.
 
+********************
 Project organization
---------------------
+********************
 
 The project is organized into several phases:
 

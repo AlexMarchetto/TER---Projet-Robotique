@@ -2,15 +2,14 @@
 
 EXTERNPROTO "../protos/Platform.proto"
 EXTERNPROTO "../protos/MyRobot.proto"
-
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.020850739665110633 0.17469663016326908 -0.984401510596675 1.3164895453091212
-  position -2.1461607904324023 4.088148127749319 1.4221188520735766
+  orientation -0.0524006002398514 0.5528345491614437 -0.8316418329713618 0.7206596836123518
+  position -3.48050725995531 2.266000911362478 2.097062510840807
 }
 TexturedBackground {
 }
