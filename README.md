@@ -28,7 +28,7 @@ Le dépôt est organisé de la manière suivante :
 
 - `docs/` : documents du projet (cahier des charges, plan de développement, cahier de recette, comptes-rendus)
 - `webots/` : fichiers Webots du monde et du robot (Pas encore présent)
-- `src/` : code Java du robot (Pas encore présent)
+- `src/` : code Java du robot (Pas encore)
 - `README.md` : présentation générale du projet
 
 ---
