@@ -12,3 +12,7 @@ docs/build/
 # OS
 .DS_Store
 Thumbs.db
+
+# Webots generated files
+.main.jpg
+.main.wbproj 
