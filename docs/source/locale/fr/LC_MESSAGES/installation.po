@@ -1,0 +1,133 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Alex MARCHETTO & Alexis REBELO
+# This file is distributed under the same license as the TER Projet
+# Robotique package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TER Projet Robotique\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/installation.rst:2
+msgid "Installation"
+msgstr "Installation"
+
+#: ../../source/installation.rst:4
+msgid "This page explains how to install and configure the TER Robotique project."
+msgstr "Cette page explique comment installer et configurer le projet TER Robotique."
+
+#: ../../source/installation.rst:7
+msgid "Prerequisites"
+msgstr "Prérequis"
+
+#: ../../source/installation.rst:9
+msgid ""
+"Before starting, make sure the following tools are installed on your "
+"machine:"
+msgstr ""
+"Avant de commencer, assurez-vous que les outils suivants sont installés "
+"sur votre machine :"
+
+#: ../../source/installation.rst:11
+msgid "Python 3.11 or newer"
+msgstr "Python 3.11 ou plus récent"
+
+#: ../../source/installation.rst:12
+msgid "Git"
+msgstr "Git"
+
+#: ../../source/installation.rst:13
+msgid "VS Code"
+msgstr "VS Code"
+
+#: ../../source/installation.rst:14
+msgid "pip"
+msgstr "pip"
+
+#: ../../source/installation.rst:17
+msgid "Clone the repository"
+msgstr "Cloner le dépôt"
+
+#: ../../source/installation.rst:19
+msgid "Clone the Git repository:"
+msgstr "Cloner le dépôt Git :"
+
+#: ../../source/installation.rst:25
+msgid "Then move into the project directory:"
+msgstr "Ensuite, placez-vous dans le dossier du projet :"
+
+#: ../../source/installation.rst:32
+msgid "Create a virtual environment"
+msgstr "Créer un environnement virtuel"
+
+#: ../../source/installation.rst:34
+msgid "Create a Python virtual environment:"
+msgstr "Créer un environnement virtuel Python :"
+
+#: ../../source/installation.rst:40
+msgid "Activate the virtual environment."
+msgstr "Activer l'environnement virtuel."
+
+#: ../../source/installation.rst:42
+msgid "On Windows:"
+msgstr "Sous Windows :"
+
+#: ../../source/installation.rst:48
+msgid "On Linux or macOS:"
+msgstr "Sous Linux ou macOS :"
+
+#: ../../source/installation.rst:55
+msgid "Install dependencies"
+msgstr "Installer les dépendances"
+
+#: ../../source/installation.rst:57
+msgid "Install the required Python packages:"
+msgstr "Installer les paquets Python nécessaires :"
+
+#: ../../source/installation.rst:64
+msgid "Build the documentation locally"
+msgstr "Construire la documentation localement"
+
+#: ../../source/installation.rst:66
+msgid "Move into the documentation directory:"
+msgstr "Placez-vous dans le dossier de documentation :"
+
+#: ../../source/installation.rst:72
+msgid "Generate the HTML documentation:"
+msgstr "Générer la documentation HTML :"
+
+#: ../../source/installation.rst:78
+msgid "The generated documentation will be available in:"
+msgstr "La documentation générée sera disponible dans :"
+
+#: ../../source/installation.rst:85
+msgid "Run the project"
+msgstr "Lancer le projet"
+
+#: ../../source/installation.rst:87
+msgid "Example command to launch the project:"
+msgstr "Exemple de commande pour lancer le projet :"
+
+#: ../../source/installation.rst:94
+msgid "Project structure"
+msgstr "Structure du projet"
+
+#: ../../source/installation.rst:107
+msgid "Troubleshooting"
+msgstr "Résolution des problèmes"
+
+#: ../../source/installation.rst:109
+msgid "If the command ``make.bat`` is not recognized in PowerShell, use:"
+msgstr ""
+"Si la commande ``make.bat`` n'est pas reconnue dans PowerShell, utilisez :"
+
+#: ../../source/installation.rst:115
+msgid ""
+"If dependencies fail to install, verify that Python and pip are correctly"
+" installed:"
+msgstr ""
+"Si l'installation des dépendances échoue, vérifiez que Python et pip "
+"sont correctement installés :"

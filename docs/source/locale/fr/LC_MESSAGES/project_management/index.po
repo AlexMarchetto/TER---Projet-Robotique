@@ -1,0 +1,130 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Alex MARCHETTO & Alexis REBELO
+# This file is distributed under the same license as the TER Projet
+# Robotique package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TER Projet Robotique\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/project_management/index.rst:3
+msgid "Project Management"
+msgstr "Gestion de projet"
+
+#: ../../source/project_management/index.rst:5
+msgid ""
+"This section contains the main project management documents used during "
+"the development of the TER Robotique project."
+msgstr ""
+"Cette section contient les principaux documents de gestion de projet "
+"utilisés durant le développement du projet TER Robotique."
+
+#: ../../source/project_management/index.rst:8
+msgid ""
+"These documents describe the project organization, planning, "
+"specifications, and development process followed throughout the project."
+msgstr ""
+"Ces documents décrivent l'organisation du projet, la planification, "
+"les spécifications ainsi que le processus de développement suivi tout "
+"au long du projet."
+
+#: ../../source/project_management/index.rst:13
+msgid "Available documents"
+msgstr "Documents disponibles"
+
+#: ../../source/project_management/index.rst:15
+msgid "The following resources are available:"
+msgstr "Les ressources suivantes sont disponibles :"
+
+#: ../../source/project_management/index.rst:17
+msgid ""
+"`Cahier des charges "
+"<../_static/project_management/Cahier_des_charges.pdf>`_"
+msgstr ""
+"`Cahier des charges "
+"<../_static/project_management/Cahier_des_charges.pdf>`_"
+
+#: ../../source/project_management/index.rst:18
+msgid "`Plan de développement <../_static/project_management/Plan_de_dev.pdf>`_"
+msgstr "`Plan de développement <../_static/project_management/Plan_de_dev.pdf>`_"
+
+#: ../../source/project_management/index.rst:19
+msgid ""
+"`Diagramme de Gantt "
+"<../_static/project_management/DiagrammeDeGantt.xlsx>`_"
+msgstr ""
+"`Diagramme de Gantt "
+"<../_static/project_management/DiagrammeDeGantt.xlsx>`_"
+
+#: ../../source/project_management/index.rst:23
+msgid "Document descriptions"
+msgstr "Description des documents"
+
+#: ../../source/project_management/index.rst:25
+msgid "**Cahier des charges**"
+msgstr "**Cahier des charges**"
+
+#: ../../source/project_management/index.rst:27
+msgid ""
+"This document defines the project objectives, constraints, requirements, "
+"and expected functionalities of the robotic system."
+msgstr ""
+"Ce document définit les objectifs du projet, les contraintes, les "
+"exigences ainsi que les fonctionnalités attendues du système robotique."
+
+#: ../../source/project_management/index.rst:30
+msgid "**Plan de développement**"
+msgstr "**Plan de développement**"
+
+#: ../../source/project_management/index.rst:32
+msgid ""
+"This document explains the development strategy, technical organization, "
+"and implementation process of the project."
+msgstr ""
+"Ce document explique la stratégie de développement, l'organisation "
+"technique ainsi que le processus d'implémentation du projet."
+
+#: ../../source/project_management/index.rst:35
+msgid "**Diagramme de Gantt**"
+msgstr "**Diagramme de Gantt**"
+
+#: ../../source/project_management/index.rst:37
+msgid ""
+"This planning document presents the project schedule, milestones, task "
+"distribution, and development timeline."
+msgstr ""
+"Ce document de planification présente le calendrier du projet, les "
+"jalons, la répartition des tâches ainsi que la chronologie du "
+"développement."
+
+#: ../../source/project_management/index.rst:42
+msgid "Project organization"
+msgstr "Organisation du projet"
+
+#: ../../source/project_management/index.rst:44
+msgid "The project is organized into several phases:"
+msgstr "Le projet est organisé en plusieurs phases :"
+
+#: ../../source/project_management/index.rst:46
+msgid "Requirement analysis"
+msgstr "Analyse des besoins"
+
+#: ../../source/project_management/index.rst:47
+msgid "Hardware and software design"
+msgstr "Conception matérielle et logicielle"
+
+#: ../../source/project_management/index.rst:48
+msgid "Development and integration"
+msgstr "Développement et intégration"
+
+#: ../../source/project_management/index.rst:49
+msgid "Testing and validation"
+msgstr "Tests et validation"
+
+#: ../../source/project_management/index.rst:50
+msgid "Final documentation and presentation"
+msgstr "Documentation finale et présentation"

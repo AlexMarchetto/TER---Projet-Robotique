@@ -26,3 +26,9 @@ exclude_patterns = []
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+
+# Locales (language management)
+language = "en"
+
+locale_dirs = ["locale/"]
+gettext_compact = False
