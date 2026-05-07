@@ -83,7 +83,7 @@ PROTO RobotTER [
       TouchSensor {
         name "touch_front"
         type "bumper"
-        translation 0.120 0 0.025
+        translation 0.100 0 0.015
 
         children [
           Shape {

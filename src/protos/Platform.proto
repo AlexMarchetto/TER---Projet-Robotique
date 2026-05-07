@@ -3,24 +3,39 @@
 PROTO Platform [
 ]
 {
-  Solid {
-    name "Platform"
+  Group {
     children [
-      # Sol
-      Shape {
-        appearance Appearance {
-          material Material {
-            diffuseColor 0.8 0.8 0.8
+      # =========================
+      # SOL EPAIS AVEC COLLISION
+      # =========================
+      Solid {
+        name "platform_floor"
+        translation 0 0 0.025
+
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.8 0.8 0.8
+              }
+            }
+            geometry Box {
+              size 3 2 0.05
+            }
           }
-        }
-        geometry Box {
-          size 3 2 0.01
+        ]
+
+        boundingObject Box {
+          size 3 2 0.05
         }
       }
 
-      # Ligne verte
+      # =========================
+      # LIGNES VISUELLES
+      # =========================
+
       Pose {
-        translation -0.5 0 0.0051
+        translation -0.5 0 0.051
         children [
           Shape {
             appearance Appearance {
@@ -35,9 +50,8 @@ PROTO Platform [
         ]
       }
 
-      # Ligne bleue
       Pose {
-        translation 0.5 0 0.0051
+        translation 0.5 0 0.051
         children [
           Shape {
             appearance Appearance {
@@ -52,9 +66,8 @@ PROTO Platform [
         ]
       }
 
-      # Ligne grise centrale
       Pose {
-        translation 0 0 0.0051
+        translation 0 0 0.051
         children [
           Shape {
             appearance Appearance {
@@ -69,9 +82,8 @@ PROTO Platform [
         ]
       }
 
-      # Ligne blanche gauche
       Pose {
-        translation -1 0 0.0051
+        translation -1 0 0.051
         children [
           Shape {
             appearance Appearance {
@@ -86,9 +98,8 @@ PROTO Platform [
         ]
       }
 
-      # Ligne blanche droite
       Pose {
-        translation 1 0 0.0051
+        translation 1 0 0.051
         children [
           Shape {
             appearance Appearance {
@@ -103,9 +114,8 @@ PROTO Platform [
         ]
       }
 
-      # Ligne rouge
       Pose {
-        translation 0 0.5 0.0051
+        translation 0 0.5 0.051
         children [
           Shape {
             appearance Appearance {
@@ -120,9 +130,8 @@ PROTO Platform [
         ]
       }
 
-      # Ligne noire centrale
       Pose {
-        translation 0 0 0.0051
+        translation 0 0 0.052
         children [
           Shape {
             appearance Appearance {
@@ -137,9 +146,8 @@ PROTO Platform [
         ]
       }
 
-      # Ligne jaune
       Pose {
-        translation 0 -0.5 0.0051
+        translation 0 -0.5 0.051
         children [
           Shape {
             appearance Appearance {
@@ -154,9 +162,14 @@ PROTO Platform [
         ]
       }
 
-      # Mur du haut
-      Pose {
-        translation 0 1 0.15
+      # =========================
+      # MURS AVEC COLLISION
+      # =========================
+
+      Solid {
+        name "wall_top"
+        translation 0 1 0.20
+
         children [
           Shape {
             appearance Appearance {
@@ -166,15 +179,20 @@ PROTO Platform [
               }
             }
             geometry Box {
-              size 3 0.02 0.3
+              size 3 0.04 0.3
             }
           }
         ]
+
+        boundingObject Box {
+          size 3 0.04 0.3
+        }
       }
 
-      # Mur du bas
-      Pose {
-        translation 0 -1 0.15
+      Solid {
+        name "wall_bottom"
+        translation 0 -1 0.20
+
         children [
           Shape {
             appearance Appearance {
@@ -184,15 +202,20 @@ PROTO Platform [
               }
             }
             geometry Box {
-              size 3 0.02 0.3
+              size 3 0.04 0.3
             }
           }
         ]
+
+        boundingObject Box {
+          size 3 0.04 0.3
+        }
       }
 
-      # Mur gauche
-      Pose {
-        translation -1.5 0 0.15
+      Solid {
+        name "wall_left"
+        translation -1.5 0 0.20
+
         children [
           Shape {
             appearance Appearance {
@@ -202,15 +225,20 @@ PROTO Platform [
               }
             }
             geometry Box {
-              size 0.02 2 0.3
+              size 0.04 2 0.3
             }
           }
         ]
+
+        boundingObject Box {
+          size 0.04 2 0.3
+        }
       }
 
-      # Mur droit
-      Pose {
-        translation 1.5 0 0.15
+      Solid {
+        name "wall_right"
+        translation 1.5 0 0.20
+
         children [
           Shape {
             appearance Appearance {
@@ -220,55 +248,15 @@ PROTO Platform [
               }
             }
             geometry Box {
-              size 0.02 2 0.3
+              size 0.04 2 0.3
             }
           }
         ]
+
+        boundingObject Box {
+          size 0.04 2 0.3
+        }
       }
     ]
-
-    boundingObject Group {
-      children [
-        Box {
-          size 3 2 0.01
-        }
-
-        Pose {
-          translation 0 1 0.15
-          children [
-            Box {
-              size 3 0.02 0.3
-            }
-          ]
-        }
-
-        Pose {
-          translation 0 -1 0.15
-          children [
-            Box {
-              size 3 0.02 0.3
-            }
-          ]
-        }
-
-        Pose {
-          translation -1.5 0 0.15
-          children [
-            Box {
-              size 0.02 2 0.3
-            }
-          ]
-        }
-
-        Pose {
-          translation 1.5 0 0.15
-          children [
-            Box {
-              size 0.02 2 0.3
-            }
-          ]
-        }
-      ]
-    }
   }
 }
