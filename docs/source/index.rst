@@ -31,6 +31,7 @@ Contents
    project_management/index
    robot/index
    world/index
+   controller/index
 
 Indices and tables
 ------------------
