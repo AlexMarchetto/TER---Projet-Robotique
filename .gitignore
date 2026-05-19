@@ -16,3 +16,6 @@ Thumbs.db
 # Webots generated files
 .*.jpg
 .*.wbproj 
+
+# Java compiled files
+*.class
