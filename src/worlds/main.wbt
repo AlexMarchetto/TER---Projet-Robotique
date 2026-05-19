@@ -1,7 +1,7 @@
 #VRML_SIM R2025a utf8
 
 EXTERNPROTO "../protos/Platform.proto"
-EXTERNPROTO "../protos/MyRobot.proto"
+EXTERNPROTO "../protos/RobotTER.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 
@@ -17,5 +17,5 @@ TexturedBackgroundLight {
 }
 Platform {
 }
-MyRobot {
+RobotTER {
 }
