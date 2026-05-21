@@ -19,3 +19,6 @@ Thumbs.db
 
 # Java compiled files
 *.class
+
+# Compiled translation files
+*.mo
