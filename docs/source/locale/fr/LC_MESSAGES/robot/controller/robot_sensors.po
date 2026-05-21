@@ -1,0 +1,206 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Alex MARCHETTO & Alexis REBELO
+# This file is distributed under the same license as the TER Projet
+# Robotique package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: TER Projet Robotique \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-21 09:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/robot/controller/robot_sensors.rst:3
+msgid "RobotSensors"
+msgstr "RobotSensors"
+
+#: ../../source/robot/controller/robot_sensors.rst:7
+msgid "Role of the class"
+msgstr "Rôle de la classe"
+
+#: ../../source/robot/controller/robot_sensors.rst:9
+msgid "The ``RobotSensors`` class groups together all sensors used by the robot."
+msgstr "La classe ``RobotSensors`` regroupe tous les capteurs utilisés par le robot."
+
+#: ../../source/robot/controller/robot_sensors.rst:11
+msgid ""
+"It centralizes access to Webots sensors so that ``TERBot`` does not "
+"directly manipulate ``DistanceSensor``, ``Camera`` or ``TouchSensor`` "
+"objects."
+msgstr ""
+"Elle centralise l'accès aux capteurs Webots afin que ``TERBot`` ne "
+"manipule pas directement les objets ``DistanceSensor``, ``Camera`` ou "
+"``TouchSensor``."
+
+#: ../../source/robot/controller/robot_sensors.rst:16
+msgid "Responsibilities"
+msgstr "Responsabilités"
+
+#: ../../source/robot/controller/robot_sensors.rst:18
+msgid "Retrieve Webots sensors."
+msgstr "Récupérer les capteurs Webots."
+
+#: ../../source/robot/controller/robot_sensors.rst:19
+msgid "Enable sensors using the simulation time step."
+msgstr "Activer les capteurs avec le pas de temps de la simulation."
+
+#: ../../source/robot/controller/robot_sensors.rst:20
+msgid "Read distances on the left, right and front sides."
+msgstr "Lire les distances à gauche, à droite et devant."
+
+#: ../../source/robot/controller/robot_sensors.rst:21
+msgid "Read the state of the touch sensor."
+msgstr "Lire l'état du capteur de contact."
+
+#: ../../source/robot/controller/robot_sensors.rst:22
+msgid "Read the average color detected by the camera."
+msgstr "Lire la couleur moyenne détectée par la caméra."
+
+#: ../../source/robot/controller/robot_sensors.rst:23
+msgid "Detect whether the observed color is red."
+msgstr "Détecter si la couleur observée est rouge."
+
+#: ../../source/robot/controller/robot_sensors.rst:27
+msgid "Encapsulation"
+msgstr "Encapsulation"
+
+#: ../../source/robot/controller/robot_sensors.rst:29
+msgid ""
+"The sensors are stored in private attributes: ``dsRight``, ``dsLeft``, "
+"``dsFront``, ``colorSensor`` and ``touchFront``."
+msgstr ""
+"Les capteurs sont stockés dans des attributs privés : ``dsRight``, "
+"``dsLeft``, ``dsFront``, ``colorSensor`` et ``touchFront``."
+
+#: ../../source/robot/controller/robot_sensors.rst:34
+msgid "Relations with other classes"
+msgstr "Relations avec les autres classes"
+
+#: ../../source/robot/controller/robot_sensors.rst:36
+msgid "``RobotSensors`` is owned by ``TERBot``."
+msgstr "``RobotSensors`` est possédée par ``TERBot``."
+
+#: ../../source/robot/controller/robot_sensors.rst:38
+msgid ""
+"It depends on ``DistanceSensor``, ``Camera``, ``TouchSensor`` and "
+"``Supervisor``."
+msgstr ""
+"Elle dépend de ``DistanceSensor``, ``Camera``, ``TouchSensor`` et "
+"``Supervisor``."
+
+#: ../../source/robot/controller/robot_sensors.rst:43
+msgid "Functions"
+msgstr "Fonctions"
+
+#: ../../source/robot/controller/robot_sensors.rst:46
+msgid "``RobotSensors(Supervisor robot, int timeStep)``"
+msgstr "``RobotSensors(Supervisor robot, int timeStep)``"
+
+#: ../../source/robot/controller/robot_sensors.rst:48
+msgid "Constructor."
+msgstr "Constructeur."
+
+#: ../../source/robot/controller/robot_sensors.rst:50
+msgid ""
+"It retrieves the ``ds_right``, ``ds_left``, ``ds_front``, "
+"``color_sensor`` and ``touch_front`` sensors."
+msgstr ""
+"Il récupère les capteurs ``ds_right``, ``ds_left``, ``ds_front``, "
+"``color_sensor`` et ``touch_front``."
+
+#: ../../source/robot/controller/robot_sensors.rst:53
+msgid "Each detected sensor is enabled using ``enable(timeStep)``."
+msgstr ""
+"Chaque capteur trouvé est activé avec ``enable(timeStep)``."
+
+#: ../../source/robot/controller/robot_sensors.rst:56
+msgid "``getRightDistance()``"
+msgstr "``getRightDistance()``"
+
+#: ../../source/robot/controller/robot_sensors.rst:58
+msgid "Returns the value of the right distance sensor."
+msgstr "Retourne la valeur du capteur de distance droit."
+
+#: ../../source/robot/controller/robot_sensors.rst:60
+#: ../../source/robot/controller/robot_sensors.rst:67
+msgid "If the sensor does not exist, it returns ``0.0``."
+msgstr "Si le capteur n'existe pas, retourne ``0.0``."
+
+#: ../../source/robot/controller/robot_sensors.rst:63
+msgid "``getLeftDistance()``"
+msgstr "``getLeftDistance()``"
+
+#: ../../source/robot/controller/robot_sensors.rst:65
+msgid "Returns the value of the left distance sensor."
+msgstr "Retourne la valeur du capteur de distance gauche."
+
+#: ../../source/robot/controller/robot_sensors.rst:70
+msgid "``getFrontDistance()``"
+msgstr "``getFrontDistance()``"
+
+#: ../../source/robot/controller/robot_sensors.rst:72
+msgid "Returns the value of the front distance sensor."
+msgstr "Retourne la valeur du capteur de distance avant."
+
+#: ../../source/robot/controller/robot_sensors.rst:74
+msgid "This sensor is used to detect an object or a puck in front of the robot."
+msgstr ""
+"Ce capteur est utilisé pour détecter un objet ou un palet devant le robot."
+
+#: ../../source/robot/controller/robot_sensors.rst:77
+msgid "``isTouched()``"
+msgstr "``isTouched()``"
+
+#: ../../source/robot/controller/robot_sensors.rst:79
+msgid "Returns ``true`` if the front touch sensor detects a collision."
+msgstr ""
+"Retourne ``true`` si le capteur de contact avant détecte une collision."
+
+#: ../../source/robot/controller/robot_sensors.rst:82
+msgid "``getAverageColor()``"
+msgstr "``getAverageColor()``"
+
+#: ../../source/robot/controller/robot_sensors.rst:84
+msgid "Computes the average color detected by the camera."
+msgstr "Calcule la couleur moyenne vue par la caméra."
+
+#: ../../source/robot/controller/robot_sensors.rst:86
+#, python-brace-format
+msgid "The method returns an array ``{red, green, blue}``."
+msgstr "La méthode retourne un tableau ``{red, green, blue}``."
+
+#: ../../source/robot/controller/robot_sensors.rst:88
+#, python-brace-format
+msgid ""
+"If the camera does not exist or if the image is invalid, it returns ``{0,"
+" 0, 0}``."
+msgstr ""
+"Si la caméra n'existe pas ou si l'image n'est pas valide, elle retourne "
+"``{0, 0, 0}``."
+
+#: ../../source/robot/controller/robot_sensors.rst:92
+msgid "``isRedDetected()``"
+msgstr "``isRedDetected()``"
+
+#: ../../source/robot/controller/robot_sensors.rst:94
+msgid "Indicates whether the detected average color corresponds to red."
+msgstr ""
+"Indique si la couleur moyenne détectée correspond à du rouge."
+
+#: ../../source/robot/controller/robot_sensors.rst:96
+msgid ""
+"The method checks that the red component is greater than 150, the green "
+"component is lower than 100, and the blue component is lower than 100."
+msgstr ""
+"La méthode vérifie que le rouge est supérieur à 150, le vert inférieur à "
+"100 et le bleu inférieur à 100."

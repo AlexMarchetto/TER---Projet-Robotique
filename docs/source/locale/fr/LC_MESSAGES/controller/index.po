@@ -1,0 +1,1223 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Alex MARCHETTO & Alexis REBELO
+# This file is distributed under the same license as the TER Projet
+# Robotique package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: TER Projet Robotique \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-21 09:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/controller/index.rst:3
+msgid "Controller"
+msgstr ""
+
+#: ../../source/controller/index.rst:6
+msgid "Présentation générale"
+msgstr ""
+
+#: ../../source/controller/index.rst:8
+msgid ""
+"Le controller ``FourWheelsCollisionAvoidance`` permet de contrôler le "
+"robot ramasseur de palets dans Webots."
+msgstr ""
+
+#: ../../source/controller/index.rst:10
+msgid "Son objectif est de :"
+msgstr ""
+
+#: ../../source/controller/index.rst:12
+msgid "Rechercher les palets présents dans l'arène ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:13
+msgid "Détecter les palets à l'aide des capteurs et de leur position ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:14
+msgid "S'orienter vers un palet lorsqu'il est proche ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:15
+msgid "Ramasser le palet avec le bras et la pince ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:16
+msgid "Transporter le palet jusqu'à la zone de dépôt ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:17
+msgid "Déposer le palet dans la zone prévue ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:18
+msgid "Éviter les murs et les obstacles ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:19
+msgid ""
+"Éviter de rester bloqué contre un mur, notamment lorsque le robot arrive "
+"en diagonale."
+msgstr ""
+
+#: ../../source/controller/index.rst:21
+msgid ""
+"Le controller est écrit en Java et utilise l'API Webots, notamment la "
+"classe ``Supervisor`` pour accéder aux objets de simulation."
+msgstr ""
+
+#: ../../source/controller/index.rst:24
+msgid "Fichier concerné"
+msgstr ""
+
+#: ../../source/controller/index.rst:26
+msgid "Le controller se trouve dans le fichier suivant :"
+msgstr ""
+
+#: ../../source/controller/index.rst:33
+msgid "Classe principale"
+msgstr ""
+
+#: ../../source/controller/index.rst:39
+msgid ""
+"Cette classe contient toute la logique du robot. Elle initialise les "
+"capteurs, les moteurs, les palets, puis exécute une boucle principale qui"
+" décide du comportement du robot à chaque pas de simulation."
+msgstr ""
+
+#: ../../source/controller/index.rst:42
+msgid "Imports utilisés"
+msgstr ""
+
+#: ../../source/controller/index.rst:44
+msgid "Le controller utilise plusieurs classes de l'API Webots :"
+msgstr ""
+
+#: ../../source/controller/index.rst:58
+msgid "Rôle des principales classes utilisées :"
+msgstr ""
+
+#: ../../source/controller/index.rst:63
+msgid "Classe"
+msgstr ""
+
+#: ../../source/controller/index.rst:64 ../../source/controller/index.rst:347
+#: ../../source/controller/index.rst:482 ../../source/controller/index.rst:521
+#: ../../source/controller/index.rst:584 ../../source/controller/index.rst:860
+msgid "Rôle"
+msgstr ""
+
+#: ../../source/controller/index.rst:65
+msgid "``Supervisor``"
+msgstr ""
+
+#: ../../source/controller/index.rst:66
+msgid ""
+"Permet au controller d'accéder aux objets de la scène Webots, comme les "
+"palets."
+msgstr ""
+
+#: ../../source/controller/index.rst:67
+msgid "``Node``"
+msgstr ""
+
+#: ../../source/controller/index.rst:68
+msgid "Représente un objet de la scène, par exemple un palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:69
+msgid "``Field``"
+msgstr ""
+
+#: ../../source/controller/index.rst:70
+msgid "Permet de modifier un champ d'un objet Webots, comme sa position."
+msgstr ""
+
+#: ../../source/controller/index.rst:71
+msgid "``DistanceSensor``"
+msgstr ""
+
+#: ../../source/controller/index.rst:72
+msgid "Permet de détecter des obstacles devant ou sur les côtés du robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:73
+msgid "``Motor``"
+msgstr ""
+
+#: ../../source/controller/index.rst:74
+msgid "Permet de contrôler les roues, le bras et la pince."
+msgstr ""
+
+#: ../../source/controller/index.rst:75
+msgid "``Camera``"
+msgstr ""
+
+#: ../../source/controller/index.rst:76
+msgid "Permet de lire la couleur moyenne devant le robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:77
+msgid "``TouchSensor``"
+msgstr ""
+
+#: ../../source/controller/index.rst:78
+msgid ""
+"Permet de détecter un contact physique avec un palet, un mur ou la zone "
+"de dépôt."
+msgstr ""
+
+#: ../../source/controller/index.rst:79
+msgid "``PositionSensor``"
+msgstr ""
+
+#: ../../source/controller/index.rst:80
+msgid "Permet de suivre la position du bras."
+msgstr ""
+
+#: ../../source/controller/index.rst:83
+msgid "Fonctions utilitaires"
+msgstr ""
+
+#: ../../source/controller/index.rst:86
+msgid "``attachPuckToRobot``"
+msgstr ""
+
+#: ../../source/controller/index.rst:123
+msgid ""
+"Cette fonction permet de faire suivre un palet au robot après son "
+"ramassage."
+msgstr ""
+
+#: ../../source/controller/index.rst:125
+msgid ""
+"Comme le robot ne saisit pas réellement le palet de manière physique, le "
+"controller déplace directement le palet devant le robot à chaque pas de "
+"simulation."
+msgstr ""
+
+#: ../../source/controller/index.rst:127
+msgid "La fonction utilise :"
+msgstr ""
+
+#: ../../source/controller/index.rst:129
+msgid "La position du robot ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:130
+msgid "Son orientation ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:131
+msgid "Un décalage local devant le robot ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:132
+msgid "Le champ ``translation`` du palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:134
+msgid "Le palet est ensuite repositionné avec :"
+msgstr ""
+
+#: ../../source/controller/index.rst:140
+msgid "Puis sa physique est réinitialisée avec :"
+msgstr ""
+
+#: ../../source/controller/index.rst:146
+msgid ""
+"Cela permet d'éviter que le palet tombe ou parte dans une mauvaise "
+"direction pendant le transport."
+msgstr ""
+
+#: ../../source/controller/index.rst:149
+msgid "``normalizeAngle``"
+msgstr ""
+
+#: ../../source/controller/index.rst:165
+msgid "Cette fonction permet de normaliser un angle entre ``-PI`` et ``PI``."
+msgstr ""
+
+#: ../../source/controller/index.rst:167
+msgid ""
+"Elle est utilisée lorsque le robot doit calculer l'écart entre sa "
+"direction actuelle et la direction d'une cible, comme un palet ou la zone"
+" de dépôt."
+msgstr ""
+
+#: ../../source/controller/index.rst:169 ../../source/controller/index.rst:283
+msgid "Exemple :"
+msgstr ""
+
+#: ../../source/controller/index.rst:176
+msgid "``getRobotYaw``"
+msgstr ""
+
+#: ../../source/controller/index.rst:185
+msgid "Cette fonction récupère l'orientation du robot sur l'axe vertical."
+msgstr ""
+
+#: ../../source/controller/index.rst:187
+msgid "Elle permet de savoir dans quelle direction le robot regarde."
+msgstr ""
+
+#: ../../source/controller/index.rst:189
+msgid "Elle est utilisée pour :"
+msgstr ""
+
+#: ../../source/controller/index.rst:191
+msgid "S'orienter vers un palet ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:192
+msgid "Se diriger vers la zone de dépôt ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:193
+msgid "Corriger la trajectoire du robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:196
+msgid "``findNearstAvailablePuck``"
+msgstr ""
+
+#: ../../source/controller/index.rst:231
+msgid "Cette fonction cherche le palet disponible le plus proche du robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:233
+msgid "Un palet est considéré comme disponible si :"
+msgstr ""
+
+#: ../../source/controller/index.rst:235
+msgid "Il existe dans la scène ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:236
+msgid "Il n'a pas encore été livré dans la zone de dépôt."
+msgstr ""
+
+#: ../../source/controller/index.rst:238
+msgid "La fonction retourne :"
+msgstr ""
+
+#: ../../source/controller/index.rst:240
+msgid "L'indice du palet le plus proche ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:241
+msgid "``-1`` si aucun palet disponible n'est trouvé."
+msgstr ""
+
+#: ../../source/controller/index.rst:244
+msgid "Initialisation du robot"
+msgstr ""
+
+#: ../../source/controller/index.rst:247
+msgid "Création du Supervisor"
+msgstr ""
+
+#: ../../source/controller/index.rst:253
+msgid ""
+"Le robot est crée comme ``Supervisor`` afin de pouvoir accéder aux objets"
+" de la scène Webots."
+msgstr ""
+
+#: ../../source/controller/index.rst:255
+msgid "Cela est nécessaire pour récupérer les palets avec :"
+msgstr ""
+
+#: ../../source/controller/index.rst:262
+msgid "Récupération du pas de simulation"
+msgstr ""
+
+#: ../../source/controller/index.rst:268
+msgid ""
+"Le ``timeStep`` correspond au pas de simulation Webots. Il est utilisé "
+"pour activer les capteurs et faire avancer la boucle principale du "
+"controller."
+msgstr ""
+
+#: ../../source/controller/index.rst:271
+msgid "Déclaration des palets"
+msgstr ""
+
+#: ../../source/controller/index.rst:281
+msgid ""
+"Chaque palet doit avoir un ``DEF`` correspondant dans le fichier monde "
+"Webots."
+msgstr ""
+
+#: ../../source/controller/index.rst:315
+msgid "Le controller stocke ensuite :"
+msgstr ""
+
+#: ../../source/controller/index.rst:317
+msgid "Les noeuds des palets ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:318
+msgid "Leur champ ``translation`` ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:319
+msgid "Leur état de livraison."
+msgstr ""
+
+#: ../../source/controller/index.rst:328
+msgid "Capteurs utilisés"
+msgstr ""
+
+#: ../../source/controller/index.rst:331
+msgid "Capteurs de distance"
+msgstr ""
+
+#: ../../source/controller/index.rst:333
+msgid "Le robot utilise trois capteurs de distance :"
+msgstr ""
+
+#: ../../source/controller/index.rst:341
+msgid "Rôle des capteurs :"
+msgstr ""
+
+#: ../../source/controller/index.rst:346
+msgid "Capteur"
+msgstr ""
+
+#: ../../source/controller/index.rst:348
+msgid "``ds_front``"
+msgstr ""
+
+#: ../../source/controller/index.rst:349
+msgid "Détecte un objet devant le robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:350
+msgid "``ds_left``"
+msgstr ""
+
+#: ../../source/controller/index.rst:351
+msgid "Détecte un obstacle ou un mur sur la gauche."
+msgstr ""
+
+#: ../../source/controller/index.rst:352
+msgid "``ds_right``"
+msgstr ""
+
+#: ../../source/controller/index.rst:353
+msgid "Détecte un obstacle ou un mur sur la droite."
+msgstr ""
+
+#: ../../source/controller/index.rst:355
+msgid ""
+"Les capteurs latéraux ne déclenchent pas directement un recul. Ils "
+"servent surtout à corriger la trajectoire ou à éviter les murs."
+msgstr ""
+
+#: ../../source/controller/index.rst:358
+msgid "Caméra couleur"
+msgstr ""
+
+#: ../../source/controller/index.rst:364
+msgid "La caméra permet de lire la couleur moyenne de l'image capté par le robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:366
+msgid "Le controller calcule une moyenne RGB :"
+msgstr ""
+
+#: ../../source/controller/index.rst:374
+msgid "Puis il vérifie si la couleur rouge est détectée :"
+msgstr ""
+
+#: ../../source/controller/index.rst:380
+msgid "Cette détection peut aider à identifier un palet rouge."
+msgstr ""
+
+#: ../../source/controller/index.rst:383
+msgid "Capteur de contact"
+msgstr ""
+
+#: ../../source/controller/index.rst:389
+msgid "Le capteur de contact permet de savoir si le robot touche un objet."
+msgstr ""
+
+#: ../../source/controller/index.rst:391
+msgid "Il est utilisé pour distinguer :"
+msgstr ""
+
+#: ../../source/controller/index.rst:393
+msgid "un contact avec un palet ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:394
+msgid "un contact avec un mur ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:395
+msgid "un contact avec la zone de dépôt."
+msgstr ""
+
+#: ../../source/controller/index.rst:397
+msgid "La détection est faite avec :"
+msgstr ""
+
+#: ../../source/controller/index.rst:404
+msgid "Moteurs"
+msgstr ""
+
+#: ../../source/controller/index.rst:407
+msgid "Moteurs des roues"
+msgstr ""
+
+#: ../../source/controller/index.rst:409
+msgid "Le robot possède quatre roues :"
+msgstr ""
+
+#: ../../source/controller/index.rst:418
+msgid "Les roues sont configurées en contrôle de vitesse :"
+msgstr ""
+
+#: ../../source/controller/index.rst:425
+msgid ""
+"Les roues de gauche utilisent ``leftSpeed`` et les roues de droite "
+"utilisent ``rightSpeed``."
+msgstr ""
+
+#: ../../source/controller/index.rst:435
+msgid "Moteurs du bras et de la pince"
+msgstr ""
+
+#: ../../source/controller/index.rst:437
+msgid "Le robot possède :"
+msgstr ""
+
+#: ../../source/controller/index.rst:445
+msgid "Le bras peut être levé ou baissé :"
+msgstr ""
+
+#: ../../source/controller/index.rst:452
+msgid "La pince peut être ouverte ou fermée :"
+msgstr ""
+
+#: ../../source/controller/index.rst:463
+msgid "Paramètres principaux"
+msgstr ""
+
+#: ../../source/controller/index.rst:466
+msgid "Vitesses"
+msgstr ""
+
+#: ../../source/controller/index.rst:476
+msgid "Rôle des vitesses :"
+msgstr ""
+
+#: ../../source/controller/index.rst:481 ../../source/controller/index.rst:520
+#: ../../source/controller/index.rst:583
+msgid "Constante"
+msgstr ""
+
+#: ../../source/controller/index.rst:483
+msgid "``SEARCH_SPEED``"
+msgstr ""
+
+#: ../../source/controller/index.rst:484
+msgid "Vitesse du robot lorsqu'il cherche un palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:485
+msgid "``APPROACH_SPEED``"
+msgstr ""
+
+#: ../../source/controller/index.rst:486
+msgid "Vitesse utilisée lorsqu'il approche un palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:487
+msgid "``GO_DROP_SPEED``"
+msgstr ""
+
+#: ../../source/controller/index.rst:488
+msgid "Vitesse utilisée pour aller vers la zone de dépôt."
+msgstr ""
+
+#: ../../source/controller/index.rst:489
+msgid "``TURN_SPEED``"
+msgstr ""
+
+#: ../../source/controller/index.rst:490
+msgid "Vitesse utilisée pour tourner."
+msgstr ""
+
+#: ../../source/controller/index.rst:491
+msgid "``BACK_SPEED``"
+msgstr ""
+
+#: ../../source/controller/index.rst:492
+msgid "Vitesse utilisée pour reculer."
+msgstr ""
+
+#: ../../source/controller/index.rst:495
+msgid "Position de dépôt"
+msgstr ""
+
+#: ../../source/controller/index.rst:503
+msgid ""
+"Ces valeurs correspondent à la position où le palet est placé après le "
+"dépôt."
+msgstr ""
+
+#: ../../source/controller/index.rst:506
+msgid "Seuils de détection"
+msgstr ""
+
+#: ../../source/controller/index.rst:515
+msgid "Rôle des seuils :"
+msgstr ""
+
+#: ../../source/controller/index.rst:522
+msgid "``FRONT_OBJECT_THRESHOLD``"
+msgstr ""
+
+#: ../../source/controller/index.rst:523
+msgid ""
+"Seuil à partir duquel ``ds_front`` considère qu'un objet est devant le "
+"robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:524
+msgid "``PUCK_CONTACT_DISTANCE``"
+msgstr ""
+
+#: ../../source/controller/index.rst:525
+msgid "Distance maximale pour considérer qu'un contact correspond à un palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:526
+msgid "``PUCK_DETECTION_DISTANCE``"
+msgstr ""
+
+#: ../../source/controller/index.rst:527
+msgid "Distance à partir de laquelle le robot peut cibler un palet proche."
+msgstr ""
+
+#: ../../source/controller/index.rst:528
+msgid "``PUCK_MAX_ANGLE``"
+msgstr ""
+
+#: ../../source/controller/index.rst:529
+msgid "Angle maximal autorisé pour considérer qu'un palet est devant le robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:532 ../../source/controller/index.rst:951
+msgid "Évitement des murs"
+msgstr ""
+
+#: ../../source/controller/index.rst:539
+msgid "Ces seuils permettent au robot de détecter les obstacles latéraux."
+msgstr ""
+
+#: ../../source/controller/index.rst:541
+msgid ""
+"Le robot ne recule pas directement à cause de ces capteurs. Il tourne "
+"simplement pour éviter l'obstacle."
+msgstr ""
+
+#: ../../source/controller/index.rst:544 ../../source/controller/index.rst:820
+msgid "Anti-collage contre les murs"
+msgstr ""
+
+#: ../../source/controller/index.rst:552
+msgid ""
+"Cette sécurité permet d'éviter que le robot continue d'avancer contre un "
+"mur lorsqu'il arrive en diagonale."
+msgstr ""
+
+#: ../../source/controller/index.rst:554 ../../source/controller/index.rst:830
+msgid ""
+"Si un capteur latéral reste très élevé pendant plusieurs pas de "
+"simulation, le robot force une rotation."
+msgstr ""
+
+#: ../../source/controller/index.rst:557 ../../source/controller/index.rst:936
+msgid "Correction vers le palet"
+msgstr ""
+
+#: ../../source/controller/index.rst:563
+msgid ""
+"Ce coefficient contrôle la force avec laquelle le robot corrige sa "
+"trajectoire vers le palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:565
+msgid "Plus la valeur est grande, plus le robot tourne fortement vers le palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:568
+msgid "Timers"
+msgstr ""
+
+#: ../../source/controller/index.rst:578
+msgid "Rôle des timers :"
+msgstr ""
+
+#: ../../source/controller/index.rst:585
+msgid "``APPROACH_TIMEOUT``"
+msgstr ""
+
+#: ../../source/controller/index.rst:586
+msgid "Temps maximal passé à approcher un palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:587
+msgid "``TOUCH_BACK_TIME``"
+msgstr ""
+
+#: ../../source/controller/index.rst:588
+msgid "Durée du recul après un contact avec un obstacle."
+msgstr ""
+
+#: ../../source/controller/index.rst:589
+msgid "``TOUCH_TURN_TIME``"
+msgstr ""
+
+#: ../../source/controller/index.rst:590
+msgid "Durée de rotation après un contact avec un obstacle."
+msgstr ""
+
+#: ../../source/controller/index.rst:591
+msgid "``SIDE_TURN_TIME``"
+msgstr ""
+
+#: ../../source/controller/index.rst:592
+msgid "Durée de rotation après détection latérale."
+msgstr ""
+
+#: ../../source/controller/index.rst:595
+msgid "États du robot"
+msgstr ""
+
+#: ../../source/controller/index.rst:597
+msgid "Le controller fonctionne avec une machine à états."
+msgstr ""
+
+#: ../../source/controller/index.rst:603
+msgid "Les principaux états sont :"
+msgstr ""
+
+#: ../../source/controller/index.rst:608
+msgid "État"
+msgstr ""
+
+#: ../../source/controller/index.rst:609
+msgid "Description"
+msgstr ""
+
+#: ../../source/controller/index.rst:610
+msgid "``SEARCH``"
+msgstr ""
+
+#: ../../source/controller/index.rst:611
+msgid "Le robot cherche un palet dans l'arène."
+msgstr ""
+
+#: ../../source/controller/index.rst:612
+msgid "``APPROACH_PUCK``"
+msgstr ""
+
+#: ../../source/controller/index.rst:613
+msgid "Le robot se dirige vers un palet détecté."
+msgstr ""
+
+#: ../../source/controller/index.rst:614
+msgid "``LOWER_ARM``"
+msgstr ""
+
+#: ../../source/controller/index.rst:615
+msgid "Le robot baisse son bras."
+msgstr ""
+
+#: ../../source/controller/index.rst:616
+msgid "``CLOSE_GRIPPER``"
+msgstr ""
+
+#: ../../source/controller/index.rst:617
+msgid "Le robot ferme sa pince."
+msgstr ""
+
+#: ../../source/controller/index.rst:618
+msgid "``LIFT_ARM``"
+msgstr ""
+
+#: ../../source/controller/index.rst:619
+msgid "Le robot lève le bras avec le palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:620
+msgid "``GO_TO_DROP_ZONE``"
+msgstr ""
+
+#: ../../source/controller/index.rst:621
+msgid "Le robot se dirige vers la zone de dépôt."
+msgstr ""
+
+#: ../../source/controller/index.rst:622
+msgid "``DROP_PUCK``"
+msgstr ""
+
+#: ../../source/controller/index.rst:623
+msgid "Le robot dépose le palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:624
+msgid "``LIFT_ARM_AFTER_DROP``"
+msgstr ""
+
+#: ../../source/controller/index.rst:625
+msgid "Le robot relève le bras après le dépôt."
+msgstr ""
+
+#: ../../source/controller/index.rst:626
+msgid "``BACK_AND_TURN_AFTER_DROP``"
+msgstr ""
+
+#: ../../source/controller/index.rst:627
+msgid "Le robot recule et tourne pour quitter la zone de dépôt."
+msgstr ""
+
+#: ../../source/controller/index.rst:628
+msgid "``TOUCH_AVOID``"
+msgstr ""
+
+#: ../../source/controller/index.rst:629
+msgid "Le robot recule puis tourne après un contact avec un obstacle."
+msgstr ""
+
+#: ../../source/controller/index.rst:632
+msgid "Logique de recherche"
+msgstr ""
+
+#: ../../source/controller/index.rst:634
+msgid "En mode ``SEARCH``, le robot avance et cherche un palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:636
+msgid "Le robot peut détecter un palet de deux manières :"
+msgstr ""
+
+#: ../../source/controller/index.rst:638
+msgid "avec le capteur frontal ``ds_front`` ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:639
+msgid ""
+"avec la position du palet si celui-ci est proche et dans une zone "
+"raisonnable devant le robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:641
+msgid "Condition utilisée :"
+msgstr ""
+
+#: ../../source/controller/index.rst:653
+msgid ""
+"Cela permet au robot de ne pas passer à côté d'un palet placé légèrement "
+"sur le côté."
+msgstr ""
+
+#: ../../source/controller/index.rst:656
+msgid "Approche du palet"
+msgstr ""
+
+#: ../../source/controller/index.rst:658
+msgid ""
+"En mode ``APPROACH_PUCK``, le robot ne se contente pas d'avancer tout "
+"droit. Il corrige sa trajectoire vers le palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:660
+msgid "Le controller calcule :"
+msgstr ""
+
+#: ../../source/controller/index.rst:662
+msgid "la position du robot ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:663
+msgid "la position du palet ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:664
+msgid "l'angle vers le palet ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:665
+msgid "l'angle actuel du robot ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:666
+msgid "l'erreur d'angle."
+msgstr ""
+
+#: ../../source/controller/index.rst:674
+msgid "La correction est calculée avec :"
+msgstr ""
+
+#: ../../source/controller/index.rst:680
+msgid "Puis les vitesses des roues sont ajustées :"
+msgstr ""
+
+#: ../../source/controller/index.rst:687
+msgid "Ainsi :"
+msgstr ""
+
+#: ../../source/controller/index.rst:689
+msgid "si le palet est à gauche, le robot tourne vers la gauche ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:690
+msgid "si le palet est à droite, le robot tourne vers la droite ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:691
+msgid "si le robot est aligné, il avance droit."
+msgstr ""
+
+#: ../../source/controller/index.rst:694
+msgid "Gestion du contact"
+msgstr ""
+
+#: ../../source/controller/index.rst:696
+msgid "Le controller utilise ``touched`` au lieu de seulement ``newContact``."
+msgstr ""
+
+#: ../../source/controller/index.rst:702
+msgid ""
+"Cela rend la détection plus robuste, car à grande vitesse le robot peut "
+"rater l'instant exact du premier contact."
+msgstr ""
+
+#: ../../source/controller/index.rst:704
+msgid ""
+"Lorsqu'un contact est détecté, le controller cherche le palet le plus "
+"proche."
+msgstr ""
+
+#: ../../source/controller/index.rst:706
+msgid "Si un palet est proche :"
+msgstr ""
+
+#: ../../source/controller/index.rst:714
+msgid "Alors le robot commence le ramassage."
+msgstr ""
+
+#: ../../source/controller/index.rst:716
+msgid ""
+"Sinon, il considère qu'il touche un obstacle ou la zone de dépôt sans "
+"palet, et passe en mode ``TOUCH_AVOID``."
+msgstr ""
+
+#: ../../source/controller/index.rst:719
+msgid "Ramassage du palet"
+msgstr ""
+
+#: ../../source/controller/index.rst:721
+msgid "Le ramassage se fait en plusieurs étapes :"
+msgstr ""
+
+#: ../../source/controller/index.rst:723
+msgid "``LOWER_ARM`` : le bras descend."
+msgstr ""
+
+#: ../../source/controller/index.rst:724
+msgid "``CLOSE_GRIPPER`` : la pince se ferme."
+msgstr ""
+
+#: ../../source/controller/index.rst:725
+msgid "``LIFT_ARM`` : le bras remonte."
+msgstr ""
+
+#: ../../source/controller/index.rst:726
+msgid "Le palet est attaché virtuellement au robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:728
+msgid "Le palet est considéré comme attaché avec :"
+msgstr ""
+
+#: ../../source/controller/index.rst:734
+msgid ""
+"Ensuite, à chaque pas de simulation, la fonction ``attachPuckToRobot`` "
+"déplace le palet devant le robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:737
+msgid "Dépôt du palet"
+msgstr ""
+
+#: ../../source/controller/index.rst:739
+msgid ""
+"Lorsque le robot transporte un palet, il passe en mode "
+"``GO_TO_DROP_ZONE``."
+msgstr ""
+
+#: ../../source/controller/index.rst:741
+msgid "Il calcule l'angle vers la zone de dépôt :"
+msgstr ""
+
+#: ../../source/controller/index.rst:749
+msgid "S'il n'est pas aligné, il tourne."
+msgstr ""
+
+#: ../../source/controller/index.rst:751
+msgid "S'il est aligné, il avance."
+msgstr ""
+
+#: ../../source/controller/index.rst:753
+msgid ""
+"Quand il touche la zone de dépôt avec un palet, il passe en mode "
+"``DROP_PUCK`` :"
+msgstr ""
+
+#: ../../source/controller/index.rst:761
+msgid "Le palet est ensuite placé directement dans la zone de dépôt :"
+msgstr ""
+
+#: ../../source/controller/index.rst:772
+msgid "Évitement des obstacles"
+msgstr ""
+
+#: ../../source/controller/index.rst:774
+msgid "Le robot possède deux types d'évitement."
+msgstr ""
+
+#: ../../source/controller/index.rst:777
+msgid "Évitement par contact"
+msgstr ""
+
+#: ../../source/controller/index.rst:779
+msgid ""
+"Si le robot touche un obstacle sans palet, il passe en mode "
+"``TOUCH_AVOID``."
+msgstr ""
+
+#: ../../source/controller/index.rst:781
+msgid "Ce mode contient deux étapes :"
+msgstr ""
+
+#: ../../source/controller/index.rst:783
+msgid "reculer ;"
+msgstr ""
+
+#: ../../source/controller/index.rst:784
+msgid "tourner."
+msgstr ""
+
+#: ../../source/controller/index.rst:799
+msgid "Évitement latéral"
+msgstr ""
+
+#: ../../source/controller/index.rst:801
+msgid ""
+"Les capteurs ``ds_left`` et ``ds_right`` permettent de détecter un mur ou"
+" un obstacle sur les côtés."
+msgstr ""
+
+#: ../../source/controller/index.rst:803
+msgid "Si l'obstacle est à gauche, le robot tourne à droite."
+msgstr ""
+
+#: ../../source/controller/index.rst:805
+msgid "Si l'obstacle est à droite, le robot tourne à gauche."
+msgstr ""
+
+#: ../../source/controller/index.rst:822
+msgid ""
+"Lorsque le robot arrive en diagonale contre un mur, il peut parfois "
+"avancer en frottant le mur."
+msgstr ""
+
+#: ../../source/controller/index.rst:824
+msgid "Pour éviter cela, le controller utilise un compteur :"
+msgstr ""
+
+#: ../../source/controller/index.rst:839
+msgid "Cela permet au robot de se décoller du mur."
+msgstr ""
+
+#: ../../source/controller/index.rst:842
+msgid "Variables d'état"
+msgstr ""
+
+#: ../../source/controller/index.rst:854
+msgid "Rôle des variables :"
+msgstr ""
+
+#: ../../source/controller/index.rst:859
+msgid "Variable"
+msgstr ""
+
+#: ../../source/controller/index.rst:861
+msgid "``currentPuckIndex``"
+msgstr ""
+
+#: ../../source/controller/index.rst:862
+msgid "Indice du palet actuellement ciblé ou transporté."
+msgstr ""
+
+#: ../../source/controller/index.rst:863
+msgid "``puckDelivered``"
+msgstr ""
+
+#: ../../source/controller/index.rst:864
+msgid "Indique si un palet a déjà été déposé."
+msgstr ""
+
+#: ../../source/controller/index.rst:865
+msgid "``puckDetected``"
+msgstr ""
+
+#: ../../source/controller/index.rst:866
+msgid "Indique qu'un palet a été détecté."
+msgstr ""
+
+#: ../../source/controller/index.rst:867
+msgid "``puckTouched``"
+msgstr ""
+
+#: ../../source/controller/index.rst:868
+msgid "Indique qu'un palet a été touché."
+msgstr ""
+
+#: ../../source/controller/index.rst:869
+msgid "``previousTouched``"
+msgstr ""
+
+#: ../../source/controller/index.rst:870
+msgid "Mémorise l'état précédent du capteur de contact."
+msgstr ""
+
+#: ../../source/controller/index.rst:871
+msgid "``puckAttached``"
+msgstr ""
+
+#: ../../source/controller/index.rst:872
+msgid "Indique que le palet est actuellement transporté par le robot."
+msgstr ""
+
+#: ../../source/controller/index.rst:875
+msgid "Résumé du comportement"
+msgstr ""
+
+#: ../../source/controller/index.rst:877
+msgid "Le comportement global du robot est le suivant :"
+msgstr ""
+
+#: ../../source/controller/index.rst:879
+msgid "Le robot commence en mode ``SEARCH``."
+msgstr ""
+
+#: ../../source/controller/index.rst:880
+msgid "Il avance dans l'arène."
+msgstr ""
+
+#: ../../source/controller/index.rst:881
+msgid "Il cherche le palet disponible le plus proche."
+msgstr ""
+
+#: ../../source/controller/index.rst:882
+msgid "Si un palet est détecté, il passe en mode ``APPROACH_PUCK``."
+msgstr ""
+
+#: ../../source/controller/index.rst:883
+msgid "Il se réoriente progressivement vers le palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:884
+msgid "Lorsqu'il touche le palet, il baisse son bras."
+msgstr ""
+
+#: ../../source/controller/index.rst:885
+msgid "Il ferme la pince."
+msgstr ""
+
+#: ../../source/controller/index.rst:886
+msgid "Il relève le bras."
+msgstr ""
+
+#: ../../source/controller/index.rst:887
+msgid "Il transporte le palet vers la zone de dépôt."
+msgstr ""
+
+#: ../../source/controller/index.rst:888
+msgid "Lorsqu'il touche la zone de dépôt, il dépose le palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:889
+msgid "Il recule et tourne pour sortir de la zone."
+msgstr ""
+
+#: ../../source/controller/index.rst:890
+msgid "Il repart chercher un autre palet."
+msgstr ""
+
+#: ../../source/controller/index.rst:893
+msgid "Réglages possibles"
+msgstr ""
+
+#: ../../source/controller/index.rst:896
+msgid "Vitesse du robot"
+msgstr ""
+
+#: ../../source/controller/index.rst:898
+msgid "Pour accélérer ou ralentir le robot, modifier :"
+msgstr ""
+
+#: ../../source/controller/index.rst:909
+msgid "Détection des palets"
+msgstr ""
+
+#: ../../source/controller/index.rst:911
+msgid "Pour détecter les palets plus loin :"
+msgstr ""
+
+#: ../../source/controller/index.rst:917
+msgid "Pour détecter uniquement les palets plus proches :"
+msgstr ""
+
+#: ../../source/controller/index.rst:923
+msgid "Pour accepter un palet plus sur le côté :"
+msgstr ""
+
+#: ../../source/controller/index.rst:929
+msgid "Pour réduire cette zone :"
+msgstr ""
+
+#: ../../source/controller/index.rst:938
+msgid "Si le robot ne tourne pas assez vers le palet :"
+msgstr ""
+
+#: ../../source/controller/index.rst:944
+msgid "Si le robot zigzague trop :"
+msgstr ""
+
+#: ../../source/controller/index.rst:953
+msgid "Si le robot colle encore aux murs :"
+msgstr ""
+
+#: ../../source/controller/index.rst:959
+msgid "Si la sécurité anti-collage se déclenche trop souvent :"
+msgstr ""
+

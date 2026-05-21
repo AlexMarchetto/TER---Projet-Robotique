@@ -1,0 +1,156 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Alex MARCHETTO & Alexis REBELO
+# This file is distributed under the same license as the TER Projet
+# Robotique package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: TER Projet Robotique \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-21 09:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:3
+msgid "FourWheelsCollisionAvoidance"
+msgstr "FourWheelsCollisionAvoidance"
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:7
+msgid "Role of the class"
+msgstr "Rôle de la classe"
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:9
+msgid ""
+"The ``FourWheelsCollisionAvoidance`` class is the main class of the "
+"Webots controller. It is the entry point of the program. Webots launches "
+"this class when the robot uses the ``FourWheelsCollisionAvoidance`` "
+"controller."
+msgstr ""
+"La classe ``FourWheelsCollisionAvoidance`` est la classe principale du "
+"contrôleur Webots. C'est le point d'entrée du programme. Webots lance "
+"cette classe lorsque le robot utilise le contrôleur "
+"``FourWheelsCollisionAvoidance``."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:13
+msgid ""
+"Its role is intentionally limited. It does not contain the complete robot"
+" logic. It simply creates a ``Supervisor`` object, then creates a "
+"``TERBot`` object and calls its ``run()`` method."
+msgstr ""
+"Son rôle est volontairement limité. Elle ne contient pas la logique "
+"complète du robot. Elle crée simplement un objet ``Supervisor``, puis "
+"crée un objet ``TERBot`` et lance sa méthode ``run()``."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:19
+msgid "Responsibilities"
+msgstr "Responsabilités"
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:21
+msgid "Start the Webots controller."
+msgstr "Démarrer le contrôleur Webots."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:22
+msgid "Create the ``Supervisor`` object."
+msgstr "Créer l'objet ``Supervisor``."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:23
+msgid "Create the main ``TERBot`` object."
+msgstr "Créer l'objet principal ``TERBot``."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:24
+msgid "Start the main robot loop with ``run()``."
+msgstr "Lancer la boucle principale du robot avec ``run()``."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:28
+msgid "Encapsulation"
+msgstr "Encapsulation"
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:30
+msgid ""
+"This class contains almost no internal state. It only serves as an entry "
+"point."
+msgstr ""
+"Cette classe ne contient presque pas d'état interne. Elle sert uniquement "
+"de point d'entrée."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:33
+msgid ""
+"The robot logic is delegated to the ``TERBot`` class. This avoids having "
+"a main file that is too long and difficult to maintain."
+msgstr ""
+"La logique du robot est déléguée à la classe ``TERBot``. Cela évite "
+"d'avoir un fichier principal trop long et difficile à maintenir."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:38
+msgid "Relations with other classes"
+msgstr "Relations avec les autres classes"
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:40
+msgid ""
+"``FourWheelsCollisionAvoidance`` depends on ``Supervisor``, provided by "
+"the Webots API, and on ``TERBot``, which contains the main robot logic."
+msgstr ""
+"``FourWheelsCollisionAvoidance`` dépend de ``Supervisor``, fourni par "
+"l'API Webots, et de ``TERBot``, qui contient la logique principale du "
+"robot."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:43
+msgid ""
+"This is a creation relationship: the main class creates an instance of "
+"``TERBot``."
+msgstr ""
+"Il s'agit d'une relation de création : la classe principale crée une "
+"instance de ``TERBot``."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:48
+msgid "Functions"
+msgstr "Fonctions"
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:51
+msgid "``main(String[] args)``"
+msgstr "``main(String[] args)``"
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:53
+msgid ""
+"Entry point of the Java program. This method is automatically called when"
+" the controller is launched by Webots."
+msgstr ""
+"Point d'entrée du programme Java. Cette méthode est appelée "
+"automatiquement au lancement du contrôleur par Webots."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:56
+msgid "It performs the following actions:"
+msgstr "Elle effectue les actions suivantes :"
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:58
+msgid "Create a ``Supervisor`` object."
+msgstr "Création d'un objet ``Supervisor``."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:59
+msgid "Create a ``TERBot`` object."
+msgstr "Création d'un objet ``TERBot``."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:60
+msgid "Call the robot ``run()`` method."
+msgstr "Appel de la méthode ``run()`` du robot."
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:62
+msgid "Example:"
+msgstr "Exemple :"
+
+#: ../../source/robot/controller/four_wheels_collision_avoidance.rst:70
+msgid ""
+"This method does not directly contain the movement, detection or puck "
+"collection logic."
+msgstr ""
+"Cette méthode ne contient pas directement la logique de déplacement, de "
+"détection ou de ramassage."

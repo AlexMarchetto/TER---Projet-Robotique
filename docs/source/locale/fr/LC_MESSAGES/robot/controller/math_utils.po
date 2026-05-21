@@ -1,0 +1,135 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Alex MARCHETTO & Alexis REBELO
+# This file is distributed under the same license as the TER Projet
+# Robotique package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: TER Projet Robotique \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-21 09:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/robot/controller/math_utils.rst:3
+msgid "MathUtils"
+msgstr "MathUtils"
+
+#: ../../source/robot/controller/math_utils.rst:7
+msgid "Role of the class"
+msgstr "Rôle de la classe"
+
+#: ../../source/robot/controller/math_utils.rst:9
+msgid ""
+"The ``MathUtils`` class is a utility class. It does not represent a "
+"physical component of the robot. It groups together mathematical "
+"functions used by several classes of the controller."
+msgstr ""
+"La classe ``MathUtils`` est une classe utilitaire. Elle ne représente pas "
+"un composant physique du robot. Elle regroupe des fonctions "
+"mathématiques utilisées par plusieurs classes du contrôleur."
+
+#: ../../source/robot/controller/math_utils.rst:15
+msgid "Responsibilities"
+msgstr "Responsabilités"
+
+#: ../../source/robot/controller/math_utils.rst:17
+msgid "Normalize an angle."
+msgstr "Normaliser un angle."
+
+#: ../../source/robot/controller/math_utils.rst:18
+msgid "Retrieve the robot orientation."
+msgstr "Récupérer l'orientation du robot."
+
+#: ../../source/robot/controller/math_utils.rst:19
+msgid "Compute a two-dimensional distance."
+msgstr "Calculer une distance en deux dimensions."
+
+#: ../../source/robot/controller/math_utils.rst:23
+msgid "Encapsulation"
+msgstr "Encapsulation"
+
+#: ../../source/robot/controller/math_utils.rst:25
+msgid ""
+"``MathUtils`` has no internal state. Its constructor is private in order "
+"to prevent the creation of ``MathUtils`` objects."
+msgstr ""
+"``MathUtils`` ne possède pas d'état interne. Son constructeur est privé "
+"afin d'empêcher la création d'objets ``MathUtils``."
+
+#: ../../source/robot/controller/math_utils.rst:28
+msgid "The methods are static and can be called directly from the class."
+msgstr ""
+"Les méthodes sont statiques et peuvent être appelées directement depuis "
+"la classe."
+
+#: ../../source/robot/controller/math_utils.rst:32
+msgid "Relations with other classes"
+msgstr "Relations avec les autres classes"
+
+#: ../../source/robot/controller/math_utils.rst:34
+msgid "``MathUtils`` is used by ``TERBot`` and ``PuckManager``."
+msgstr "``MathUtils`` est utilisée par ``TERBot`` et ``PuckManager``."
+
+#: ../../source/robot/controller/math_utils.rst:38
+msgid "Functions"
+msgstr "Fonctions"
+
+#: ../../source/robot/controller/math_utils.rst:41
+msgid "``normalizeAngle(double angle)``"
+msgstr "``normalizeAngle(double angle)``"
+
+#: ../../source/robot/controller/math_utils.rst:43
+msgid "Normalizes an angle so that it remains between ``-PI`` and ``PI``."
+msgstr ""
+"Normalise un angle afin qu'il reste compris entre ``-PI`` et ``PI``."
+
+#: ../../source/robot/controller/math_utils.rst:45
+msgid ""
+"This function is useful for comparing two orientations and computing a "
+"proper angular error."
+msgstr ""
+"Cette fonction est utile pour comparer deux orientations et calculer une "
+"erreur d'angle propre."
+
+#: ../../source/robot/controller/math_utils.rst:49
+msgid "``getRobotYaw(Supervisor robot)``"
+msgstr "``getRobotYaw(Supervisor robot)``"
+
+#: ../../source/robot/controller/math_utils.rst:51
+msgid "Returns the robot orientation angle on the horizontal plane."
+msgstr ""
+"Retourne l'angle d'orientation du robot sur le plan horizontal."
+
+#: ../../source/robot/controller/math_utils.rst:53
+msgid ""
+"The method retrieves the robot orientation matrix using "
+"``getOrientation()``, then uses ``Math.atan2``."
+msgstr ""
+"La méthode récupère la matrice d'orientation du robot avec "
+"``getOrientation()``, puis utilise ``Math.atan2``."
+
+#: ../../source/robot/controller/math_utils.rst:57
+msgid "``distance2D(double[] a, double[] b)``"
+msgstr "``distance2D(double[] a, double[] b)``"
+
+#: ../../source/robot/controller/math_utils.rst:59
+msgid ""
+"Computes the distance between two points on the horizontal plane using "
+"only the ``x`` and ``y`` coordinates."
+msgstr ""
+"Calcule la distance entre deux points sur le plan horizontal en utilisant "
+"uniquement les coordonnées ``x`` et ``y``."
+
+#: ../../source/robot/controller/math_utils.rst:62
+msgid "Formula used:"
+msgstr "Formule utilisée :"

@@ -1,0 +1,245 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Alex MARCHETTO & Alexis REBELO
+# This file is distributed under the same license as the TER Projet
+# Robotique package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: TER Projet Robotique \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-21 09:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/robot/controller/puck_manager.rst:3
+msgid "PuckManager"
+msgstr "PuckManager"
+
+#: ../../source/robot/controller/puck_manager.rst:7
+msgid "Role of the class"
+msgstr "Rôle de la classe"
+
+#: ../../source/robot/controller/puck_manager.rst:9
+msgid "The ``PuckManager`` class manages the pucks present in the Webots scene."
+msgstr "La classe ``PuckManager`` gère les palets présents dans la scène Webots."
+
+#: ../../source/robot/controller/puck_manager.rst:11
+msgid ""
+"It centralizes all actions related to pucks: searching, distance "
+"calculation, attachment to the robot, dropping, and tracking of delivered"
+" pucks."
+msgstr ""
+"Elle centralise toutes les actions liées aux palets : recherche, calcul "
+"de distance, attachement au robot, dépôt et suivi des palets livrés."
+
+#: ../../source/robot/controller/puck_manager.rst:17
+msgid "Responsibilities"
+msgstr "Responsabilités"
+
+#: ../../source/robot/controller/puck_manager.rst:19
+msgid "Retrieve pucks from their DEF names."
+msgstr "Récupérer les palets à partir de leurs noms DEF."
+
+#: ../../source/robot/controller/puck_manager.rst:20
+msgid "Store the ``Node`` objects of the pucks."
+msgstr "Stocker les objets ``Node`` des palets."
+
+#: ../../source/robot/controller/puck_manager.rst:21
+msgid "Store the ``translation`` fields of the pucks."
+msgstr "Stocker les champs ``translation`` des palets."
+
+#: ../../source/robot/controller/puck_manager.rst:22
+msgid "Determine whether a puck has already been delivered."
+msgstr "Savoir si un palet a déjà été livré."
+
+#: ../../source/robot/controller/puck_manager.rst:23
+msgid "Find the nearest available puck to the robot."
+msgstr "Trouver le palet disponible le plus proche du robot."
+
+#: ../../source/robot/controller/puck_manager.rst:24
+msgid "Compute the distance between the robot and a puck."
+msgstr "Calculer la distance entre le robot et un palet."
+
+#: ../../source/robot/controller/puck_manager.rst:25
+msgid "Make a puck follow the robot while it is being transported."
+msgstr "Faire suivre un palet par le robot lorsqu'il est transporté."
+
+#: ../../source/robot/controller/puck_manager.rst:26
+msgid "Drop a puck at a given position."
+msgstr "Déposer un palet à une position donnée."
+
+#: ../../source/robot/controller/puck_manager.rst:30
+msgid "Encapsulation"
+msgstr "Encapsulation"
+
+#: ../../source/robot/controller/puck_manager.rst:32
+msgid ""
+"Information about the pucks is stored in private attributes: "
+"``puckNames``, ``puckNodes``, ``puckTranslationFields`` and "
+"``puckDelivered``."
+msgstr ""
+"Les informations sur les palets sont stockées dans des attributs privés : "
+"``puckNames``, ``puckNodes``, ``puckTranslationFields`` et "
+"``puckDelivered``."
+
+#: ../../source/robot/controller/puck_manager.rst:36
+msgid "``TERBot`` does not directly manipulate these arrays."
+msgstr "``TERBot`` ne manipule pas directement ces tableaux."
+
+#: ../../source/robot/controller/puck_manager.rst:40
+msgid "Relations with other classes"
+msgstr "Relations avec les autres classes"
+
+#: ../../source/robot/controller/puck_manager.rst:42
+msgid "``PuckManager`` is owned by ``TERBot``."
+msgstr "``PuckManager`` est possédée par ``TERBot``."
+
+#: ../../source/robot/controller/puck_manager.rst:44
+msgid "It uses ``Supervisor``, ``Node``, ``Field`` and ``MathUtils``."
+msgstr "Elle utilise ``Supervisor``, ``Node``, ``Field`` et ``MathUtils``."
+
+#: ../../source/robot/controller/puck_manager.rst:48
+msgid "Functions"
+msgstr "Fonctions"
+
+#: ../../source/robot/controller/puck_manager.rst:51
+msgid "``PuckManager(Supervisor robot, String[] puckNames)``"
+msgstr "``PuckManager(Supervisor robot, String[] puckNames)``"
+
+#: ../../source/robot/controller/puck_manager.rst:53
+msgid "Constructor."
+msgstr "Constructeur."
+
+#: ../../source/robot/controller/puck_manager.rst:55
+msgid "It receives the Webots ``Supervisor`` and the list of puck names."
+msgstr ""
+"Il reçoit le ``Supervisor`` Webots et la liste des noms des palets."
+
+#: ../../source/robot/controller/puck_manager.rst:57
+msgid ""
+"For each puck, it searches for the corresponding node using "
+"``getFromDef``. If the puck is found, it retrieves its ``translation`` "
+"field and initializes it as not delivered."
+msgstr ""
+"Pour chaque palet, il cherche le nœud correspondant avec ``getFromDef``. "
+"Si le palet est trouvé, il récupère son champ ``translation`` et "
+"l'initialise comme non livré."
+
+#: ../../source/robot/controller/puck_manager.rst:62
+msgid "``findNearestAvailablePuck()``"
+msgstr "``findNearestAvailablePuck()``"
+
+#: ../../source/robot/controller/puck_manager.rst:64
+msgid "Searches for the nearest available puck to the robot."
+msgstr "Recherche le palet disponible le plus proche du robot."
+
+#: ../../source/robot/controller/puck_manager.rst:66
+msgid ""
+"The method ignores non-existing pucks and pucks that have already been "
+"delivered."
+msgstr ""
+"La méthode ignore les palets inexistants et les palets déjà livrés."
+
+#: ../../source/robot/controller/puck_manager.rst:69
+msgid ""
+"It returns the index of the found puck, or ``-1`` if no available puck is"
+" found."
+msgstr ""
+"Elle retourne l'indice du palet trouvé, ou ``-1`` si aucun palet "
+"disponible n'est trouvé."
+
+#: ../../source/robot/controller/puck_manager.rst:73
+msgid "``getPuckNode(int index)``"
+msgstr "``getPuckNode(int index)``"
+
+#: ../../source/robot/controller/puck_manager.rst:75
+msgid "Returns the Webots ``Node`` of a puck from its index."
+msgstr "Retourne le ``Node`` Webots d'un palet à partir de son indice."
+
+#: ../../source/robot/controller/puck_manager.rst:77
+msgid "If the index is invalid, it returns ``null``."
+msgstr "Si l'indice est invalide, retourne ``null``."
+
+#: ../../source/robot/controller/puck_manager.rst:80
+msgid "``getDistanceToPuck(int index)``"
+msgstr "``getDistanceToPuck(int index)``"
+
+#: ../../source/robot/controller/puck_manager.rst:82
+msgid "Computes the distance between the robot and a puck."
+msgstr "Calcule la distance entre le robot et un palet."
+
+#: ../../source/robot/controller/puck_manager.rst:84
+msgid "If the puck does not exist, it returns ``Double.MAX_VALUE``."
+msgstr "Si le palet n'existe pas, retourne ``Double.MAX_VALUE``."
+
+#: ../../source/robot/controller/puck_manager.rst:87
+msgid "``isDelivered(int index)``"
+msgstr "``isDelivered(int index)``"
+
+#: ../../source/robot/controller/puck_manager.rst:89
+msgid "Indicates whether a puck has already been delivered."
+msgstr "Indique si un palet a déjà été livré."
+
+#: ../../source/robot/controller/puck_manager.rst:91
+msgid ""
+"If the index is invalid, it returns ``true`` in order to consider the "
+"puck unusable."
+msgstr ""
+"Si l'indice est invalide, retourne ``true`` afin de considérer le palet "
+"comme non utilisable."
+
+#: ../../source/robot/controller/puck_manager.rst:95
+msgid "``getPuckName(int index)``"
+msgstr "``getPuckName(int index)``"
+
+#: ../../source/robot/controller/puck_manager.rst:97
+msgid "Returns the name of a puck from its index."
+msgstr "Retourne le nom d'un palet à partir de son indice."
+
+#: ../../source/robot/controller/puck_manager.rst:99
+msgid "If the index is invalid, it returns ``unknown``."
+msgstr "Si l'indice est invalide, retourne ``unknown``."
+
+#: ../../source/robot/controller/puck_manager.rst:102
+msgid "``attachPuckToRobot(int index)``"
+msgstr "``attachPuckToRobot(int index)``"
+
+#: ../../source/robot/controller/puck_manager.rst:104
+msgid "Places the puck in front of the robot to simulate transportation."
+msgstr ""
+"Place le palet devant le robot pour simuler son transport."
+
+#: ../../source/robot/controller/puck_manager.rst:106
+msgid ""
+"The method computes a local position in front of the robot, converts it "
+"to a world position, modifies the puck ``translation`` field, then calls "
+"``resetPhysics``."
+msgstr ""
+"La méthode calcule une position locale devant le robot, la convertit en "
+"position dans le monde, modifie le champ ``translation`` du palet puis "
+"appelle ``resetPhysics``."
+
+#: ../../source/robot/controller/puck_manager.rst:111
+msgid "``dropPuck(int index, double dropX, double dropY, double dropZ)``"
+msgstr "``dropPuck(int index, double dropX, double dropY, double dropZ)``"
+
+#: ../../source/robot/controller/puck_manager.rst:113
+msgid "Drops a puck at a given position."
+msgstr "Dépose un palet à une position donnée."
+
+#: ../../source/robot/controller/puck_manager.rst:115
+msgid ""
+"The method marks the puck as delivered, updates its position, resets its "
+"physics and displays a debug message."
+msgstr ""
+"La méthode marque le palet comme livré, modifie sa position, "
+"réinitialise sa physique et affiche un message de débogage."

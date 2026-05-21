@@ -2,248 +2,53 @@
 # Copyright (C) 2026, Alex MARCHETTO & Alexis REBELO
 # This file is distributed under the same license as the TER Projet
 # Robotique package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: TER Projet Robotique\n"
+"Project-Id-Version: TER Projet Robotique \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-21 09:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/robot/index.rst:14
+msgid "Robot Documentation"
+msgstr "Documentation du robot"
 
 #: ../../source/robot/index.rst:3
 msgid "Robot"
 msgstr "Robot"
 
-#: ../../source/robot/index.rst:7
-msgid "Hardware"
-msgstr "Matériel"
+#: ../../source/robot/index.rst:5
+msgid ""
+"This section of the documentation presents the robot developed as part of"
+" the TER project."
+msgstr ""
+"Cette section de la documentation présente le robot développé dans le "
+"cadre du projet TER."
+
+#: ../../source/robot/index.rst:8
+msgid "It is divided into two main sections:"
+msgstr "Elle est divisée en deux grandes sections :"
 
 #: ../../source/robot/index.rst:10
-msgid "Structure of the robot"
-msgstr "Structure du robot"
+msgid "the hardware section, which describes the physical structure of the robot;"
+msgstr ""
+"la partie matérielle, qui décrit la structure physique du robot ;"
 
-#: ../../source/robot/index.rst:13
-msgid "Components"
-msgstr "Composants"
-
-#: ../../source/robot/index.rst:16
-msgid "Sensors"
-msgstr "Capteurs"
-
-#: ../../source/robot/index.rst:20
-msgid "Software"
-msgstr "Logiciel"
-
-#: ../../source/robot/index.rst:22
+#: ../../source/robot/index.rst:11
 msgid ""
-"This part is intended to provide information about the software side of "
-"the robot, especially the controller used to control its behavior in "
-"Webots. It describes the main functions used by the controller, their "
-"purpose, and their role in the robot's logic."
+"the software section, which describes the Webots controller and its class"
+" organization."
 msgstr ""
-"Cette partie a pour objectif de fournir des informations sur la partie "
-"logicielle du robot, en particulier le contrôleur utilisé pour gérer son "
-"comportement dans Webots. Elle décrit les principales fonctions utilisées "
-"par le contrôleur, leur objectif et leur rôle dans la logique du robot."
-
-#: ../../source/robot/index.rst:25
-msgid "Functions"
-msgstr "Fonctions"
-
-#: ../../source/robot/index.rst:28
-msgid "getRedValue"
-msgstr "getRedValue"
-
-#: ../../source/robot/index.rst:30
-msgid ""
-"The ``getRedValue`` function is used to read the red component detected "
-"by the robot's color sensor."
-msgstr ""
-"La fonction ``getRedValue`` est utilisée pour lire la composante rouge "
-"détectée par le capteur de couleur du robot."
-
-#: ../../source/robot/index.rst:32
-msgid ""
-"This function gets the image captured by the camera and calculates the "
-"average red value of all pixels. If the camera image contains only one "
-"pixel, the function directly returns the red value of this pixel."
-msgstr ""
-"Cette fonction récupère l'image capturée par la caméra et calcule la "
-"valeur moyenne du rouge sur l'ensemble des pixels. Si l'image de la "
-"caméra ne contient qu'un seul pixel, la fonction retourne directement "
-"la valeur rouge de ce pixel."
-
-#: ../../source/robot/index.rst:34
-msgid ""
-"This function is mainly used to help the robot detect whether the object "
-"in front of it is red."
-msgstr ""
-"Cette fonction est principalement utilisée pour aider le robot à détecter "
-"si l'objet devant lui est rouge."
-
-#: ../../source/robot/index.rst:62
-msgid "getGreenValue"
-msgstr "getGreenValue"
-
-#: ../../source/robot/index.rst:64
-msgid ""
-"The ``getGreenValue`` function is used to read the green component "
-"detected by the robot's color sensor."
-msgstr ""
-"La fonction ``getGreenValue`` est utilisée pour lire la composante verte "
-"détectée par le capteur de couleur du robot."
-
-#: ../../source/robot/index.rst:66
-msgid ""
-"It works in the same way as ``getRedValue``. It gets the image from the "
-"camera, reads the green value of each pixel, and returns the average "
-"green value."
-msgstr ""
-"Elle fonctionne de la même manière que ``getRedValue``. Elle récupère "
-"l'image de la caméra, lit la valeur verte de chaque pixel et retourne "
-"la valeur moyenne du vert."
-
-#: ../../source/robot/index.rst:68
-msgid ""
-"This function is used together with the red and blue values to determine "
-"the color of an object."
-msgstr ""
-"Cette fonction est utilisée avec les valeurs rouge et bleue afin de "
-"déterminer la couleur d'un objet."
-
-#: ../../source/robot/index.rst:96
-msgid "getBlueValue"
-msgstr "getBlueValue"
-
-#: ../../source/robot/index.rst:98
-msgid ""
-"The ``getBlueValue`` function is used to read the blue component detected"
-" by the robot's color sensor."
-msgstr ""
-"La fonction ``getBlueValue`` est utilisée pour lire la composante bleue "
-"détectée par le capteur de couleur du robot."
-
-#: ../../source/robot/index.rst:100
-msgid ""
-"It gets the image captured by the camera and calculates the average blue "
-"value of all pixels. This value is then used with the red and green "
-"values to identify the detected color."
-msgstr ""
-"Elle récupère l'image capturée par la caméra et calcule la valeur moyenne "
-"du bleu sur l'ensemble des pixels. Cette valeur est ensuite utilisée avec "
-"les valeurs rouge et verte afin d'identifier la couleur détectée."
-
-#: ../../source/robot/index.rst:102
-msgid ""
-"In the controller, this function helps to check if the detected object is"
-" red by verifying that the blue value remains low."
-msgstr ""
-"Dans le contrôleur, cette fonction aide à vérifier si l'objet détecté est "
-"rouge en s'assurant que la valeur du bleu reste faible."
-
-#: ../../source/robot/index.rst:130
-msgid "attachPuckToRobot"
-msgstr "attachPuckToRobot"
-
-#: ../../source/robot/index.rst:132
-msgid ""
-"The ``attachPuckToRobot`` function is used to virtually attach the puck "
-"to the robot during transport."
-msgstr ""
-"La fonction ``attachPuckToRobot`` est utilisée pour attacher virtuellement "
-"le palet au robot pendant son transport."
-
-#: ../../source/robot/index.rst:134
-msgid ""
-"When the robot has grabbed the puck, this function moves the puck in "
-"front of the robot at each simulation step. This makes the transport more"
-" stable and avoids problems caused by the physics engine, such as the "
-"puck shaking, slipping, or being ejected from the gripper."
-msgstr ""
-"Lorsque le robot a attrapé le palet, cette fonction déplace le palet "
-"devant le robot à chaque étape de simulation. Cela rend le transport plus "
-"stable et évite les problèmes causés par le moteur physique, comme les "
-"vibrations, le glissement ou l'éjection du palet de la pince."
-
-#: ../../source/robot/index.rst:136
-msgid ""
-"The function first checks if the puck exists. Then it gets the robot "
-"position and orientation. After that, it calculates a position slightly "
-"in front of the robot and updates the puck position in the Webots world."
-msgstr ""
-"La fonction vérifie d'abord si le palet existe. Ensuite, elle récupère "
-"la position et l'orientation du robot. Après cela, elle calcule une "
-"position légèrement devant le robot et met à jour la position du palet "
-"dans le monde Webots."
-
-#: ../../source/robot/index.rst:138
-msgid "The ``resetPhysics`` method is used to stabilize the puck after moving it."
-msgstr ""
-"La méthode ``resetPhysics`` est utilisée pour stabiliser le palet après "
-"son déplacement."
-
-#: ../../source/robot/index.rst:179
-msgid "main"
-msgstr "main"
-
-#: ../../source/robot/index.rst:181
-msgid ""
-"The ``main`` function is the main part of the controller. It initializes "
-"the robot, the sensors, the motors, and the variables used to control the"
-" robot behavior."
-msgstr ""
-"La fonction ``main`` est la partie principale du contrôleur. Elle "
-"initialise le robot, les capteurs, les moteurs et les variables utilisées "
-"pour contrôler le comportement du robot."
-
-#: ../../source/robot/index.rst:183
-msgid ""
-"It also contains the main control loop of the robot. This loop is "
-"executed at each simulation step. Inside this loop, the robot reads its "
-"sensors, detects the puck, avoids obstacles, controls the arm and the "
-"gripper, and updates the wheel speeds."
-msgstr ""
-"Elle contient également la boucle principale de contrôle du robot. Cette "
-"boucle est exécutée à chaque étape de simulation. À l'intérieur de cette "
-"boucle, le robot lit ses capteurs, détecte le palet, évite les obstacles, "
-"contrôle le bras et la pince, et met à jour la vitesse des roues."
-
-#: ../../source/robot/index.rst:185
-msgid "The robot behavior is organized using several modes:"
-msgstr "Le comportement du robot est organisé selon plusieurs modes :"
-
-#: ../../source/robot/index.rst:187
-msgid "``SEARCH``: the robot moves forward and searches for the red puck."
-msgstr ""
-"``SEARCH`` : le robot avance et recherche le palet rouge."
-
-#: ../../source/robot/index.rst:188
-msgid "``APPROACH_PUCK``: the robot moves slowly toward the detected puck."
-msgstr ""
-"``APPROACH_PUCK`` : le robot avance lentement vers le palet détecté."
-
-#: ../../source/robot/index.rst:189
-msgid "``LOWER_ARM``: the robot stops and lowers its arm."
-msgstr ""
-"``LOWER_ARM`` : le robot s'arrête et baisse son bras."
-
-#: ../../source/robot/index.rst:190
-msgid "``CLOSE_GRIPPER``: the robot closes its gripper to grab the puck."
-msgstr ""
-"``CLOSE_GRIPPER`` : le robot ferme sa pince pour attraper le palet."
-
-#: ../../source/robot/index.rst:191
-msgid "``LIFT_ARM``: the robot lifts its arm with the puck."
-msgstr ""
-"``LIFT_ARM`` : le robot lève son bras avec le palet."
-
-#: ../../source/robot/index.rst:192
-msgid "``TRANSPORT``: the robot moves forward while carrying the puck."
-msgstr ""
-"``TRANSPORT`` : le robot avance tout en transportant le palet."
-
-#: ../../source/robot/index.rst:194
-msgid "The ``main`` function is therefore the central function of the controller."
-msgstr ""
-"La fonction ``main`` est donc la fonction centrale du contrôleur."
+"la partie logicielle, qui décrit le contrôleur Webots et son organisation "
+"en classes."
