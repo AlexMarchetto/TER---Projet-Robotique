@@ -1,48 +1,60 @@
+################
 RobotMode
-=========
+################
 
-Rôle de la classe
------------------
+*****************
+Role of the class
+*****************
 
-``RobotMode`` est une énumération Java. Elle définit les différents états possibles du robot et permet de représenter proprement la machine à états utilisée par ``TERBot``.
+``RobotMode`` is a Java enumeration.
 
-Responsabilités
----------------
+It defines the different possible states of the robot and provides a clean
+representation of the state machine used by ``TERBot``.
 
-- Lister les états possibles du robot.
-- Rendre la machine à états plus claire.
-- Remplacer les chaînes de caractères par des valeurs contrôlées.
-- Faciliter la lecture du code.
+****************
+Responsibilities
+****************
 
+- List the possible robot states.
+- Make the state machine easier to understand.
+- Replace string values with controlled values.
+- Improve code readability.
+
+*************
 Encapsulation
--------------
+*************
 
-L'énumération ne possède pas d'attribut interne. Elle sert uniquement à regrouper les valeurs possibles du mode du robot.
+The enumeration does not contain any internal attributes.
 
-Relations avec les autres classes
----------------------------------
+Its sole purpose is to group together the possible values of the robot
+mode.
 
-``RobotMode`` est utilisée par ``TERBot`` via l'attribut ``mode``.
+*****************************
+Relations with other classes
+*****************************
 
-Valeurs
--------
+``RobotMode`` is used by ``TERBot`` through the ``mode`` attribute.
 
-``SEARCH`` : recherche d'un palet.
+******
+Values
+******
 
-``TOUCH_AVOID`` : évitement après contact avec un obstacle.
+``SEARCH`` : searching for a puck.
 
-``APPROACH_PUCK`` : approche d'un palet ciblé.
+``TOUCH_AVOID`` : avoidance behavior after contact with an obstacle.
 
-``LOWER_ARM`` : abaissement du bras.
+``APPROACH_PUCK`` : approaching a targeted puck.
 
-``CLOSE_GRIPPER`` : fermeture de la pince.
+``LOWER_ARM`` : lowering the arm.
 
-``LIFT_ARM`` : levée du bras après saisie.
+``CLOSE_GRIPPER`` : closing the gripper.
 
-``GO_TO_DROP_ZONE`` : déplacement vers la zone de dépôt.
+``LIFT_ARM`` : raising the arm after grasping.
 
-``DROP_PUCK`` : dépôt du palet.
+``GO_TO_DROP_ZONE`` : moving toward the drop zone.
 
-``LIFT_ARM_AFTER_DROP`` : remontée du bras après dépôt.
+``DROP_PUCK`` : dropping the puck.
 
-``BACK_AND_TURN_AFTER_DROP`` : recul et rotation après dépôt.
+``LIFT_ARM_AFTER_DROP`` : raising the arm after dropping the puck.
+
+``BACK_AND_TURN_AFTER_DROP`` : reversing and turning after dropping the puck.

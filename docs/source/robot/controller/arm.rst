@@ -1,56 +1,72 @@
+################
 Arm
-===
+################
 
-Rôle de la classe
------------------
+*****************
+Role of the class
+*****************
 
-La classe ``Arm`` représente le bras et la pince du robot. Elle regroupe les moteurs utilisés pour déplacer le bras et ouvrir ou fermer la pince.
+The ``Arm`` class represents the robot arm and gripper. It groups together
+the motors used to move the arm and open or close the gripper.
 
-Responsabilités
----------------
+****************
+Responsibilities
+****************
 
-- Récupérer le moteur du bras.
-- Récupérer les deux moteurs de la pince.
-- Récupérer le capteur de position du bras.
-- Lever le bras.
-- Baisser le bras.
-- Ouvrir la pince.
-- Fermer la pince.
+- Retrieve the arm motor.
+- Retrieve the two gripper motors.
+- Retrieve the arm position sensor.
+- Raise the arm.
+- Lower the arm.
+- Open the gripper.
+- Close the gripper.
 
+*************
 Encapsulation
--------------
+*************
 
-Les moteurs et le capteur sont privés : ``armMotor``, ``gripperLeftMotor``, ``gripperRightMotor`` et ``armSensor``. Les positions du bras et de la pince sont stockées dans des constantes privées.
+The motors and the sensor are private: ``armMotor``,
+``gripperLeftMotor``, ``gripperRightMotor`` and ``armSensor``.
+The arm and gripper positions are stored in private constants.
 
-Relations avec les autres classes
----------------------------------
+*****************************
+Relations with other classes
+*****************************
 
-``Arm`` est possédée par ``TERBot``. Elle dépend de ``Motor``, ``PositionSensor`` et ``Supervisor``.
+``Arm`` is owned by ``TERBot``.
+It depends on ``Motor``, ``PositionSensor`` and ``Supervisor``.
 
-Fonctions
----------
+*********
+Functions
+*********
 
 ``Arm(Supervisor robot, int timeStep)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Constructeur. Il récupère ``arm_motor``, ``gripper_left_motor``, ``gripper_right_motor`` et ``arm_sensor``. Si le capteur de position existe, il est activé. Le constructeur place ensuite le bras en position levée et ouvre la pince.
+Constructor. It retrieves ``arm_motor``, ``gripper_left_motor``,
+``gripper_right_motor`` and ``arm_sensor``.
+If the position sensor exists, it is enabled.
+The constructor then moves the arm to the raised position and opens the
+gripper.
 
 ``lift()``
 ~~~~~~~~~~
 
-Lève le bras en plaçant le moteur du bras à la position ``ARM_UP``.
+Raises the arm by setting the arm motor to the ``ARM_UP`` position.
 
 ``lower()``
 ~~~~~~~~~~~
 
-Baisse le bras en plaçant le moteur du bras à la position ``ARM_DOWN``.
+Lowers the arm by setting the arm motor to the ``ARM_DOWN`` position.
 
 ``openGripper()``
 ~~~~~~~~~~~~~~~~~
 
-Ouvre la pince en appliquant une position d'ouverture au moteur gauche et au moteur droit.
+Opens the gripper by applying the open position to the left and right
+gripper motors.
 
 ``closeGripper()``
 ~~~~~~~~~~~~~~~~~~
 
-Ferme la pince en appliquant une position de fermeture au moteur gauche et au moteur droit.
+Closes the gripper by applying the closed position to the left and right
+gripper motors.

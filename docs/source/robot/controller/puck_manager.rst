@@ -1,72 +1,116 @@
+################
 PuckManager
-===========
+################
 
-Rôle de la classe
------------------
+*****************
+Role of the class
+*****************
 
-La classe ``PuckManager`` gère les palets présents dans la scène Webots. Elle centralise toutes les actions liées aux palets : recherche, calcul de distance, attachement au robot, dépôt et suivi des palets livrés.
+The ``PuckManager`` class manages the pucks present in the Webots scene.
 
-Responsabilités
----------------
+It centralizes all actions related to pucks: searching, distance
+calculation, attachment to the robot, dropping, and tracking of delivered
+pucks.
 
-- Récupérer les palets à partir de leurs noms DEF.
-- Stocker les objets ``Node`` des palets.
-- Stocker les champs ``translation`` des palets.
-- Savoir si un palet a déjà été livré.
-- Trouver le palet disponible le plus proche du robot.
-- Calculer la distance entre le robot et un palet.
-- Faire suivre un palet par le robot lorsqu'il est transporté.
-- Déposer un palet à une position donnée.
+****************
+Responsibilities
+****************
 
+- Retrieve pucks from their DEF names.
+- Store the ``Node`` objects of the pucks.
+- Store the ``translation`` fields of the pucks.
+- Determine whether a puck has already been delivered.
+- Find the nearest available puck to the robot.
+- Compute the distance between the robot and a puck.
+- Make a puck follow the robot while it is being transported.
+- Drop a puck at a given position.
+
+*************
 Encapsulation
--------------
+*************
 
-Les informations sur les palets sont stockées dans des attributs privés : ``puckNames``, ``puckNodes``, ``puckTranslationFields`` et ``puckDelivered``. ``TERBot`` ne manipule pas directement ces tableaux.
+Information about the pucks is stored in private attributes:
+``puckNames``, ``puckNodes``, ``puckTranslationFields`` and
+``puckDelivered``.
 
-Relations avec les autres classes
----------------------------------
+``TERBot`` does not directly manipulate these arrays.
 
-``PuckManager`` est possédée par ``TERBot``. Elle utilise ``Supervisor``, ``Node``, ``Field`` et ``MathUtils``.
+*****************************
+Relations with other classes
+*****************************
 
-Fonctions
----------
+``PuckManager`` is owned by ``TERBot``.
+
+It uses ``Supervisor``, ``Node``, ``Field`` and ``MathUtils``.
+
+*********
+Functions
+*********
 
 ``PuckManager(Supervisor robot, String[] puckNames)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Constructeur. Il reçoit le ``Supervisor`` Webots et la liste des noms des palets. Pour chaque palet, il cherche le noeud correspondant avec ``getFromDef``. Si le palet est trouvé, il récupère son champ ``translation`` et l'initialise comme non livré.
+Constructor.
+
+It receives the Webots ``Supervisor`` and the list of puck names.
+
+For each puck, it searches for the corresponding node using
+``getFromDef``. If the puck is found, it retrieves its ``translation``
+field and initializes it as not delivered.
 
 ``findNearestAvailablePuck()``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Recherche le palet disponible le plus proche du robot. La méthode ignore les palets inexistants et les palets déjà livrés. Elle retourne l'indice du palet trouvé, ou ``-1`` si aucun palet disponible n'est trouvé.
+Searches for the nearest available puck to the robot.
+
+The method ignores non-existing pucks and pucks that have already been
+delivered.
+
+It returns the index of the found puck, or ``-1`` if no available puck
+is found.
 
 ``getPuckNode(int index)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Retourne le ``Node`` Webots d'un palet à partir de son indice. Si l'indice est invalide, retourne ``null``.
+Returns the Webots ``Node`` of a puck from its index.
+
+If the index is invalid, it returns ``null``.
 
 ``getDistanceToPuck(int index)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Calcule la distance entre le robot et un palet. Si le palet n'existe pas, retourne ``Double.MAX_VALUE``.
+Computes the distance between the robot and a puck.
+
+If the puck does not exist, it returns ``Double.MAX_VALUE``.
 
 ``isDelivered(int index)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Indique si un palet a déjà été livré. Si l'indice est invalide, retourne ``true`` afin de considérer le palet comme non utilisable.
+Indicates whether a puck has already been delivered.
+
+If the index is invalid, it returns ``true`` in order to consider the
+puck unusable.
 
 ``getPuckName(int index)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Retourne le nom d'un palet à partir de son indice. Si l'indice est invalide, retourne ``unknown``.
+Returns the name of a puck from its index.
+
+If the index is invalid, it returns ``unknown``.
 
 ``attachPuckToRobot(int index)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Place le palet devant le robot pour simuler son transport. La méthode calcule une position locale devant le robot, la convertit en position dans le monde, modifie le champ ``translation`` du palet puis appelle ``resetPhysics``.
+Places the puck in front of the robot to simulate transportation.
+
+The method computes a local position in front of the robot, converts it
+to a world position, modifies the puck ``translation`` field, then calls
+``resetPhysics``.
 
 ``dropPuck(int index, double dropX, double dropY, double dropZ)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Dépose un palet à une position donnée. La méthode marque le palet comme livré, modifie sa position, réinitialise sa physique et affiche un message de debug.
+Drops a puck at a given position.
+
+The method marks the puck as delivered, updates its position, resets its
+physics and displays a debug message.

@@ -1,47 +1,65 @@
+################
 MathUtils
-=========
+################
 
-Rôle de la classe
------------------
+*****************
+Role of the class
+*****************
 
-La classe ``MathUtils`` est une classe utilitaire. Elle ne représente pas un composant physique du robot. Elle regroupe des fonctions mathématiques utilisées par plusieurs classes du contrôleur.
+The ``MathUtils`` class is a utility class. It does not represent a physical
+component of the robot. It groups together mathematical functions used by
+several classes of the controller.
 
-Responsabilités
----------------
+****************
+Responsibilities
+****************
 
-- Normaliser un angle.
-- Récupérer l'orientation du robot.
-- Calculer une distance en deux dimensions.
+- Normalize an angle.
+- Retrieve the robot orientation.
+- Compute a two-dimensional distance.
 
+*************
 Encapsulation
--------------
+*************
 
-``MathUtils`` ne possède pas d'état interne. Son constructeur est privé afin d'empêcher la création d'objets ``MathUtils``. Les méthodes sont statiques et peuvent être appelées directement depuis la classe.
+``MathUtils`` has no internal state. Its constructor is private in order to
+prevent the creation of ``MathUtils`` objects.
 
-Relations avec les autres classes
----------------------------------
+The methods are static and can be called directly from the class.
 
-``MathUtils`` est utilisée par ``TERBot`` et ``PuckManager``.
+*****************************
+Relations with other classes
+*****************************
 
-Fonctions
----------
+``MathUtils`` is used by ``TERBot`` and ``PuckManager``.
+
+*********
+Functions
+*********
 
 ``normalizeAngle(double angle)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Normalise un angle afin qu'il reste compris entre ``-PI`` et ``PI``. Cette fonction est utile pour comparer deux orientations et calculer une erreur d'angle propre.
+Normalizes an angle so that it remains between ``-PI`` and ``PI``.
+
+This function is useful for comparing two orientations and computing a
+proper angular error.
 
 ``getRobotYaw(Supervisor robot)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Retourne l'angle d'orientation du robot sur le plan horizontal. La méthode récupère la matrice d'orientation du robot avec ``getOrientation()``, puis utilise ``Math.atan2``.
+Returns the robot orientation angle on the horizontal plane.
+
+The method retrieves the robot orientation matrix using
+``getOrientation()``, then uses ``Math.atan2``.
 
 ``distance2D(double[] a, double[] b)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Calcule la distance entre deux points sur le plan horizontal en utilisant uniquement les coordonnées ``x`` et ``y``.
+Computes the distance between two points on the horizontal plane using only
+the ``x`` and ``y`` coordinates.
 
-Formule utilisée :
+Formula used:
 
 .. code-block:: text
 

@@ -1,94 +1,195 @@
+################
 TERBot
-======
+################
 
-Rôle de la classe
------------------
+*****************
+Role of the class
+*****************
 
-La classe ``TERBot`` est la classe centrale du contrôleur. Elle représente le robot du point de vue logiciel et coordonne tous les sous-systèmes du robot. C'est dans cette classe que se trouve la boucle principale du programme ainsi que la machine à états du robot.
+The ``TERBot`` class is the central class of the controller.
 
-Responsabilités
----------------
+It represents the robot from a software perspective and coordinates all
+robot subsystems.
 
-- Gérer la boucle principale du robot.
-- Lire les informations provenant des capteurs.
-- Décider de l'action à effectuer selon l'état courant.
-- Commander les roues via ``DriveBase``.
-- Commander le bras et la pince via ``Arm``.
-- Gérer les palets via ``PuckManager``.
-- Gérer les transitions entre les différents états du robot.
-- Appliquer les comportements de recherche, d'approche, d'évitement, de ramassage et de dépôt.
+The main program loop and the robot state machine are implemented in this
+class.
 
+****************
+Responsibilities
+****************
+
+- Manage the main robot loop.
+- Read information from the sensors.
+- Decide which action to perform according to the current state.
+- Control the wheels through ``DriveBase``.
+- Control the arm and gripper through ``Arm``.
+- Manage pucks through ``PuckManager``.
+- Manage transitions between the different robot states.
+- Apply searching, approaching, avoidance, pickup and drop behaviors.
+
+*************
 Encapsulation
--------------
+*************
 
-La classe ``TERBot`` encapsule la logique globale du robot. Ses attributs principaux sont privés : ``supervisor``, ``driveBase``, ``sensors``, ``arm``, ``puckManager``, ``mode``, ``currentPuckIndex`` et ``puckAttached``.
+The ``TERBot`` class encapsulates the global robot logic.
 
-La seule méthode publique importante est ``run()``. Les autres méthodes sont privées, car elles correspondent à des comportements internes du robot.
+Its main attributes are private: ``supervisor``, ``driveBase``,
+``sensors``, ``arm``, ``puckManager``, ``mode``,
+``currentPuckIndex`` and ``puckAttached``.
 
-Possession et composition
--------------------------
+The only important public method is ``run()``.
 
-``TERBot`` possède un ``DriveBase``, un ``RobotSensors``, un ``Arm`` et un ``PuckManager``. Cette relation correspond à de la composition. Le robot logiciel est composé de plusieurs sous-systèmes spécialisés.
+The other methods are private because they correspond to internal robot
+behaviors.
 
-Machine à états
----------------
+**************************
+Ownership and composition
+**************************
 
-Les principaux états sont : ``SEARCH``, ``APPROACH_PUCK``, ``LOWER_ARM``, ``CLOSE_GRIPPER``, ``LIFT_ARM``, ``GO_TO_DROP_ZONE``, ``DROP_PUCK``, ``TOUCH_AVOID``, ``LIFT_ARM_AFTER_DROP`` et ``BACK_AND_TURN_AFTER_DROP``.
+``TERBot`` owns a ``DriveBase``, a ``RobotSensors``, an ``Arm`` and a
+``PuckManager``.
 
-Fonctions
----------
+This relationship corresponds to composition.
+
+The software robot is composed of several specialized subsystems.
+
+*************
+State machine
+*************
+
+The main states are:
+
+``SEARCH``,
+``APPROACH_PUCK``,
+``LOWER_ARM``,
+``CLOSE_GRIPPER``,
+``LIFT_ARM``,
+``GO_TO_DROP_ZONE``,
+``DROP_PUCK``,
+``TOUCH_AVOID``,
+``LIFT_ARM_AFTER_DROP``
+and
+``BACK_AND_TURN_AFTER_DROP``.
+
+*********
+Functions
+*********
 
 ``TERBot(Supervisor supervisor)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Constructeur de la classe. Il initialise le robot logiciel à partir du ``Supervisor`` Webots. Il stocke le ``Supervisor``, récupère le pas de temps de Webots, crée ``DriveBase``, ``RobotSensors``, ``Arm`` et ``PuckManager``, puis définit la liste des palets à gérer.
+Class constructor.
+
+It initializes the software robot using the Webots ``Supervisor``.
+
+It stores the ``Supervisor``, retrieves the Webots time step, creates
+``DriveBase``, ``RobotSensors``, ``Arm`` and ``PuckManager``, then
+defines the list of pucks to manage.
 
 ``run()``
 ~~~~~~~~~
 
-Lance la boucle principale du robot. Cette méthode appelle ``supervisor.step(timeStep)`` à chaque itération. Tant que la simulation est active, le robot continue à exécuter sa logique. Si un palet est attaché, sa position est mise à jour pour suivre le robot, puis ``update()`` est appelée.
+Starts the main robot loop.
+
+This method calls ``supervisor.step(timeStep)`` at each iteration.
+
+As long as the simulation is running, the robot continues executing its
+logic.
+
+If a puck is attached, its position is updated so that it follows the
+robot, then ``update()`` is called.
 
 ``update()``
 ~~~~~~~~~~~~
 
-Met à jour le comportement du robot à chaque pas de simulation. Cette méthode lit l'état du capteur de contact, gère les contacts, exécute le comportement correspondant au mode courant, applique les vitesses aux roues, met à jour l'état précédent du contact et affiche les informations de debug.
+Updates the robot behavior at each simulation step.
+
+This method reads the touch sensor state, handles contacts, executes the
+behavior corresponding to the current mode, applies wheel speeds,
+updates the previous touch state and displays debug information.
 
 ``handleContact(boolean touched)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Gère les contacts détectés par le capteur avant. La méthode distingue un contact avec un palet proche et un contact avec un obstacle. Si le contact correspond à un palet, le robot passe en mode ``LOWER_ARM``. Sinon, il passe en mode ``TOUCH_AVOID``.
+Handles contacts detected by the front sensor.
+
+The method distinguishes between contact with a nearby puck and contact
+with an obstacle.
+
+If the contact corresponds to a puck, the robot switches to
+``LOWER_ARM`` mode.
+
+Otherwise, it switches to ``TOUCH_AVOID`` mode.
 
 ``updateSearch()``
 ~~~~~~~~~~~~~~~~~~
 
-Gère le comportement de recherche d'un palet. Le robot avance, surveille les capteurs latéraux et avant, évite les murs et cherche le palet disponible le plus proche. Si un palet est détecté, le robot passe en mode ``APPROACH_PUCK``. La méthode retourne les vitesses gauche et droite.
+Handles the puck search behavior.
+
+The robot moves forward, monitors the side and front sensors, avoids
+walls and searches for the nearest available puck.
+
+If a puck is detected, the robot switches to ``APPROACH_PUCK`` mode.
+
+The method returns the left and right wheel speeds.
 
 ``updateTouchAvoid()``
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Gère l'évitement après un contact avec un obstacle. Le robot recule, puis tourne. Une fois la séquence terminée, il revient en mode ``SEARCH``.
+Handles obstacle avoidance after contact with an obstacle.
+
+The robot moves backward and then turns.
+
+Once the sequence is completed, it returns to ``SEARCH`` mode.
 
 ``updateApproachPuck()``
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Gère l'approche vers le palet ciblé. La méthode calcule la direction vers le palet, l'orientation actuelle du robot et l'erreur d'angle. Elle applique ensuite une correction de trajectoire. Si le palet est perdu ou si l'approche dure trop longtemps, le robot revient en mode ``SEARCH``.
+Handles the approach toward the targeted puck.
+
+The method computes the direction toward the puck, the current robot
+orientation and the angular error.
+
+It then applies a trajectory correction.
+
+If the puck is lost or if the approach lasts too long, the robot
+returns to ``SEARCH`` mode.
 
 ``updateGoToDropZone(boolean touched)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Gère le déplacement vers la zone de dépôt. La méthode oriente le robot vers la position de dépôt, puis le fait avancer. Si le robot touche la zone de dépôt avec un palet attaché, il passe en mode ``DROP_PUCK``.
+Handles movement toward the drop zone.
+
+The method orients the robot toward the drop position and then moves it
+forward.
+
+If the robot reaches the drop zone while carrying an attached puck, it
+switches to ``DROP_PUCK`` mode.
 
 ``updateBackAndTurnAfterDrop()``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Gère le comportement après dépôt. Le robot recule, puis tourne, avant de revenir en mode ``SEARCH``.
+Handles the post-drop behavior.
+
+The robot moves backward and then turns before returning to
+``SEARCH`` mode.
 
 ``resetSearch()``
 ~~~~~~~~~~~~~~~~~
 
-Réinitialise l'état interne du robot pour revenir en mode recherche. Elle remet à zéro le mode, les compteurs, le palet courant et les indicateurs de détection.
+Resets the internal robot state in order to return to search mode.
+
+It resets the mode, counters, current puck and detection indicators.
 
 ``printDebug(boolean touched)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Affiche dans la console les informations utiles au debug : mode courant, valeurs des capteurs, couleur moyenne, état du contact, palet attaché, palet courant et compteur de blocage.
+Displays useful debug information in the console:
+
+- current mode;
+- sensor values;
+- average color;
+- touch sensor state;
+- attached puck;
+- current puck;
+- blocking counter.

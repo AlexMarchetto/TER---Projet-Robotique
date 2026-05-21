@@ -1,27 +1,36 @@
-Controller du robot
-===================
+################
+Robot Controller
+################
 
-Cette partie documente l'architecture logicielle du contrôleur Webots du robot.
+This section documents the software architecture of the robot Webots
+controller.
 
-L'objectif de cette factorisation est de remplacer un unique fichier contenant toute la logique par plusieurs classes spécialisées. Chaque classe possède une responsabilité précise, ce qui rend le code plus lisible, plus maintenable et plus simple à faire évoluer.
+The objective of this refactoring is to replace a single file containing
+all the logic with several specialized classes. Each class has a specific
+responsibility, making the code easier to read, maintain and extend.
 
-Principe général
-----------------
+*****************
+General Principle
+*****************
 
-Le contrôleur repose principalement sur la composition.
+The controller is mainly based on composition.
 
-La classe ``FourWheelsCollisionAvoidance`` est le point d'entrée du programme. Elle crée un objet ``TERBot``, qui représente le robot logiciel.
+The ``FourWheelsCollisionAvoidance`` class is the entry point of the
+program. It creates a ``TERBot`` object, which represents the software
+robot.
 
-``TERBot`` possède ensuite plusieurs sous-systèmes :
+``TERBot`` then owns several subsystems:
 
-- ``DriveBase`` pour le déplacement.
-- ``RobotSensors`` pour les capteurs.
-- ``Arm`` pour le bras et la pince.
-- ``PuckManager`` pour la gestion des palets.
-- ``RobotMode`` pour les états du robot.
-- ``MathUtils`` pour les fonctions mathématiques utiles.
+- ``DriveBase`` for movement.
+- ``RobotSensors`` for sensors.
+- ``Arm`` for the arm and gripper.
+- ``PuckManager`` for puck management.
+- ``RobotMode`` for robot states.
+- ``MathUtils`` for utility mathematical functions.
 
-Il n'y a pas d'héritage métier entre les classes du projet. Le modèle utilise surtout des relations de possession, aussi appelées relations de composition.
+There is no business inheritance between the project classes. The model
+mainly relies on ownership relationships, also called composition
+relationships.
 
 .. toctree::
    :maxdepth: 1

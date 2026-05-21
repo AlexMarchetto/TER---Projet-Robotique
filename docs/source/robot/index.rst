@@ -2,17 +2,17 @@
 Robot
 #####
 
-Cette partie de la documentation présente le robot du projet TER.
+This section of the documentation presents the robot developed as part of
+the TER project.
 
-Elle est divisée en deux grandes sections :
+It is divided into two main sections:
 
-- la partie matérielle, qui décrit la structure physique du robot ;
-- la partie logicielle, qui décrit le contrôleur Webots et son organisation en classes.
+- the hardware section, which describes the physical structure of the robot;
+- the software section, which describes the Webots controller and its
+  class organization.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Documentation du robot
-   
+   :caption: Robot Documentation
+
    controller/index
-
-

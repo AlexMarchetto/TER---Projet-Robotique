@@ -1,21 +1,23 @@
-Diagramme UML
-=============
+################
+UML Diagram
+################
 
-Cette page présente la modélisation orientée objet du contrôleur du robot.
+This page presents the object-oriented modeling of the robot controller.
 
-La modélisation repose principalement sur la composition :
+The modeling is mainly based on composition:
 
-- ``TERBot`` possède les sous-systèmes principaux du robot.
-- ``DriveBase`` possède quatre roues.
-- ``Wheel`` encapsule un moteur Webots.
-- ``RobotSensors`` encapsule les capteurs.
-- ``Arm`` encapsule les moteurs du bras et de la pince.
-- ``PuckManager`` encapsule la gestion des palets.
+- ``TERBot`` owns the main robot subsystems.
+- ``DriveBase`` owns four wheels.
+- ``Wheel`` encapsulates a Webots motor.
+- ``RobotSensors`` encapsulates the sensors.
+- ``Arm`` encapsulates the arm and gripper motors.
+- ``PuckManager`` encapsulates puck management.
 
-Diagramme PlantUML
-------------------
+****************
+PlantUML Diagram
+****************
 
-Le diagramme suivant peut être copié dans un outil compatible PlantUML.
+The following diagram can be copied into a PlantUML-compatible tool.
 
 .. code-block:: plantuml
 
@@ -137,33 +139,43 @@ Le diagramme suivant peut être copié dans un outil compatible PlantUML.
    class Node
    class Field
 
-   FourWheelsCollisionAvoidance --> TERBot : cree
-   TERBot *-- DriveBase : possede
-   TERBot *-- RobotSensors : possede
-   TERBot *-- Arm : possede
-   TERBot *-- PuckManager : possede
-   TERBot --> RobotMode : utilise
-   TERBot --> MathUtils : utilise
-   TERBot --> Supervisor : utilise
-   DriveBase *-- "4" Wheel : possede
-   Wheel --> Motor : encapsule
-   RobotSensors --> DistanceSensor : utilise
-   RobotSensors --> Camera : utilise
-   RobotSensors --> TouchSensor : utilise
-   Arm --> Motor : utilise
-   Arm --> PositionSensor : utilise
-   PuckManager --> Supervisor : utilise
-   PuckManager --> Node : utilise
-   PuckManager --> Field : utilise
-   PuckManager --> MathUtils : utilise
+   FourWheelsCollisionAvoidance --> TERBot : creates
+   TERBot *-- DriveBase : owns
+   TERBot *-- RobotSensors : owns
+   TERBot *-- Arm : owns
+   TERBot *-- PuckManager : owns
+   TERBot --> RobotMode : uses
+   TERBot --> MathUtils : uses
+   TERBot --> Supervisor : uses
+   DriveBase *-- "4" Wheel : owns
+   Wheel --> Motor : encapsulates
+   RobotSensors --> DistanceSensor : uses
+   RobotSensors --> Camera : uses
+   RobotSensors --> TouchSensor : uses
+   Arm --> Motor : uses
+   Arm --> PositionSensor : uses
+   PuckManager --> Supervisor : uses
+   PuckManager --> Node : uses
+   PuckManager --> Field : uses
+   PuckManager --> MathUtils : uses
 
    @enduml
 
-Relations principales
----------------------
+******************
+Main relationships
+******************
 
-``FourWheelsCollisionAvoidance`` crée ``TERBot``.
+``FourWheelsCollisionAvoidance`` creates ``TERBot``.
 
-``TERBot`` possède ``DriveBase``, ``RobotSensors``, ``Arm`` et ``PuckManager``.
+``TERBot`` owns ``DriveBase``, ``RobotSensors``, ``Arm`` and
+``PuckManager``.
 
-``DriveBase`` possède quatre ``Wheel``. ``Wheel`` encapsule un ``Motor`` Webots. ``RobotSensors`` encapsule les capteurs Webots. ``Arm`` encapsule les moteurs du bras et de la pince. ``PuckManager`` encapsule les données liées aux palets.
+``DriveBase`` owns four ``Wheel`` objects.
+
+``Wheel`` encapsulates a Webots ``Motor``.
+
+``RobotSensors`` encapsulates the Webots sensors.
+
+``Arm`` encapsulates the arm and gripper motors.
+
+``PuckManager`` encapsulates data related to pucks.

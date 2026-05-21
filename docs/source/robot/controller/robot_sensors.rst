@@ -1,65 +1,97 @@
+################
 RobotSensors
-============
+################
 
-Rôle de la classe
------------------
+*****************
+Role of the class
+*****************
 
-La classe ``RobotSensors`` regroupe tous les capteurs utilisés par le robot. Elle centralise l'accès aux capteurs Webots afin que ``TERBot`` ne manipule pas directement les objets ``DistanceSensor``, ``Camera`` ou ``TouchSensor``.
+The ``RobotSensors`` class groups together all sensors used by the robot.
 
-Responsabilités
----------------
+It centralizes access to Webots sensors so that ``TERBot`` does not directly
+manipulate ``DistanceSensor``, ``Camera`` or ``TouchSensor`` objects.
 
-- Récupérer les capteurs Webots.
-- Activer les capteurs avec le pas de temps de la simulation.
-- Lire les distances à gauche, à droite et devant.
-- Lire l'état du capteur de contact.
-- Lire la couleur moyenne de la caméra.
-- Détecter si la couleur observée est rouge.
+****************
+Responsibilities
+****************
 
+- Retrieve Webots sensors.
+- Enable sensors using the simulation time step.
+- Read distances on the left, right and front sides.
+- Read the state of the touch sensor.
+- Read the average color detected by the camera.
+- Detect whether the observed color is red.
+
+*************
 Encapsulation
--------------
+*************
 
-Les capteurs sont stockés dans des attributs privés : ``dsRight``, ``dsLeft``, ``dsFront``, ``colorSensor`` et ``touchFront``.
+The sensors are stored in private attributes: ``dsRight``, ``dsLeft``,
+``dsFront``, ``colorSensor`` and ``touchFront``.
 
-Relations avec les autres classes
----------------------------------
+*****************************
+Relations with other classes
+*****************************
 
-``RobotSensors`` est possédée par ``TERBot``. Elle dépend de ``DistanceSensor``, ``Camera``, ``TouchSensor`` et ``Supervisor``.
+``RobotSensors`` is owned by ``TERBot``.
 
-Fonctions
----------
+It depends on ``DistanceSensor``, ``Camera``, ``TouchSensor`` and
+``Supervisor``.
+
+*********
+Functions
+*********
 
 ``RobotSensors(Supervisor robot, int timeStep)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Constructeur. Il récupère les capteurs ``ds_right``, ``ds_left``, ``ds_front``, ``color_sensor`` et ``touch_front``. Chaque capteur trouvé est activé avec ``enable(timeStep)``.
+Constructor.
+
+It retrieves the ``ds_right``, ``ds_left``, ``ds_front``,
+``color_sensor`` and ``touch_front`` sensors.
+
+Each detected sensor is enabled using ``enable(timeStep)``.
 
 ``getRightDistance()``
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Retourne la valeur du capteur de distance droit. Si le capteur n'existe pas, retourne ``0.0``.
+Returns the value of the right distance sensor.
+
+If the sensor does not exist, it returns ``0.0``.
 
 ``getLeftDistance()``
 ~~~~~~~~~~~~~~~~~~~~~
 
-Retourne la valeur du capteur de distance gauche. Si le capteur n'existe pas, retourne ``0.0``.
+Returns the value of the left distance sensor.
+
+If the sensor does not exist, it returns ``0.0``.
 
 ``getFrontDistance()``
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Retourne la valeur du capteur de distance avant. Ce capteur est utilisé pour détecter un objet ou un palet devant le robot.
+Returns the value of the front distance sensor.
+
+This sensor is used to detect an object or a puck in front of the robot.
 
 ``isTouched()``
 ~~~~~~~~~~~~~~~
 
-Retourne ``true`` si le capteur de contact avant détecte une collision.
+Returns ``true`` if the front touch sensor detects a collision.
 
 ``getAverageColor()``
 ~~~~~~~~~~~~~~~~~~~~~
 
-Calcule la couleur moyenne vue par la caméra. La méthode retourne un tableau ``{red, green, blue}``. Si la caméra n'existe pas ou si l'image n'est pas valide, elle retourne ``{0, 0, 0}``.
+Computes the average color detected by the camera.
+
+The method returns an array ``{red, green, blue}``.
+
+If the camera does not exist or if the image is invalid, it returns
+``{0, 0, 0}``.
 
 ``isRedDetected()``
 ~~~~~~~~~~~~~~~~~~~
 
-Indique si la couleur moyenne détectée correspond à du rouge. La méthode vérifie que le rouge est supérieur à 150, le vert inférieur à 100 et le bleu inférieur à 100.
+Indicates whether the detected average color corresponds to red.
+
+The method checks that the red component is greater than 150, the green
+component is lower than 100, and the blue component is lower than 100.

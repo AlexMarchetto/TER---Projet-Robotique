@@ -1,46 +1,65 @@
+################################
 FourWheelsCollisionAvoidance
-============================
+################################
 
-Rôle de la classe
------------------
+*****************
+Role of the class
+*****************
 
-La classe ``FourWheelsCollisionAvoidance`` est la classe principale du contrôleur Webots. C'est le point d'entrée du programme. Webots lance cette classe lorsque le robot utilise le contrôleur ``FourWheelsCollisionAvoidance``.
+The ``FourWheelsCollisionAvoidance`` class is the main class of the Webots
+controller. It is the entry point of the program. Webots launches this class
+when the robot uses the ``FourWheelsCollisionAvoidance`` controller.
 
-Son rôle est volontairement limité. Elle ne contient pas la logique complète du robot. Elle crée simplement un objet ``Supervisor``, puis crée un objet ``TERBot`` et lance sa méthode ``run()``.
+Its role is intentionally limited. It does not contain the complete robot
+logic. It simply creates a ``Supervisor`` object, then creates a ``TERBot``
+object and calls its ``run()`` method.
 
-Responsabilités
----------------
+****************
+Responsibilities
+****************
 
-- Démarrer le contrôleur Webots.
-- Créer l'objet ``Supervisor``.
-- Créer l'objet principal ``TERBot``.
-- Lancer la boucle principale du robot avec ``run()``.
+- Start the Webots controller.
+- Create the ``Supervisor`` object.
+- Create the main ``TERBot`` object.
+- Start the main robot loop with ``run()``.
 
+*************
 Encapsulation
--------------
+*************
 
-Cette classe ne contient presque pas d'état interne. Elle sert uniquement de point d'entrée. La logique du robot est déléguée à la classe ``TERBot``. Cela évite d'avoir un fichier principal trop long et difficile à maintenir.
+This class contains almost no internal state. It only serves as an entry
+point.
 
-Relations avec les autres classes
----------------------------------
+The robot logic is delegated to the ``TERBot`` class. This avoids having a
+main file that is too long and difficult to maintain.
 
-``FourWheelsCollisionAvoidance`` dépend de ``Supervisor``, fourni par l'API Webots, et de ``TERBot``, qui contient la logique principale du robot. Il s'agit d'une relation de création : la classe principale crée une instance de ``TERBot``.
+*****************************
+Relations with other classes
+*****************************
 
-Fonctions
----------
+``FourWheelsCollisionAvoidance`` depends on ``Supervisor``, provided by the
+Webots API, and on ``TERBot``, which contains the main robot logic.
+
+This is a creation relationship: the main class creates an instance of
+``TERBot``.
+
+*********
+Functions
+*********
 
 ``main(String[] args)``
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
-Point d'entrée du programme Java. Cette méthode est appelée automatiquement au lancement du contrôleur par Webots.
+Entry point of the Java program. This method is automatically called when
+the controller is launched by Webots.
 
-Elle effectue les actions suivantes :
+It performs the following actions:
 
-1. Création d'un objet ``Supervisor``.
-2. Création d'un objet ``TERBot``.
-3. Appel de la méthode ``run()`` du robot.
+#. Create a ``Supervisor`` object.
+#. Create a ``TERBot`` object.
+#. Call the robot ``run()`` method.
 
-Exemple :
+Example:
 
 .. code-block:: java
 
@@ -48,4 +67,5 @@ Exemple :
    TERBot robot = new TERBot(supervisor);
    robot.run();
 
-Cette méthode ne contient pas directement la logique de déplacement, de détection ou de ramassage.
+This method does not directly contain the movement, detection or puck
+collection logic.

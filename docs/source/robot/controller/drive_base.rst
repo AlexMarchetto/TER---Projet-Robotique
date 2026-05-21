@@ -1,49 +1,76 @@
+################
 DriveBase
-=========
+################
 
-Rôle de la classe
------------------
+*****************
+Role of the class
+*****************
 
-La classe ``DriveBase`` représente la base roulante du robot. Elle regroupe les quatre roues du robot et permet de contrôler le déplacement avec une vitesse gauche et une vitesse droite.
+The ``DriveBase`` class represents the robot drive base. It groups together
+the four wheels of the robot and allows movement control using a left speed
+and a right speed.
 
-Responsabilités
----------------
+****************
+Responsibilities
+****************
 
-- Créer les quatre roues du robot.
-- Associer les moteurs Webots aux objets ``Wheel``.
-- Appliquer une vitesse aux roues gauches.
-- Appliquer une vitesse aux roues droites.
-- Arrêter le robot.
+- Create the four robot wheels.
+- Associate Webots motors with ``Wheel`` objects.
+- Apply a speed to the left wheels.
+- Apply a speed to the right wheels.
+- Stop the robot.
 
+*************
 Encapsulation
--------------
+*************
 
-Les roues sont stockées dans des attributs privés : ``frontLeft``, ``frontRight``, ``rearLeft`` et ``rearRight``. ``TERBot`` ne manipule donc pas directement les moteurs Webots.
+The wheels are stored in private attributes: ``frontLeft``,
+``frontRight``, ``rearLeft`` and ``rearRight``.
 
-Possession et composition
--------------------------
+As a result, ``TERBot`` does not directly manipulate Webots motors.
 
-``DriveBase`` possède quatre objets ``Wheel``. Cette relation correspond à une composition : la base roulante est composée de roues.
+**************************
+Ownership and composition
+**************************
 
-Relations avec les autres classes
----------------------------------
+``DriveBase`` owns four ``Wheel`` objects.
 
-``DriveBase`` est possédée par ``TERBot``. Elle utilise ``Wheel`` et dépend du ``Supervisor`` Webots pour récupérer les moteurs par leur nom.
+This relationship corresponds to composition: the drive base is composed
+of wheels.
 
-Fonctions
----------
+*****************************
+Relations with other classes
+*****************************
+
+``DriveBase`` is owned by ``TERBot``.
+
+It uses ``Wheel`` and depends on the Webots ``Supervisor`` to retrieve
+motors by their name.
+
+*********
+Functions
+*********
 
 ``DriveBase(Supervisor robot)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Constructeur de la classe. Il récupère les moteurs ``wheel1``, ``wheel2``, ``wheel3`` et ``wheel4`` depuis Webots, puis crée les quatre objets ``Wheel`` correspondants.
+Class constructor.
+
+It retrieves the ``wheel1``, ``wheel2``, ``wheel3`` and ``wheel4`` motors
+from Webots, then creates the four corresponding ``Wheel`` objects.
 
 ``setSpeed(double leftSpeed, double rightSpeed)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Applique les vitesses aux roues. ``leftSpeed`` est appliquée aux roues gauches, et ``rightSpeed`` aux roues droites. Cette méthode permet d'avancer, reculer ou tourner selon la différence entre les deux vitesses.
+Applies speeds to the wheels.
+
+``leftSpeed`` is applied to the left wheels and ``rightSpeed`` to the
+right wheels.
+
+This method allows the robot to move forward, move backward or turn
+depending on the difference between the two speeds.
 
 ``stop()``
 ~~~~~~~~~~
 
-Arrête la base roulante en appelant ``setSpeed(0.0, 0.0)``.
+Stops the drive base by calling ``setSpeed(0.0, 0.0)``.

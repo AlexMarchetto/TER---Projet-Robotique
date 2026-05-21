@@ -1,49 +1,62 @@
+################
 Wheel
-=====
+################
 
-Rôle de la classe
------------------
+*****************
+Role of the class
+*****************
 
-La classe ``Wheel`` représente une roue motorisée du robot. Elle encapsule un objet ``Motor`` fourni par Webots.
+The ``Wheel`` class represents a motorized wheel of the robot. It
+encapsulates a ``Motor`` object provided by Webots.
 
-Responsabilités
----------------
+****************
+Responsibilities
+****************
 
-- Stocker un moteur Webots.
-- Configurer le moteur en rotation continue.
-- Appliquer une vitesse à la roue.
-- Arrêter la roue.
+- Store a Webots motor.
+- Configure the motor for continuous rotation.
+- Apply a speed to the wheel.
+- Stop the wheel.
 
+*************
 Encapsulation
--------------
+*************
 
-La classe encapsule l'objet Webots ``Motor`` dans un attribut privé :
+The class encapsulates the Webots ``Motor`` object in a private attribute:
 
 .. code-block:: java
 
    private final Motor motor;
 
-Les autres classes ne manipulent pas directement le moteur Webots. Elles utilisent les méthodes publiques de ``Wheel``.
+The other classes do not directly manipulate the Webots motor. They use
+the public methods of ``Wheel``.
 
-Relations avec les autres classes
----------------------------------
+*****************************
+Relations with other classes
+*****************************
 
-``Wheel`` est utilisée par ``DriveBase``. ``DriveBase`` possède quatre objets ``Wheel``. ``Wheel`` dépend aussi de la classe Webots ``Motor``.
+``Wheel`` is used by ``DriveBase``. ``DriveBase`` owns four ``Wheel``
+objects. ``Wheel`` also depends on the Webots ``Motor`` class.
 
-Fonctions
----------
+*********
+Functions
+*********
 
 ``Wheel(Motor motor)``
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Constructeur de la classe. Il reçoit un objet ``Motor`` Webots et le stocke. Si le moteur existe, il est configuré en rotation continue avec ``setPosition(Double.POSITIVE_INFINITY)`` et sa vitesse est initialisée à ``0.0``.
+Class constructor. It receives a Webots ``Motor`` object and stores it.
+If the motor exists, it is configured for continuous rotation using
+``setPosition(Double.POSITIVE_INFINITY)`` and its speed is initialized to
+``0.0``.
 
 ``setVelocity(double velocity)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Applique une vitesse à la roue. La méthode vérifie que le moteur n'est pas ``null`` avant d'appeler ``setVelocity``.
+Applies a speed to the wheel. The method checks that the motor is not
+``null`` before calling ``setVelocity``.
 
 ``stop()``
 ~~~~~~~~~~
 
-Arrête la roue en appelant ``setVelocity(0.0)``.
+Stops the wheel by calling ``setVelocity(0.0)``.
