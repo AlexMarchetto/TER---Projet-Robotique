@@ -9,8 +9,8 @@ WorldInfo {
   basicTimeStep 64
 }
 Viewpoint {
-  orientation -0.5680600008219189 0.5757905709719142 0.5880247051323937 2.0734286625931087
-  position -0.12417385142349924 -0.15432347074087985 4.530098053019696
+  orientation -0.14884102310850647 0.044090881190987675 0.9878776969017042 2.598209917787785
+  position 2.185428769768963 -1.490379992242177 0.8833204764303016
 }
 TexturedBackground {
 }
@@ -22,7 +22,7 @@ RobotTER {
   translation -1.27 0 0.06
 }
 DEF PALET_1 Solid {
-  translation -0.5 0.5 0.0650041
+  translation -0.5 0.5 0.0850041
   rotation -0.9999934699443532 -9.589734506671008e-09 0.0036138716983296877 -5.307179586466759e-06
   children [
     Shape {
@@ -76,7 +76,7 @@ DEF PALET_2 Solid {
   }
 }
 DEF PALET_3 Solid {
-  translation 0.5 0.48 0.0650081
+  translation 0.5 0.48 0.0750081
   rotation 1 0 0 -3.1415853071795863
   children [
     Shape {
@@ -103,7 +103,7 @@ DEF PALET_3 Solid {
   }
 }
 DEF PALET_4 Solid {
-  translation -0.5 3e-07 0.0650045
+  translation -0.5 2.26536e-07 0.0750045
   rotation 1 0 0 -3.1415853071795863
   children [
     Shape {
@@ -130,7 +130,7 @@ DEF PALET_4 Solid {
   }
 }
 DEF PALET_5 Solid {
-  translation -3.83592e-10 3e-07 0.0650045
+  translation -3.83592e-10 2.26536e-07 0.0750045
   rotation 1 9.58979e-09 3.52253e-14 -3.1415853071795863
   children [
     Shape {
@@ -157,7 +157,7 @@ DEF PALET_5 Solid {
   }
 }
 DEF PALET_6 Solid {
-  translation 0.5 3.096e-07 0.0650045
+  translation 0.5 2.36136e-07 0.0750045
   rotation 1 9.58979e-09 3.52253e-14 -3.1415853071795863
   children [
     Shape {
@@ -184,7 +184,7 @@ DEF PALET_6 Solid {
   }
 }
 DEF PALET_9 Solid {
-  translation 0.5 -0.5 0.0650004
+  translation 0.5 -0.5 0.0850004
   rotation 1 9.58979e-09 3.52253e-14 -3.1415853071795863
   children [
     Shape {
@@ -211,7 +211,7 @@ DEF PALET_9 Solid {
   }
 }
 DEF PALET_8 Solid {
-  translation 0 -0.5 0.0650004
+  translation -2.06583e-21 -0.5 0.0950004
   rotation 1 9.58979e-09 3.52253e-14 -3.1415853071795863
   children [
     Shape {
@@ -238,7 +238,7 @@ DEF PALET_8 Solid {
   }
 }
 DEF PALET_7 Solid {
-  translation -0.5 -0.5 0.0650004
+  translation -0.5 -0.5 0.0850004
   rotation 1 9.58979e-09 3.52253e-14 -3.1415853071795863
   children [
     Shape {
