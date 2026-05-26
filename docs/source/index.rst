@@ -35,6 +35,22 @@ Contents
 
 .. toctree::
    :maxdepth: 2
+   :caption: Robot API
+
+   api/index
+   api/architecture
+   api/compilation
+   api/core
+   api/motors
+   api/sensors
+   api/actuators
+   api/tasks
+   api/state
+   api/world
+   api/utils
+
+.. toctree::
+   :maxdepth: 2
    :caption: TP
 
    tp1/index
