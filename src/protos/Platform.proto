@@ -124,7 +124,7 @@ PROTO Platform [
               }
             }
             geometry Box {
-              size 3 0.02 0.001
+              size 2 0.02 0.001
             }
           }
         ]
@@ -140,7 +140,7 @@ PROTO Platform [
               }
             }
             geometry Box {
-              size 3 0.02 0.001
+              size 2 0.02 0.001
             }
           }
         ]
@@ -156,7 +156,7 @@ PROTO Platform [
               }
             }
             geometry Box {
-              size 3 0.02 0.001
+              size 2 0.02 0.001
             }
           }
         ]

@@ -9,8 +9,8 @@ WorldInfo {
   basicTimeStep 64
 }
 Viewpoint {
-  orientation 0.5867511947523114 -0.5889503827344166 -0.555752176904166 4.152664233997731
-  position 0.004899140525256338 0.27398419341688773 4.598423420286066
+  orientation -0.5680600008219189 0.5757905709719142 0.5880247051323937 2.0734286625931087
+  position -0.12417385142349924 -0.15432347074087985 4.530098053019696
 }
 TexturedBackground {
 }
@@ -19,10 +19,10 @@ TexturedBackgroundLight {
 Platform {
 }
 RobotTER {
-  translation 0.16 0 0.06
+  translation -1.27 0 0.06
 }
 DEF PALET_1 Solid {
-  translation 0.6 4.93026e-14 0.065
+  translation -0.5 0.5 0.0650041
   rotation -0.9999934699443532 -9.589734506671008e-09 0.0036138716983296877 -5.307179586466759e-06
   children [
     Shape {
@@ -49,7 +49,7 @@ DEF PALET_1 Solid {
   }
 }
 DEF PALET_2 Solid {
-  translation 0.2 0.69 0.075
+  translation 0 0.5 0.0649981
   rotation 1 0 0 5.30716e-06
   children [
     Shape {
@@ -76,7 +76,7 @@ DEF PALET_2 Solid {
   }
 }
 DEF PALET_3 Solid {
-  translation -0.29 -0.54 0.095
+  translation 0.5 0.48 0.0650081
   rotation 1 0 0 -3.1415853071795863
   children [
     Shape {
@@ -102,23 +102,165 @@ DEF PALET_3 Solid {
     mass 0.05
   }
 }
-DEF DROP_ZONE Solid {
-  translation -0.9 0 0.065
+DEF PALET_4 Solid {
+  translation -0.5 3e-07 0.0650045
+  rotation 1 0 0 -3.1415853071795863
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0 1 0
-        transparency 0.3
+        baseColor 1 0 0
         roughness 1
         metalness 0
       }
-      geometry Box {
-        size 0.35 0.35 0.03
+      geometry Cylinder {
+        height 0.03
+        radius 0.04
       }
     }
   ]
-  name "drop_zone"
-  boundingObject Box {
-    size 0.35 0.35 0.03
+  name "palet_rouge_3(1)"
+  model "palet"
+  boundingObject Cylinder {
+    height 0.03
+    radius 0.04
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+DEF PALET_5 Solid {
+  translation -3.83592e-10 3e-07 0.0650045
+  rotation 1 9.58979e-09 3.52253e-14 -3.1415853071795863
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.03
+        radius 0.04
+      }
+    }
+  ]
+  name "palet_rouge_3(2)"
+  model "palet"
+  boundingObject Cylinder {
+    height 0.03
+    radius 0.04
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+DEF PALET_6 Solid {
+  translation 0.5 3.096e-07 0.0650045
+  rotation 1 9.58979e-09 3.52253e-14 -3.1415853071795863
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.03
+        radius 0.04
+      }
+    }
+  ]
+  name "palet_rouge_3(3)"
+  model "palet"
+  boundingObject Cylinder {
+    height 0.03
+    radius 0.04
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+DEF PALET_9 Solid {
+  translation 0.5 -0.5 0.0650004
+  rotation 1 9.58979e-09 3.52253e-14 -3.1415853071795863
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.03
+        radius 0.04
+      }
+    }
+  ]
+  name "palet_rouge_3(4)"
+  model "palet"
+  boundingObject Cylinder {
+    height 0.03
+    radius 0.04
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+DEF PALET_8 Solid {
+  translation 0 -0.5 0.0650004
+  rotation 1 9.58979e-09 3.52253e-14 -3.1415853071795863
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.03
+        radius 0.04
+      }
+    }
+  ]
+  name "palet_rouge_3(5)"
+  model "palet"
+  boundingObject Cylinder {
+    height 0.03
+    radius 0.04
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+DEF PALET_7 Solid {
+  translation -0.5 -0.5 0.0650004
+  rotation 1 9.58979e-09 3.52253e-14 -3.1415853071795863
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.03
+        radius 0.04
+      }
+    }
+  ]
+  name "palet_rouge_3(6)"
+  model "palet"
+  boundingObject Cylinder {
+    height 0.03
+    radius 0.04
+  }
+  physics Physics {
+    density -1
+    mass 0.05
   }
 }

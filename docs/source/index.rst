@@ -33,6 +33,12 @@ Contents
    world/index
    controller/index
 
+.. toctree::
+   :maxdepth: 2
+   :caption: TP
+
+   tp1/index
+
 Indices and tables
 ------------------
 
