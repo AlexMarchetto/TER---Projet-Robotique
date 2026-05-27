@@ -4,32 +4,53 @@ Motors API
 Overview
 --------
 
-The ``api.motors`` package contains the classes used to control the robot wheels.
+The ``api.motors`` package contains the classes used to control the robot movement.
 
-This package is responsible for all basic movements of the robot:
+In this project, the robot has four wheels:
 
-* moving forward;
-* moving backward;
-* turning left;
-* turning right;
-* making curved movements;
-* stopping the robot;
-* controlling individual wheels.
+* front-left wheel;
+* front-right wheel;
+* rear-left wheel;
+* rear-right wheel.
 
-The goal of this package is to hide the low-level Webots motor code behind a simpler API.
+Each wheel is controlled by one Webots motor.
 
-Instead of directly manipulating each Webots motor, the rest of the controller can use simple methods such as:
+The goal of this package is to make movement commands easy to understand.
+
+For example, instead of manually controlling four motors, the behavior can simply write:
 
 .. code-block:: java
 
-   bot.motors().forward(2.0);
-   bot.motors().turnLeft(2.0);
-   bot.motors().stop();
+   robot.motors().forward(4.0);
+   robot.motors().turnLeft(3.0);
+   robot.motors().stop();
+
+Why this package exists
+-----------------------
+
+Without this API, the behavior code would need to directly control every wheel motor.
+
+For example:
+
+.. code-block:: java
+
+   wheel1.setVelocity(4.0);
+   wheel2.setVelocity(4.0);
+   wheel3.setVelocity(4.0);
+   wheel4.setVelocity(4.0);
+
+With the API, the same action becomes:
+
+.. code-block:: java
+
+   robot.motors().forward(4.0);
+
+This makes the code easier to read, easier to debug, and easier to reuse in practical sessions.
 
 Package location
 ----------------
 
-The motors API is located in:
+The files are located in:
 
 .. code-block:: text
 
@@ -44,24 +65,38 @@ The motors API is located in:
 Package declaration
 -------------------
 
-Each file in this package starts with:
+Each file starts with:
 
 .. code-block:: java
 
    package api.motors;
 
-This means that the files must be located in:
+This means that these files must be placed in:
 
 .. code-block:: text
 
    api/motors/
 
-If the package declaration and the folder path do not match, Java will not compile the project correctly.
+If the folder and package name do not match, Java will not compile the project.
 
-Main classes
-------------
+General organization
+--------------------
 
-The package contains three main classes:
+The motor system is organized in three levels:
+
+.. code-block:: text
+
+   DriveBase
+      |
+      ├── MotorGroup leftWheels
+      │      ├── Wheel frontLeft
+      │      └── Wheel rearLeft
+      |
+      └── MotorGroup rightWheels
+             ├── Wheel frontRight
+             └── Wheel rearRight
+
+Each class has a different role:
 
 .. list-table::
    :header-rows: 1
@@ -69,47 +104,60 @@ The package contains three main classes:
    * - Class
      - Role
    * - ``Wheel``
-     - Represents one robot wheel and controls one Webots motor.
+     - Controls one Webots motor.
    * - ``MotorGroup``
-     - Groups several wheels and applies the same speed to all of them.
+     - Controls several wheels at the same time.
    * - ``DriveBase``
-     - Controls the whole robot movement using the four wheels.
+     - Controls the complete robot movement.
 
-General organization
---------------------
+Wheel mapping
+-------------
 
-The movement system is organized like this:
+The robot uses four Webots motors.
 
-.. code-block:: text
+The API maps them like this:
 
-   DriveBase
-      |
-      ├── frontLeft  -> Wheel -> Webots Motor "wheel1"
-      ├── frontRight -> Wheel -> Webots Motor "wheel2"
-      ├── rearLeft   -> Wheel -> Webots Motor "wheel3"
-      └── rearRight  -> Wheel -> Webots Motor "wheel4"
+.. list-table::
+   :header-rows: 1
 
-The left wheels and right wheels are also grouped:
+   * - Webots motor name
+     - API name
+     - Position on robot
+   * - ``wheel1``
+     - ``frontLeft``
+     - Front-left wheel
+   * - ``wheel2``
+     - ``frontRight``
+     - Front-right wheel
+   * - ``wheel3``
+     - ``rearLeft``
+     - Rear-left wheel
+   * - ``wheel4``
+     - ``rearRight``
+     - Rear-right wheel
 
-.. code-block:: text
+These names are important.
 
-   leftWheels  = frontLeft + rearLeft
-   rightWheels = frontRight + rearRight
-
-This makes it easy to control the robot like a differential-drive robot.
+If the motor names in Webots are different, the API will not be able to retrieve the motors correctly.
 
 Wheel
 -----
 
-Overview
-~~~~~~~~
+Role of the Wheel class
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``Wheel`` class represents one wheel of the robot.
 
-It wraps a Webots ``Motor`` object and provides simple methods to control the wheel speed.
+It wraps one Webots ``Motor`` object and provides simple methods to:
 
-Class code
-~~~~~~~~~~
+* set the wheel speed;
+* move the wheel forward;
+* move the wheel backward;
+* stop the wheel;
+* check if the motor exists.
+
+Wheel source code
+~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
@@ -145,33 +193,21 @@ Class code
 Attributes
 ~~~~~~~~~~
 
-The class contains two attributes:
+The ``Wheel`` class contains two attributes:
 
 .. code-block:: java
 
    private final Motor motor;
    private double currentSpeed;
 
-``motor``
-^^^^^^^^^
+``motor`` is the Webots motor controlled by the wheel.
 
-The ``motor`` attribute stores the Webots motor linked to the wheel.
+``currentSpeed`` stores the last speed value sent to the motor.
 
-For example, the front-left wheel is linked to the Webots motor named:
+This is useful for debugging because it allows the program to remember the last command sent to the wheel.
 
-.. code-block:: text
-
-   wheel1
-
-``currentSpeed``
-^^^^^^^^^^^^^^^^
-
-The ``currentSpeed`` attribute stores the last speed value applied to the wheel.
-
-This is useful to know the current command given to the wheel.
-
-Constructor
-~~~~~~~~~~~
+Constructor explanation
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The constructor receives a Webots motor:
 
@@ -186,10 +222,10 @@ The constructor receives a Webots motor:
      }
    }
 
-The constructor does three things:
+It does three things:
 
 1. It stores the motor.
-2. It initializes the current speed to ``0.0``.
+2. It initializes the speed to ``0.0``.
 3. It configures the motor in velocity mode.
 
 Velocity mode
@@ -201,19 +237,28 @@ This line is very important:
 
    this.motor.setPosition(Double.POSITIVE_INFINITY);
 
-In Webots, a motor can be controlled in position mode or velocity mode.
+In Webots, a motor can be controlled in two main ways:
 
-By setting the position to ``Double.POSITIVE_INFINITY``, the motor is switched to velocity control mode.
+* position control;
+* velocity control.
 
-This means that the wheel can rotate continuously.
+For the wheels, we do not want the motor to move to a fixed angle.
 
-Then, the wheel is stopped at the beginning:
+We want the wheel to rotate continuously.
+
+That is why the position is set to:
+
+.. code-block:: java
+
+   Double.POSITIVE_INFINITY
+
+This switches the motor to velocity control mode.
+
+Then the wheel is stopped at the beginning:
 
 .. code-block:: java
 
    this.motor.setVelocity(0.0);
-
-This prevents the robot from moving before the controller explicitly gives a speed.
 
 setSpeed
 ~~~~~~~~
@@ -222,12 +267,18 @@ setSpeed
 
    public void setSpeed(double speed) {
      currentSpeed = speed;
-     if (motor != null) { motor.setVelocity(speed); }
+     if (motor != null) {
+       motor.setVelocity(speed);
+     }
    }
 
-This method sets the wheel speed.
+The ``setSpeed`` method sends a velocity command to the wheel.
 
-It also stores the speed in ``currentSpeed``.
+A positive speed makes the wheel rotate forward.
+
+A negative speed makes the wheel rotate backward.
+
+The method also stores the value in ``currentSpeed``.
 
 The condition:
 
@@ -236,9 +287,6 @@ The condition:
    if (motor != null)
 
 prevents the program from crashing if the motor was not found in Webots.
-
-For example, if the motor name is wrong in the PROTO file, ``robot.getMotor(...)`` may return ``null``.  
-This check makes the API more robust.
 
 forward
 ~~~~~~~
@@ -249,15 +297,23 @@ forward
      setSpeed(Math.abs(speed));
    }
 
-This method makes the wheel rotate forward.
+The ``forward`` method makes the wheel rotate forward.
 
-It uses ``Math.abs(speed)`` so that the speed is always positive, even if the user passes a negative value.
+It uses ``Math.abs`` to make sure the speed is positive.
 
 Example:
 
 .. code-block:: java
 
-   wheel.forward(2.0);
+   wheel.forward(3.0);
+
+Even if the user writes:
+
+.. code-block:: java
+
+   wheel.forward(-3.0);
+
+the wheel still receives a positive speed.
 
 backward
 ~~~~~~~~
@@ -268,7 +324,7 @@ backward
      setSpeed(-Math.abs(speed));
    }
 
-This method makes the wheel rotate backward.
+The ``backward`` method makes the wheel rotate backward.
 
 It forces the speed to be negative.
 
@@ -276,13 +332,15 @@ Example:
 
 .. code-block:: java
 
-   wheel.backward(2.0);
+   wheel.backward(3.0);
 
-This is equivalent to:
+This sends:
 
-.. code-block:: java
+.. code-block:: text
 
-   wheel.setSpeed(-2.0);
+   -3.0
+
+to the motor.
 
 stop
 ~~~~
@@ -293,7 +351,7 @@ stop
      setSpeed(0.0);
    }
 
-This method stops the wheel.
+The ``stop`` method stops the wheel.
 
 getCurrentSpeed
 ~~~~~~~~~~~~~~~
@@ -304,10 +362,11 @@ getCurrentSpeed
      return currentSpeed;
    }
 
-This method returns the last speed assigned to the wheel.
+This method returns the last speed sent to the wheel.
 
-It does not read the real physical speed from Webots.  
-It only returns the last command sent by the API.
+Important: it does not measure the real physical wheel speed.
+
+It only returns the last command stored by the API.
 
 exists
 ~~~~~~
@@ -318,37 +377,37 @@ exists
      return motor != null;
    }
 
-This method checks whether the Webots motor was correctly found.
-
-It can be useful for debugging.
+The ``exists`` method checks if the Webots motor was found.
 
 Example:
 
 .. code-block:: java
 
-   if (!bot.motors().frontLeft().exists()) {
+   if (!robot.motors().frontLeft().exists()) {
      System.out.println("Front-left wheel motor not found");
    }
+
+This is useful for debugging motor names in Webots.
 
 MotorGroup
 ----------
 
-Overview
-~~~~~~~~
+Role of the MotorGroup class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``MotorGroup`` class groups several wheels together.
+The ``MotorGroup`` class controls several wheels at the same time.
 
-It allows the same speed to be applied to multiple wheels at once.
+This is useful because the robot has two wheels on each side.
 
-This is useful because the robot has:
+For example:
 
-* two wheels on the left side;
-* two wheels on the right side.
+* the left group contains the front-left and rear-left wheels;
+* the right group contains the front-right and rear-right wheels.
 
-Instead of setting each wheel speed manually, ``MotorGroup`` can control several wheels with one method call.
+Instead of setting the same speed twice, the group does it automatically.
 
-Class code
-~~~~~~~~~~
+MotorGroup source code
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
@@ -374,19 +433,10 @@ Class code
      public void stop() { setSpeed(0.0); }
    }
 
-Attribute
-~~~~~~~~~
+Constructor explanation
+~~~~~~~~~~~~~~~~~~~~~~~
 
-The class stores a list of wheels:
-
-.. code-block:: java
-
-   private final Wheel[] wheels;
-
-The array can contain one or more wheels.
-
-Constructor
-~~~~~~~~~~~
+The constructor is:
 
 .. code-block:: java
 
@@ -394,15 +444,15 @@ Constructor
      this.wheels = wheels;
    }
 
-The ``...`` syntax means that the constructor accepts a variable number of wheels.
+The ``...`` syntax means that the constructor can receive several wheels.
 
-For example:
+Example:
 
 .. code-block:: java
 
    MotorGroup leftWheels = new MotorGroup(frontLeft, rearLeft);
 
-This creates a group containing the front-left and rear-left wheels.
+This creates a group with two wheels.
 
 setSpeed
 ~~~~~~~~
@@ -417,83 +467,55 @@ setSpeed
      }
    }
 
-This method applies the same speed to all wheels in the group.
+This method applies the same speed to every wheel in the group.
 
-The ``if (wheel != null)`` condition prevents errors if one wheel is missing.
+The ``if`` condition prevents errors if a wheel is missing.
 
-forward
-~~~~~~~
+forward, backward, stop
+~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: java
-
-   public void forward(double speed) {
-     setSpeed(Math.abs(speed));
-   }
-
-This method makes all wheels in the group move forward.
-
-backward
-~~~~~~~~
-
-.. code-block:: java
-
-   public void backward(double speed) {
-     setSpeed(-Math.abs(speed));
-   }
-
-This method makes all wheels in the group move backward.
-
-stop
-~~~~
-
-.. code-block:: java
-
-   public void stop() {
-     setSpeed(0.0);
-   }
-
-This method stops all wheels in the group.
-
-Example
-~~~~~~~
-
-Example with the left wheels:
-
-.. code-block:: java
-
-   MotorGroup leftWheels = new MotorGroup(frontLeft, rearLeft);
-   leftWheels.forward(2.0);
-
-Both left wheels receive the same speed.
-
-DriveBase
----------
-
-Overview
-~~~~~~~~
-
-The ``DriveBase`` class controls the complete movement of the robot.
-
-It creates the four wheels, groups the left and right wheels, and provides high-level movement methods.
-
-This is the class most frequently used by behaviors.
+These methods work like the methods in ``Wheel``, but they apply to all wheels in the group.
 
 Example:
 
 .. code-block:: java
 
-   bot.motors().forward(2.0);
-   bot.motors().turnRight(2.0);
-   bot.motors().stop();
+   leftWheels.forward(4.0);
 
-Class code
-~~~~~~~~~~
+This sends speed ``4.0`` to all wheels in the left group.
+
+DriveBase
+---------
+
+Role of the DriveBase class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``DriveBase`` class controls the complete movement of the robot.
+
+It is the class used by the rest of the API when the robot needs to move.
+
+For example:
+
+.. code-block:: java
+
+   robot.motors().forward(4.0);
+   robot.motors().turnRight(3.0);
+   robot.motors().curveLeft(3.0, 0.5);
+   robot.motors().stop();
+
+The ``DriveBase`` does not directly represent one motor.
+
+It represents the whole moving base of the robot.
+
+DriveBase source code
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
    package api.motors;
 
    import com.cyberbotics.webots.controller.Supervisor;
+
    import api.utils.MathUtils;
 
    public class DriveBase {
@@ -532,74 +554,17 @@ Class code
      public Wheel rearRight() { return rearRight; }
    }
 
-Attributes
-~~~~~~~~~~
+Constructor explanation
+~~~~~~~~~~~~~~~~~~~~~~~
 
-The class stores the four wheels:
-
-.. code-block:: java
-
-   private final Wheel frontLeft;
-   private final Wheel frontRight;
-   private final Wheel rearLeft;
-   private final Wheel rearRight;
-
-It also stores two motor groups:
+The constructor retrieves the four wheel motors from Webots:
 
 .. code-block:: java
 
-   private final MotorGroup leftWheels;
-   private final MotorGroup rightWheels;
-
-These groups are used to control the left and right sides of the robot.
-
-Constructor
-~~~~~~~~~~~
-
-.. code-block:: java
-
-   public DriveBase(Supervisor robot) {
-     this.frontLeft = new Wheel(robot.getMotor("wheel1"));
-     this.frontRight = new Wheel(robot.getMotor("wheel2"));
-     this.rearLeft = new Wheel(robot.getMotor("wheel3"));
-     this.rearRight = new Wheel(robot.getMotor("wheel4"));
-     this.leftWheels = new MotorGroup(frontLeft, rearLeft);
-     this.rightWheels = new MotorGroup(frontRight, rearRight);
-   }
-
-The constructor receives the Webots ``Supervisor``.
-
-It retrieves the four wheel motors by name:
-
-.. code-block:: text
-
-   wheel1
-   wheel2
-   wheel3
-   wheel4
-
-These names must match the motor names defined in the robot PROTO file.
-
-The wheel mapping is:
-
-.. list-table::
-   :header-rows: 1
-
-   * - Webots motor name
-     - API attribute
-     - Position
-   * - ``wheel1``
-     - ``frontLeft``
-     - Front-left wheel
-   * - ``wheel2``
-     - ``frontRight``
-     - Front-right wheel
-   * - ``wheel3``
-     - ``rearLeft``
-     - Rear-left wheel
-   * - ``wheel4``
-     - ``rearRight``
-     - Rear-right wheel
+   this.frontLeft = new Wheel(robot.getMotor("wheel1"));
+   this.frontRight = new Wheel(robot.getMotor("wheel2"));
+   this.rearLeft = new Wheel(robot.getMotor("wheel3"));
+   this.rearRight = new Wheel(robot.getMotor("wheel4"));
 
 Then it creates two groups:
 
@@ -608,251 +573,14 @@ Then it creates two groups:
    this.leftWheels = new MotorGroup(frontLeft, rearLeft);
    this.rightWheels = new MotorGroup(frontRight, rearRight);
 
-The left group contains:
+This makes it possible to control the robot using left and right speeds.
 
-* ``frontLeft``;
-* ``rearLeft``.
-
-The right group contains:
-
-* ``frontRight``;
-* ``rearRight``.
-
-setSpeed
-~~~~~~~~
-
-.. code-block:: java
-
-   public void setSpeed(double leftSpeed, double rightSpeed) {
-     leftWheels.setSpeed(leftSpeed);
-     rightWheels.setSpeed(rightSpeed);
-   }
-
-This method sets the speed of the left wheels and the right wheels independently.
-
-This is the base method used by all other movement methods.
-
-Example:
-
-.. code-block:: java
-
-   bot.motors().setSpeed(2.0, 1.0);
-
-This makes the left wheels move faster than the right wheels, so the robot starts to curve.
-
-forward
-~~~~~~~
-
-.. code-block:: java
-
-   public void forward(double speed) {
-     setSpeed(Math.abs(speed), Math.abs(speed));
-   }
-
-This method makes the robot move forward.
-
-Both sides receive the same positive speed.
-
-Example:
-
-.. code-block:: java
-
-   bot.motors().forward(2.0);
-
-Even if the user gives a negative value, ``Math.abs`` turns it into a positive value.
-
-backward
-~~~~~~~~
-
-.. code-block:: java
-
-   public void backward(double speed) {
-     setSpeed(-Math.abs(speed), -Math.abs(speed));
-   }
-
-This method makes the robot move backward.
-
-Both sides receive the same negative speed.
-
-Example:
-
-.. code-block:: java
-
-   bot.motors().backward(2.0);
-
-turnLeft
-~~~~~~~~
-
-.. code-block:: java
-
-   public void turnLeft(double speed) {
-     double v = Math.abs(speed);
-     setSpeed(-v, v);
-   }
-
-This method makes the robot rotate to the left.
-
-The left wheels move backward and the right wheels move forward.
-
-Example:
-
-.. code-block:: java
-
-   bot.motors().turnLeft(2.0);
-
-Wheel speeds:
-
-.. code-block:: text
-
-   left wheels  = -2.0
-   right wheels =  2.0
-
-turnRight
-~~~~~~~~~
-
-.. code-block:: java
-
-   public void turnRight(double speed) {
-     double v = Math.abs(speed);
-     setSpeed(v, -v);
-   }
-
-This method makes the robot rotate to the right.
-
-The left wheels move forward and the right wheels move backward.
-
-Example:
-
-.. code-block:: java
-
-   bot.motors().turnRight(2.0);
-
-Wheel speeds:
-
-.. code-block:: text
-
-   left wheels  =  2.0
-   right wheels = -2.0
-
-curveLeft
-~~~~~~~~~
-
-.. code-block:: java
-
-   public void curveLeft(double speed, double factor) {
-     double v = Math.abs(speed);
-     setSpeed(v * MathUtils.clamp(factor, 0.0, 1.0), v);
-   }
-
-This method makes the robot move forward while curving left.
-
-The right wheels keep the full speed, while the left wheels are slowed down.
-
-The ``factor`` controls how strong the curve is.
-
-The value is clamped between ``0.0`` and ``1.0`` using:
-
-.. code-block:: java
-
-   MathUtils.clamp(factor, 0.0, 1.0)
-
-Meaning of the factor:
-
-.. list-table::
-   :header-rows: 1
-
-   * - Factor
-     - Effect
-   * - ``1.0``
-     - Both sides have the same speed, so the robot moves almost straight.
-   * - ``0.5``
-     - The left side is slower, so the robot curves left.
-   * - ``0.0``
-     - The left side stops, so the robot turns more sharply left.
-
-Example:
-
-.. code-block:: java
-
-   bot.motors().curveLeft(2.0, 0.5);
-
-Wheel speeds:
-
-.. code-block:: text
-
-   left wheels  = 1.0
-   right wheels = 2.0
-
-curveRight
-~~~~~~~~~~
-
-.. code-block:: java
-
-   public void curveRight(double speed, double factor) {
-     double v = Math.abs(speed);
-     setSpeed(v, v * MathUtils.clamp(factor, 0.0, 1.0));
-   }
-
-This method makes the robot move forward while curving right.
-
-The left wheels keep the full speed, while the right wheels are slowed down.
-
-Example:
-
-.. code-block:: java
-
-   bot.motors().curveRight(2.0, 0.5);
-
-Wheel speeds:
-
-.. code-block:: text
-
-   left wheels  = 2.0
-   right wheels = 1.0
-
-stop
-~~~~
-
-.. code-block:: java
-
-   public void stop() {
-     setSpeed(0.0, 0.0);
-   }
-
-This method stops the robot.
-
-Example:
-
-.. code-block:: java
-
-   bot.motors().stop();
-
-Wheel accessors
-~~~~~~~~~~~~~~~
-
-The class also provides access to each individual wheel:
-
-.. code-block:: java
-
-   public Wheel frontLeft() { return frontLeft; }
-   public Wheel frontRight() { return frontRight; }
-   public Wheel rearLeft() { return rearLeft; }
-   public Wheel rearRight() { return rearRight; }
-
-These methods are mainly useful for debugging or advanced control.
-
-Example:
-
-.. code-block:: java
-
-   System.out.println(bot.motors().frontLeft().getCurrentSpeed());
-
-How movements work
+Movement principle
 ------------------
 
-The robot uses differential drive logic.
+The robot uses a differential drive logic.
 
-This means that movement depends on the speed difference between the left and right wheels.
+This means that the movement depends on the speed difference between the left wheels and the right wheels.
 
 .. list-table::
    :header-rows: 1
@@ -882,84 +610,330 @@ This means that movement depends on the speed difference between the left and ri
      - Zero
      - Stops
 
-Example usages
---------------
+This is the main idea behind all movement methods.
+
+setSpeed
+~~~~~~~~
+
+.. code-block:: java
+
+   public void setSpeed(double leftSpeed, double rightSpeed) {
+     leftWheels.setSpeed(leftSpeed);
+     rightWheels.setSpeed(rightSpeed);
+   }
+
+The ``setSpeed`` method is the base movement method.
+
+It controls the left and right sides independently.
+
+Example:
+
+.. code-block:: java
+
+   robot.motors().setSpeed(4.0, 2.0);
+
+In this example, the left wheels are faster than the right wheels.
+
+The robot will curve to the right.
+
+forward
+~~~~~~~
+
+.. code-block:: java
+
+   public void forward(double speed) {
+     setSpeed(Math.abs(speed), Math.abs(speed));
+   }
+
+The ``forward`` method moves the robot forward.
+
+Both sides receive the same positive speed.
+
+Example:
+
+.. code-block:: java
+
+   robot.motors().forward(4.0);
+
+backward
+~~~~~~~~
+
+.. code-block:: java
+
+   public void backward(double speed) {
+     setSpeed(-Math.abs(speed), -Math.abs(speed));
+   }
+
+The ``backward`` method moves the robot backward.
+
+Both sides receive the same negative speed.
+
+Example:
+
+.. code-block:: java
+
+   robot.motors().backward(2.0);
+
+turnLeft
+~~~~~~~~
+
+.. code-block:: java
+
+   public void turnLeft(double speed) {
+     double v = Math.abs(speed);
+     setSpeed(-v, v);
+   }
+
+The ``turnLeft`` method rotates the robot to the left.
+
+The left wheels move backward.
+
+The right wheels move forward.
+
+Example:
+
+.. code-block:: java
+
+   robot.motors().turnLeft(3.0);
+
+This is a rotation on the spot.
+
+turnRight
+~~~~~~~~~
+
+.. code-block:: java
+
+   public void turnRight(double speed) {
+     double v = Math.abs(speed);
+     setSpeed(v, -v);
+   }
+
+The ``turnRight`` method rotates the robot to the right.
+
+The left wheels move forward.
+
+The right wheels move backward.
+
+Example:
+
+.. code-block:: java
+
+   robot.motors().turnRight(3.0);
+
+curveLeft
+~~~~~~~~~
+
+.. code-block:: java
+
+   public void curveLeft(double speed, double factor) {
+     double v = Math.abs(speed);
+     setSpeed(v * MathUtils.clamp(factor, 0.0, 1.0), v);
+   }
+
+The ``curveLeft`` method makes the robot move forward while turning left.
+
+The right wheels keep the full speed.
+
+The left wheels are slowed down.
+
+The ``factor`` controls how strong the curve is.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Factor
+     - Effect
+   * - ``1.0``
+     - Almost straight movement.
+   * - ``0.5``
+     - Medium left curve.
+   * - ``0.0``
+     - Very strong left curve.
+
+Example:
+
+.. code-block:: java
+
+   robot.motors().curveLeft(4.0, 0.5);
+
+This means:
+
+.. code-block:: text
+
+   left wheels  = 2.0
+   right wheels = 4.0
+
+The robot moves forward while curving left.
+
+curveRight
+~~~~~~~~~~
+
+.. code-block:: java
+
+   public void curveRight(double speed, double factor) {
+     double v = Math.abs(speed);
+     setSpeed(v, v * MathUtils.clamp(factor, 0.0, 1.0));
+   }
+
+The ``curveRight`` method makes the robot move forward while turning right.
+
+The left wheels keep the full speed.
+
+The right wheels are slowed down.
+
+Example:
+
+.. code-block:: java
+
+   robot.motors().curveRight(4.0, 0.5);
+
+This means:
+
+.. code-block:: text
+
+   left wheels  = 4.0
+   right wheels = 2.0
+
+The robot moves forward while curving right.
+
+Why clamp is used
+~~~~~~~~~~~~~~~~~
+
+The curve methods use:
+
+.. code-block:: java
+
+   MathUtils.clamp(factor, 0.0, 1.0)
+
+This ensures that the factor always stays between ``0.0`` and ``1.0``.
+
+For example:
+
+* if the factor is ``-0.5``, it becomes ``0.0``;
+* if the factor is ``1.5``, it becomes ``1.0``.
+
+This prevents invalid wheel speeds.
+
+stop
+~~~~
+
+.. code-block:: java
+
+   public void stop() {
+     setSpeed(0.0, 0.0);
+   }
+
+The ``stop`` method stops the robot.
+
+Example:
+
+.. code-block:: java
+
+   robot.motors().stop();
+
+Wheel accessors
+~~~~~~~~~~~~~~~
+
+The ``DriveBase`` also gives access to each wheel:
+
+.. code-block:: java
+
+   public Wheel frontLeft() { return frontLeft; }
+   public Wheel frontRight() { return frontRight; }
+   public Wheel rearLeft() { return rearLeft; }
+   public Wheel rearRight() { return rearRight; }
+
+These methods are mainly useful for debugging.
+
+Example:
+
+.. code-block:: java
+
+   System.out.println(robot.motors().frontLeft().getCurrentSpeed());
+
+Use in the full robot behavior
+------------------------------
+
+The motors API is used everywhere in the robot behavior.
+
+For example, in the collection mission:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Situation
+     - Motor action
+   * - The robot searches for pucks.
+     - ``forward`` or obstacle avoidance turns.
+   * - The robot approaches a puck.
+     - ``setSpeed`` with angle correction.
+   * - The robot touches an obstacle.
+     - ``backward`` then ``turnLeft``.
+   * - The robot carries a puck to the drop zone.
+     - ``forward`` or ``curveLeft`` / ``curveRight``.
+   * - The robot drops a puck.
+     - ``stop``.
+
+This package is therefore essential for all robot movements.
+
+Examples
+--------
 
 Move forward
 ~~~~~~~~~~~~
 
 .. code-block:: java
 
-   bot.motors().forward(2.0);
+   robot.motors().forward(4.0);
 
 Move backward
 ~~~~~~~~~~~~~
 
 .. code-block:: java
 
-   bot.motors().backward(2.0);
+   robot.motors().backward(2.0);
 
 Turn left
 ~~~~~~~~~
 
 .. code-block:: java
 
-   bot.motors().turnLeft(2.0);
+   robot.motors().turnLeft(3.0);
 
 Turn right
 ~~~~~~~~~~
 
 .. code-block:: java
 
-   bot.motors().turnRight(2.0);
+   robot.motors().turnRight(3.0);
 
 Curve left
 ~~~~~~~~~~
 
 .. code-block:: java
 
-   bot.motors().curveLeft(2.0, 0.5);
+   robot.motors().curveLeft(4.0, 0.5);
 
 Curve right
 ~~~~~~~~~~~
 
 .. code-block:: java
 
-   bot.motors().curveRight(2.0, 0.5);
+   robot.motors().curveRight(4.0, 0.5);
 
 Stop
 ~~~~
 
 .. code-block:: java
 
-   bot.motors().stop();
+   robot.motors().stop();
 
-Example in a behavior
----------------------
+Naming convention
+-----------------
 
-The motors API is usually used inside a robot behavior.
+The motors API depends on the names of the motors in Webots.
 
-Example:
-
-.. code-block:: java
-
-   if (bot.sensors().front().isObjectDetected(350.0)) {
-     bot.motors().turnLeft(2.0);
-   } else {
-     bot.motors().forward(2.0);
-   }
-
-This means:
-
-* if an object is detected in front of the robot, the robot turns left;
-* otherwise, the robot moves forward.
-
-Important naming convention
----------------------------
-
-The motors API depends on the names of the motors in the Webots robot.
-
-The robot PROTO must contain motors named exactly:
+The robot must contain:
 
 .. code-block:: text
 
@@ -968,64 +942,54 @@ The robot PROTO must contain motors named exactly:
    wheel3
    wheel4
 
-If one name is different, the corresponding motor may not be found.
-
-For example, this is correct:
-
-.. code-block:: text
-
-   RotationalMotor {
-     name "wheel1"
-   }
-
-But this is not compatible with the API:
-
-.. code-block:: text
-
-   RotationalMotor {
-     name "front_left_wheel"
-   }
-
-Unless the Java code is modified accordingly.
+If one of these names is wrong, the corresponding wheel will not work.
 
 Debugging
 ---------
 
-If the robot does not move, check the following points:
+If the robot does not move, check:
 
-* the motors are correctly named in the PROTO file;
-* the controller is correctly compiled;
-* the controller is correctly assigned to the robot;
-* the wheels have a ``HingeJoint``;
-* the motors are inside the ``device`` field of the ``HingeJoint``;
-* the wheel ``Solid`` has physics;
-* the ``Wheel`` objects are not linked to ``null`` motors.
+* the controller has been compiled;
+* the controller is assigned to the robot in Webots;
+* the motors are named ``wheel1``, ``wheel2``, ``wheel3`` and ``wheel4``;
+* the wheels are connected to motors in the robot model;
+* the wheel joints are correctly configured;
+* the wheels have a physical shape and collision object;
+* the motor exists in the API.
 
-You can use:
+You can test each wheel with:
 
 .. code-block:: java
 
-   bot.motors().frontLeft().exists();
+   System.out.println(robot.motors().frontLeft().exists());
+   System.out.println(robot.motors().frontRight().exists());
+   System.out.println(robot.motors().rearLeft().exists());
+   System.out.println(robot.motors().rearRight().exists());
 
-to check whether a wheel motor was found.
+If the robot turns when it should move forward, check the wheel mapping.
+
+If the robot moves backward when it should move forward, the wheel direction or motor orientation may need to be adjusted in Webots.
 
 Summary
 -------
 
-The ``api.motors`` package provides a clean API to control the robot movement.
+The ``api.motors`` package controls the robot movement.
 
-``Wheel`` controls one Webots motor.
+It contains three classes:
 
-``MotorGroup`` controls several wheels at the same time.
+* ``Wheel`` controls one Webots motor.
+* ``MotorGroup`` controls several wheels together.
+* ``DriveBase`` controls the complete robot movement.
 
-``DriveBase`` controls the full robot movement.
+The most important class for behaviors is ``DriveBase``.
 
-This package allows the rest of the project to use simple commands such as:
+It allows simple movement commands such as:
 
 .. code-block:: java
 
-   bot.motors().forward(2.0);
-   bot.motors().turnLeft(2.0);
-   bot.motors().stop();
+   robot.motors().forward(4.0);
+   robot.motors().turnLeft(3.0);
+   robot.motors().curveRight(4.0, 0.5);
+   robot.motors().stop();
 
-instead of directly manipulating the four Webots motors.
+This makes the behavior code easier to understand because it describes the robot actions directly.

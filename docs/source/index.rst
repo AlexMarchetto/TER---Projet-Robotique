@@ -48,6 +48,7 @@ Contents
    api/state
    api/world
    api/utils
+   api/behaviors
 
 .. toctree::
    :maxdepth: 2

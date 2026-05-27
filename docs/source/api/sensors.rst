@@ -4,25 +4,55 @@ Sensors API
 Overview
 --------
 
-The ``api.sensors`` package contains the classes used to access and simplify the robot sensors.
+The ``api.sensors`` package contains the classes used to read information from the robot sensors.
 
-The goal of this package is to hide the low-level Webots sensor code behind a clearer API.
+Sensors are very important because they allow the robot to perceive its environment.
 
-Instead of directly manipulating Webots sensors in the behavior classes, the robot can use methods such as:
+In this project, the robot uses several types of sensors:
+
+* distance sensors to detect objects or walls;
+* a touch sensor to detect physical contact;
+* a camera used as a color sensor;
+* a small ``RGBColor`` class to represent colors.
+
+The goal of this package is to make sensor usage simple and understandable.
+
+For example, instead of directly manipulating Webots sensors, the behavior can write:
 
 .. code-block:: java
 
-   bot.sensors().frontDistance();
-   bot.sensors().frontDetectsObject(350.0);
-   bot.sensors().isFrontTouched();
-   bot.sensors().seesRed();
+   robot.sensors().frontDistance();
+   robot.sensors().frontDetectsObject(350.0);
+   robot.sensors().isFrontTouched();
+   robot.sensors().seesRed();
 
-This makes the controller easier to read and easier to maintain.
+Why this package exists
+-----------------------
+
+Without this API, the behavior code would have to directly retrieve and read every Webots sensor.
+
+For example:
+
+.. code-block:: java
+
+   DistanceSensor dsFront = robot.getDistanceSensor("ds_front");
+   dsFront.enable(timeStep);
+   double value = dsFront.getValue();
+
+With the API, the same idea becomes:
+
+.. code-block:: java
+
+   double value = robot.sensors().frontDistance();
+
+This makes the behavior easier to read.
+
+The behavior can focus on the robot mission instead of low-level Webots code.
 
 Package location
 ----------------
 
-The sensors API is located in:
+The files are located in:
 
 .. code-block:: text
 
@@ -39,24 +69,45 @@ The sensors API is located in:
 Package declaration
 -------------------
 
-Each file in this package starts with:
+Each file starts with:
 
 .. code-block:: java
 
    package api.sensors;
 
-This means that the files must be located in:
+This means that the files must be placed in:
 
 .. code-block:: text
 
    api/sensors/
 
-If the package declaration and the folder path do not match, Java will not compile the project correctly.
+If the folder and package name do not match, Java will not compile the project.
+
+General organization
+--------------------
+
+The sensor system is organized around the ``SensorManager`` class.
+
+.. code-block:: text
+
+   SensorManager
+      |
+      ├── DistanceSensorWrapper -> ds_right
+      ├── DistanceSensorWrapper -> ds_left
+      ├── DistanceSensorWrapper -> ds_front
+      ├── ColorSensorWrapper    -> color_sensor
+      └── TouchSensorWrapper    -> touch_front
+
+The behavior usually does not access each wrapper directly.
+
+Instead, it uses ``SensorManager`` through:
+
+.. code-block:: java
+
+   robot.sensors()
 
 Main classes
 ------------
-
-The package contains five main classes:
 
 .. list-table::
    :header-rows: 1
@@ -64,50 +115,35 @@ The package contains five main classes:
    * - Class
      - Role
    * - ``DistanceSensorWrapper``
-     - Simplifies access to a Webots distance sensor.
+     - Reads one Webots distance sensor.
    * - ``TouchSensorWrapper``
-     - Simplifies access to a Webots touch sensor and detects new contacts.
+     - Reads one Webots touch sensor and detects new contacts.
    * - ``ColorSensorWrapper``
-     - Uses a Webots camera as a color sensor.
+     - Uses a Webots camera to read an average RGB color.
    * - ``RGBColor``
-     - Represents a color with red, green, and blue values.
+     - Stores and analyzes red, green and blue values.
    * - ``SensorManager``
-     - Groups all robot sensors into one access point.
-
-General organization
---------------------
-
-The sensor system is organized like this:
-
-.. code-block:: text
-
-   SensorManager
-      |
-      ├── rightDistanceSensor -> DistanceSensorWrapper -> Webots DistanceSensor "ds_right"
-      ├── leftDistanceSensor  -> DistanceSensorWrapper -> Webots DistanceSensor "ds_left"
-      ├── frontDistanceSensor -> DistanceSensorWrapper -> Webots DistanceSensor "ds_front"
-      ├── colorSensor         -> ColorSensorWrapper    -> Webots Camera "color_sensor"
-      └── frontTouchSensor    -> TouchSensorWrapper    -> Webots TouchSensor "touch_front"
-
-The behavior classes should generally use ``SensorManager`` instead of directly creating or accessing each wrapper.
+     - Groups all sensors and provides simple access methods.
 
 DistanceSensorWrapper
 ---------------------
 
-Overview
-~~~~~~~~
+Role of the class
+~~~~~~~~~~~~~~~~~
 
-The ``DistanceSensorWrapper`` class wraps a Webots ``DistanceSensor``.
+The ``DistanceSensorWrapper`` class represents one distance sensor.
 
-It provides simple methods to:
+A distance sensor is used to detect objects near the robot.
 
-* enable the sensor;
-* read its value;
-* check if an object is detected;
-* check if the sensor exists.
+In this project, distance sensors are used to detect:
 
-Class code
-~~~~~~~~~~
+* walls;
+* obstacles;
+* objects in front of the robot;
+* objects on the left and right sides.
+
+Source code
+~~~~~~~~~~~
 
 .. code-block:: java
 
@@ -128,19 +164,8 @@ Class code
      public boolean exists() { return sensor != null; }
    }
 
-Attribute
-~~~~~~~~~
-
-The class contains one attribute:
-
-.. code-block:: java
-
-   private final DistanceSensor sensor;
-
-This attribute stores the Webots distance sensor.
-
-Constructor
-~~~~~~~~~~~
+Constructor explanation
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
@@ -154,13 +179,11 @@ The constructor receives:
 * a Webots ``DistanceSensor``;
 * the simulation ``timeStep``.
 
-If the sensor exists, it is enabled with:
+The sensor is stored inside the class.
 
-.. code-block:: java
+Then it is enabled.
 
-   this.sensor.enable(timeStep);
-
-In Webots, a sensor must be enabled before its values can be read.
+In Webots, a sensor must be enabled before it can return values.
 
 The condition:
 
@@ -168,7 +191,7 @@ The condition:
 
    if (this.sensor != null)
 
-prevents the controller from crashing if the sensor is missing or if its name is incorrect in the robot PROTO.
+prevents the program from crashing if the sensor was not found.
 
 getValue
 ~~~~~~~~
@@ -179,11 +202,17 @@ getValue
      return sensor == null ? 0.0 : sensor.getValue();
    }
 
-This method returns the current sensor value.
+This method returns the current value of the distance sensor.
 
 If the sensor does not exist, it returns ``0.0``.
 
-This makes the API safer because a missing sensor does not immediately crash the program.
+This makes the API safer.
+
+Example:
+
+.. code-block:: java
+
+   double frontValue = robot.sensors().frontDistance();
 
 detectsObject
 ~~~~~~~~~~~~~
@@ -194,17 +223,19 @@ detectsObject
      return getValue() > threshold;
    }
 
-This method checks if the distance sensor value is higher than a given threshold.
+This method checks whether the sensor value is greater than a threshold.
 
 Example:
 
 .. code-block:: java
 
-   if (bot.sensors().frontDistanceSensor().detectsObject(350.0)) {
-     bot.motors().stop();
+   if (robot.sensors().frontDetectsObject(350.0)) {
+     robot.motors().stop();
    }
 
-The meaning of the threshold depends on the sensor configuration in Webots, especially the ``lookupTable``.
+In this example, the robot stops if the front sensor value is greater than ``350.0``.
+
+Important note: the meaning of the value depends on the Webots sensor configuration.
 
 exists
 ~~~~~~
@@ -215,38 +246,39 @@ exists
      return sensor != null;
    }
 
-This method returns ``true`` if the Webots sensor was correctly found.
-
-It is useful for debugging.
+This method checks if the sensor was found in Webots.
 
 Example:
 
 .. code-block:: java
 
-   if (!bot.sensors().frontDistanceSensor().exists()) {
+   if (!robot.sensors().frontDistanceSensor().exists()) {
      System.out.println("Front distance sensor not found");
    }
 
 TouchSensorWrapper
 ------------------
 
-Overview
-~~~~~~~~
+Role of the class
+~~~~~~~~~~~~~~~~~
 
-The ``TouchSensorWrapper`` class wraps a Webots ``TouchSensor``.
+The ``TouchSensorWrapper`` class represents the front touch sensor.
 
-It is used to detect physical contact.
+The touch sensor is used to detect physical contact.
 
-Unlike a simple direct read of the sensor value, this wrapper stores both the previous and current state of the sensor.
+For example, the robot can use it when:
 
-This allows the API to detect:
+* it touches a puck;
+* it touches a wall;
+* it touches the drop zone;
+* it touches another obstacle.
 
-* if the sensor is currently pressed;
-* if it has just been pressed;
-* if it has just been released.
+This class stores both the previous and current touch states.
 
-Class code
-~~~~~~~~~~
+This makes it possible to detect a new contact.
+
+Source code
+~~~~~~~~~~~
 
 .. code-block:: java
 
@@ -266,56 +298,38 @@ Class code
        if (this.sensor != null) { this.sensor.enable(timeStep); }
      }
 
-     public void update() {
-       previousPressed = currentPressed;
-       currentPressed = sensor != null && sensor.getValue() > 0.0;
-     }
-
+     public void update() { previousPressed = currentPressed; currentPressed = sensor != null && sensor.getValue() > 0.0; }
      public boolean isPressed() { return currentPressed; }
      public boolean wasJustPressed() { return currentPressed && !previousPressed; }
      public boolean wasJustReleased() { return !currentPressed && previousPressed; }
      public boolean exists() { return sensor != null; }
    }
 
-Attributes
-~~~~~~~~~~
+Why previous and current states are needed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The class contains three attributes:
+The touch sensor can be pressed for several simulation steps.
 
-.. code-block:: java
-
-   private final TouchSensor sensor;
-   private boolean previousPressed;
-   private boolean currentPressed;
-
-``sensor``
-^^^^^^^^^^
-
-Stores the Webots touch sensor.
-
-``previousPressed``
-^^^^^^^^^^^^^^^^^^^
-
-Stores the touch state from the previous simulation step.
-
-``currentPressed``
-^^^^^^^^^^^^^^^^^^
-
-Stores the touch state from the current simulation step.
-
-Constructor
-~~~~~~~~~~~
+If the robot only uses:
 
 .. code-block:: java
 
-   public TouchSensorWrapper(TouchSensor sensor, int timeStep) {
-     this.sensor = sensor;
-     this.previousPressed = false;
-     this.currentPressed = false;
-     if (this.sensor != null) { this.sensor.enable(timeStep); }
-   }
+   sensor.getValue() > 0.0
 
-The constructor stores the sensor, initializes the states to ``false``, and enables the sensor if it exists.
+then the same contact can be detected many times.
+
+To avoid this, the wrapper stores:
+
+.. code-block:: java
+
+   previousPressed
+   currentPressed
+
+This allows the API to know if the sensor:
+
+* is currently pressed;
+* has just been pressed;
+* has just been released.
 
 update
 ~~~~~~
@@ -329,14 +343,14 @@ update
 
 This method must be called at each simulation step.
 
-It updates the previous and current contact states.
+It updates the touch state.
 
 The order is important:
 
-1. the old current value becomes the previous value;
-2. the new sensor value becomes the current value.
+1. the old current state becomes the previous state;
+2. the new Webots value becomes the current state.
 
-This makes it possible to detect a new contact.
+In the project, this method is called by ``SensorManager.update()``.
 
 isPressed
 ~~~~~~~~~
@@ -347,16 +361,14 @@ isPressed
      return currentPressed;
    }
 
-This method returns ``true`` while the sensor is currently pressed.
-
-It is useful when the robot must react as long as it is touching something.
+This method returns ``true`` while the sensor is pressed.
 
 Example:
 
 .. code-block:: java
 
-   if (bot.sensors().isFrontTouched()) {
-     bot.motors().stop();
+   if (robot.sensors().isFrontTouched()) {
+     robot.motors().stop();
    }
 
 wasJustPressed
@@ -368,15 +380,15 @@ wasJustPressed
      return currentPressed && !previousPressed;
    }
 
-This method returns ``true`` only at the moment where the sensor changes from not pressed to pressed.
+This method returns ``true`` only when a new contact begins.
 
-This is useful to trigger an action only once when contact begins.
+It is useful when an action must happen only once.
 
 Example:
 
 .. code-block:: java
 
-   if (bot.sensors().wasFrontJustTouched()) {
+   if (robot.sensors().wasFrontJustTouched()) {
      System.out.println("New contact detected");
    }
 
@@ -389,9 +401,7 @@ wasJustReleased
      return !currentPressed && previousPressed;
    }
 
-This method returns ``true`` only when the sensor was pressed before and is no longer pressed.
-
-This is useful to detect when the robot stops touching an object.
+This method returns ``true`` when the sensor was pressed before and is now released.
 
 exists
 ~~~~~~
@@ -402,37 +412,24 @@ exists
      return sensor != null;
    }
 
-This method checks whether the touch sensor was correctly found.
-
-Important update rule
-~~~~~~~~~~~~~~~~~~~~~
-
-The ``TouchSensorWrapper`` only works correctly if its ``update`` method is called once per simulation step.
-
-In this API, this is done through the ``SensorManager``:
-
-.. code-block:: java
-
-   public void update() {
-     frontTouchSensor.update();
-   }
-
-A behavior should make sure that the sensor manager is updated regularly.
+This method checks if the touch sensor was found.
 
 ColorSensorWrapper
 ------------------
 
-Overview
-~~~~~~~~
+Role of the class
+~~~~~~~~~~~~~~~~~
 
-The ``ColorSensorWrapper`` class uses a Webots ``Camera`` as a simple color sensor.
+The ``ColorSensorWrapper`` class uses a Webots camera as a color sensor.
 
-It reads the camera image and computes the average RGB color.
+The camera takes an image.
 
-This is useful to detect colored objects, such as red pucks.
+The wrapper reads all pixels in the image and computes the average RGB color.
 
-Class code
-~~~~~~~~~~
+In this project, this can be used to detect red objects, such as red pucks.
+
+Source code
+~~~~~~~~~~~
 
 .. code-block:: java
 
@@ -477,19 +474,8 @@ Class code
      public boolean exists() { return camera != null; }
    }
 
-Attribute
-~~~~~~~~~
-
-The class contains one attribute:
-
-.. code-block:: java
-
-   private final Camera camera;
-
-This attribute stores the Webots camera used as a color sensor.
-
-Constructor
-~~~~~~~~~~~
+Constructor explanation
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
@@ -498,9 +484,14 @@ Constructor
      if (this.camera != null) { this.camera.enable(timeStep); }
    }
 
-The constructor enables the camera if it exists.
+The constructor receives:
 
-A Webots camera must be enabled before its image can be read.
+* a Webots camera;
+* the simulation ``timeStep``.
+
+The camera is enabled if it exists.
+
+In Webots, a camera must be enabled before its image can be read.
 
 getRGB
 ~~~~~~
@@ -509,44 +500,38 @@ getRGB
 
    public RGBColor getRGB()
 
-This method returns the average RGB color seen by the camera.
+This method returns the average color seen by the camera.
 
-If the camera does not exist, it returns black:
+If the camera does not exist, it returns:
 
 .. code-block:: java
 
    new RGBColor(0, 0, 0)
 
-If the image is not valid, it also returns black.
+This corresponds to black.
 
 Image reading
 ^^^^^^^^^^^^^
 
-The image is retrieved with:
+The image is read with:
 
 .. code-block:: java
 
    int[] image = camera.getImage();
 
-The image dimensions are retrieved with:
+The image size is read with:
 
 .. code-block:: java
 
    int width = camera.getWidth();
    int height = camera.getHeight();
 
-The method checks that the image is valid:
+If the image is invalid, the method returns black.
 
-.. code-block:: java
-
-   if (image == null || width <= 0 || height <= 0) {
-     return new RGBColor(0, 0, 0);
-   }
-
-Average color computation
+Average color calculation
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The method loops over all pixels:
+The method loops through all pixels:
 
 .. code-block:: java
 
@@ -558,13 +543,13 @@ The method loops over all pixels:
      }
    }
 
-Then it returns the average color:
+Then it divides by the number of pixels:
 
 .. code-block:: java
 
    return new RGBColor(sumRed / pixelCount, sumGreen / pixelCount, sumBlue / pixelCount);
 
-This means that the returned color represents the average color of the whole image.
+This gives the average RGB color of the camera image.
 
 seesRed
 ~~~~~~~
@@ -575,9 +560,9 @@ seesRed
      return getRGB().isRed();
    }
 
-This method returns ``true`` if the average color is considered red.
+This method returns ``true`` if the camera sees a color considered red.
 
-The actual red detection rule is defined in the ``RGBColor`` class.
+The rule is defined in the ``RGBColor`` class.
 
 exists
 ~~~~~~
@@ -588,15 +573,15 @@ exists
      return camera != null;
    }
 
-This method checks whether the camera was correctly found.
+This method checks if the camera was found in Webots.
 
 RGBColor
 --------
 
-Overview
-~~~~~~~~
+Role of the class
+~~~~~~~~~~~~~~~~~
 
-The ``RGBColor`` class represents a color using three components:
+The ``RGBColor`` class represents a color with three values:
 
 * red;
 * green;
@@ -604,8 +589,8 @@ The ``RGBColor`` class represents a color using three components:
 
 It is mainly used by ``ColorSensorWrapper``.
 
-Class code
-~~~~~~~~~~
+Source code
+~~~~~~~~~~~
 
 .. code-block:: java
 
@@ -634,52 +619,24 @@ Class code
      }
    }
 
-Attributes
-~~~~~~~~~~
+Values
+~~~~~~
 
-.. code-block:: java
+Each color is stored with three integer values.
 
-   private final int red;
-   private final int green;
-   private final int blue;
+.. list-table::
+   :header-rows: 1
 
-These attributes store the three color components.
+   * - Value
+     - Meaning
+   * - ``red``
+     - Amount of red.
+   * - ``green``
+     - Amount of green.
+   * - ``blue``
+     - Amount of blue.
 
-Each value is generally between ``0`` and ``255``.
-
-Constructor
-~~~~~~~~~~~
-
-.. code-block:: java
-
-   public RGBColor(int red, int green, int blue) {
-     this.red = red;
-     this.green = green;
-     this.blue = blue;
-   }
-
-The constructor creates a color from three integer values.
-
-Access methods
-~~~~~~~~~~~~~~
-
-.. code-block:: java
-
-   public int red() { return red; }
-   public int green() { return green; }
-   public int blue() { return blue; }
-
-These methods return each color component.
-
-Example:
-
-.. code-block:: java
-
-   RGBColor color = bot.sensors().color();
-
-   System.out.println(color.red());
-   System.out.println(color.green());
-   System.out.println(color.blue());
+In most cases, values are between ``0`` and ``255``.
 
 isRed
 ~~~~~
@@ -696,11 +653,11 @@ The rule is:
 
 .. code-block:: text
 
-   red must be greater than 150
-   green must be lower than 100
-   blue must be lower than 100
+   red > 150
+   green < 100
+   blue < 100
 
-This works well for detecting strong red objects, such as red pucks.
+This is useful to detect a strong red object.
 
 isDominantRed
 ~~~~~~~~~~~~~
@@ -711,23 +668,20 @@ isDominantRed
      return red > green && red > blue;
    }
 
-This method checks if red is the dominant color.
+This method checks if red is the strongest color component.
 
 It is less strict than ``isRed``.
-
-For example, a color can be dominant red without being strongly red.
 
 toString
 ~~~~~~~~
 
 .. code-block:: java
 
-   @Override
    public String toString() {
      return "(" + red + "," + green + "," + blue + ")";
    }
 
-This method returns the color as text.
+This method is useful for debug logs.
 
 Example output:
 
@@ -735,28 +689,28 @@ Example output:
 
    (180,45,30)
 
-This is useful for debugging.
-
 SensorManager
 -------------
 
-Overview
-~~~~~~~~
+Role of the class
+~~~~~~~~~~~~~~~~~
 
-The ``SensorManager`` class groups all robot sensors.
+The ``SensorManager`` class is the main class of the sensors API.
 
-It is the main class used by the rest of the API to access sensor values.
+It groups all sensors in one object.
 
-Instead of using each wrapper directly, behaviors can use:
+This makes the rest of the code much easier to understand.
+
+Instead of using each wrapper directly, the behavior can use:
 
 .. code-block:: java
 
-   bot.sensors().frontDistance();
-   bot.sensors().isFrontTouched();
-   bot.sensors().seesRed();
+   robot.sensors().frontDistance();
+   robot.sensors().isFrontTouched();
+   robot.sensors().seesRed();
 
-Class code
-~~~~~~~~~~
+Source code
+~~~~~~~~~~~
 
 .. code-block:: java
 
@@ -780,21 +734,16 @@ Class code
      }
 
      public void update() { frontTouchSensor.update(); }
-
      public double rightDistance() { return rightDistanceSensor.getValue(); }
      public double leftDistance() { return leftDistanceSensor.getValue(); }
      public double frontDistance() { return frontDistanceSensor.getValue(); }
-
      public boolean frontDetectsObject(double threshold) { return frontDistanceSensor.detectsObject(threshold); }
      public boolean leftDetectsObject(double threshold) { return leftDistanceSensor.detectsObject(threshold); }
      public boolean rightDetectsObject(double threshold) { return rightDistanceSensor.detectsObject(threshold); }
-
      public boolean isFrontTouched() { return frontTouchSensor.isPressed(); }
      public boolean wasFrontJustTouched() { return frontTouchSensor.wasJustPressed(); }
-
      public RGBColor color() { return colorSensor.getRGB(); }
      public boolean seesRed() { return colorSensor.seesRed(); }
-
      public DistanceSensorWrapper frontDistanceSensor() { return frontDistanceSensor; }
      public DistanceSensorWrapper leftDistanceSensor() { return leftDistanceSensor; }
      public DistanceSensorWrapper rightDistanceSensor() { return rightDistanceSensor; }
@@ -802,61 +751,26 @@ Class code
      public ColorSensorWrapper colorSensor() { return colorSensor; }
    }
 
-Attributes
-~~~~~~~~~~
-
-The class stores five sensor wrappers:
-
-.. code-block:: java
-
-   private final DistanceSensorWrapper rightDistanceSensor;
-   private final DistanceSensorWrapper leftDistanceSensor;
-   private final DistanceSensorWrapper frontDistanceSensor;
-   private final ColorSensorWrapper colorSensor;
-   private final TouchSensorWrapper frontTouchSensor;
-
-Each wrapper corresponds to one Webots sensor.
-
-Constructor
-~~~~~~~~~~~
-
-.. code-block:: java
-
-   public SensorManager(Supervisor robot, int timeStep) {
-     this.rightDistanceSensor = new DistanceSensorWrapper(robot.getDistanceSensor("ds_right"), timeStep);
-     this.leftDistanceSensor = new DistanceSensorWrapper(robot.getDistanceSensor("ds_left"), timeStep);
-     this.frontDistanceSensor = new DistanceSensorWrapper(robot.getDistanceSensor("ds_front"), timeStep);
-     this.colorSensor = new ColorSensorWrapper(robot.getCamera("color_sensor"), timeStep);
-     this.frontTouchSensor = new TouchSensorWrapper(robot.getTouchSensor("touch_front"), timeStep);
-   }
-
-The constructor receives:
-
-* the Webots ``Supervisor``;
-* the simulation ``timeStep``.
-
-It retrieves all sensors by name.
-
 Sensor names
-^^^^^^^^^^^^
+~~~~~~~~~~~~
 
-The robot PROTO must contain sensors with exactly these names:
+The ``SensorManager`` retrieves sensors using their Webots names.
 
 .. list-table::
    :header-rows: 1
 
-   * - Webots sensor name
-     - API wrapper
+   * - Webots name
+     - API attribute
      - Role
    * - ``ds_right``
      - ``rightDistanceSensor``
-     - Measures distance on the right side.
+     - Detects objects on the right.
    * - ``ds_left``
      - ``leftDistanceSensor``
-     - Measures distance on the left side.
+     - Detects objects on the left.
    * - ``ds_front``
      - ``frontDistanceSensor``
-     - Measures distance in front of the robot.
+     - Detects objects in front.
    * - ``color_sensor``
      - ``colorSensor``
      - Reads the color in front of the robot.
@@ -864,7 +778,7 @@ The robot PROTO must contain sensors with exactly these names:
      - ``frontTouchSensor``
      - Detects front physical contact.
 
-If one of these names is different in the PROTO file, the corresponding sensor may not work.
+These names must match the names in the Webots robot model.
 
 update
 ~~~~~~
@@ -875,25 +789,24 @@ update
      frontTouchSensor.update();
    }
 
-This method updates sensors that need memory between simulation steps.
+This method updates the touch sensor state.
 
-Currently, it updates the front touch sensor.
+It should be called at each simulation step.
 
-This is necessary to detect events like:
+In the full behavior, this is done with:
 
-* just pressed;
-* just released.
+.. code-block:: java
 
-In a behavior, this method should be called at each simulation step.
+   robot.sensors().update();
 
 Distance access methods
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
-   public double rightDistance() { return rightDistanceSensor.getValue(); }
-   public double leftDistance() { return leftDistanceSensor.getValue(); }
-   public double frontDistance() { return frontDistanceSensor.getValue(); }
+   public double rightDistance()
+   public double leftDistance()
+   public double frontDistance()
 
 These methods return the current values of the distance sensors.
 
@@ -901,37 +814,25 @@ Example:
 
 .. code-block:: java
 
-   double front = bot.sensors().frontDistance();
-
-   if (front > 350.0) {
-     bot.motors().stop();
-   }
+   double front = robot.sensors().frontDistance();
 
 Object detection methods
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
-   public boolean frontDetectsObject(double threshold) {
-     return frontDistanceSensor.detectsObject(threshold);
-   }
+   public boolean frontDetectsObject(double threshold)
+   public boolean leftDetectsObject(double threshold)
+   public boolean rightDetectsObject(double threshold)
 
-   public boolean leftDetectsObject(double threshold) {
-     return leftDistanceSensor.detectsObject(threshold);
-   }
-
-   public boolean rightDetectsObject(double threshold) {
-     return rightDistanceSensor.detectsObject(threshold);
-   }
-
-These methods return ``true`` if the sensor value is above the given threshold.
+These methods check whether a distance sensor value is greater than a threshold.
 
 Example:
 
 .. code-block:: java
 
-   if (bot.sensors().frontDetectsObject(350.0)) {
-     bot.motors().turnLeft(2.0);
+   if (robot.sensors().frontDetectsObject(350.0)) {
+     robot.motors().turnLeft(3.0);
    }
 
 Touch methods
@@ -939,40 +840,22 @@ Touch methods
 
 .. code-block:: java
 
-   public boolean isFrontTouched() {
-     return frontTouchSensor.isPressed();
-   }
+   public boolean isFrontTouched()
+   public boolean wasFrontJustTouched()
 
-   public boolean wasFrontJustTouched() {
-     return frontTouchSensor.wasJustPressed();
-   }
-
-``isFrontTouched`` returns ``true`` as long as the touch sensor is pressed.
+``isFrontTouched`` returns ``true`` while the sensor is pressed.
 
 ``wasFrontJustTouched`` returns ``true`` only when a new contact begins.
-
-Example:
-
-.. code-block:: java
-
-   if (bot.sensors().wasFrontJustTouched()) {
-     System.out.println("New contact detected");
-   }
 
 Color methods
 ~~~~~~~~~~~~~
 
 .. code-block:: java
 
-   public RGBColor color() {
-     return colorSensor.getRGB();
-   }
+   public RGBColor color()
+   public boolean seesRed()
 
-   public boolean seesRed() {
-     return colorSensor.seesRed();
-   }
-
-``color`` returns the average RGB color seen by the camera.
+``color`` returns the average color seen by the camera.
 
 ``seesRed`` returns ``true`` if this color is considered red.
 
@@ -980,151 +863,155 @@ Example:
 
 .. code-block:: java
 
-   RGBColor color = bot.sensors().color();
-
+   RGBColor color = robot.sensors().color();
    System.out.println("RGB = " + color);
 
-   if (bot.sensors().seesRed()) {
+   if (robot.sensors().seesRed()) {
      System.out.println("Red object detected");
    }
 
-Wrapper accessors
-~~~~~~~~~~~~~~~~~
+How sensors are used in the robot mission
+-----------------------------------------
 
-The class also provides access to the wrapper objects:
+The sensors are used in several parts of the robot behavior.
 
-.. code-block:: java
+.. list-table::
+   :header-rows: 1
 
-   public DistanceSensorWrapper frontDistanceSensor() { return frontDistanceSensor; }
-   public DistanceSensorWrapper leftDistanceSensor() { return leftDistanceSensor; }
-   public DistanceSensorWrapper rightDistanceSensor() { return rightDistanceSensor; }
-   public TouchSensorWrapper frontTouchSensor() { return frontTouchSensor; }
-   public ColorSensorWrapper colorSensor() { return colorSensor; }
+   * - Sensor
+     - Used for
+   * - ``ds_front``
+     - Detecting an object in front of the robot.
+   * - ``ds_left``
+     - Detecting obstacles or walls on the left.
+   * - ``ds_right``
+     - Detecting obstacles or walls on the right.
+   * - ``touch_front``
+     - Detecting physical contact with a puck or obstacle.
+   * - ``color_sensor``
+     - Detecting colors, especially red objects.
 
-These methods are useful when more advanced access is needed.
+Example in a simple behavior
+----------------------------
 
-Example:
-
-.. code-block:: java
-
-   if (!bot.sensors().colorSensor().exists()) {
-     System.out.println("Color sensor not found");
-   }
-
-How sensors are used in behaviors
----------------------------------
-
-The sensors API is mainly used inside robot behaviors.
-
-Example of obstacle detection:
+A very simple obstacle avoidance behavior can use the sensors like this:
 
 .. code-block:: java
 
-   if (bot.sensors().frontDetectsObject(350.0)) {
-     bot.motors().turnLeft(2.0);
+   robot.sensors().update();
+
+   if (robot.sensors().frontDetectsObject(350.0)) {
+     robot.motors().turnLeft(3.0);
    } else {
-     bot.motors().forward(2.0);
+     robot.motors().forward(4.0);
    }
 
-Example of contact detection:
-
-.. code-block:: java
-
-   bot.sensors().update();
-
-   if (bot.sensors().wasFrontJustTouched()) {
-     bot.motors().stop();
-   }
-
-Example of color detection:
-
-.. code-block:: java
-
-   if (bot.sensors().seesRed()) {
-     System.out.println("The robot sees a red puck");
-   }
-
-Important naming convention
----------------------------
-
-The sensors API depends on the names of the sensors in the Webots robot.
-
-The robot PROTO must contain:
+This means:
 
 .. code-block:: text
 
-   ds_front
-   ds_left
+   If something is detected in front:
+       turn left
+   Otherwise:
+       move forward
+
+Example in the puck collection behavior
+---------------------------------------
+
+In the full collection behavior, the sensors are used to:
+
+* detect walls;
+* detect obstacles;
+* detect contact with a puck;
+* detect contact with the drop zone;
+* print debug information.
+
+For example, contact detection uses:
+
+.. code-block:: java
+
+   robot.sensors().isFrontTouched();
+
+Distance values are also printed in the debug logs:
+
+.. code-block:: java
+
+   robot.sensors().leftDistance()
+   robot.sensors().rightDistance()
+   robot.sensors().frontDistance()
+
+Naming convention
+-----------------
+
+The sensor API depends on the names of the sensors in Webots.
+
+The robot must contain:
+
+.. code-block:: text
+
    ds_right
-   touch_front
+   ds_left
+   ds_front
    color_sensor
+   touch_front
 
-Example:
-
-.. code-block:: text
-
-   DistanceSensor {
-     name "ds_front"
-   }
-
-If a sensor has another name, the API will not be able to retrieve it correctly.
+If one of these names is wrong, the API will not be able to find the corresponding sensor.
 
 Debugging
 ---------
 
-If a sensor does not work, check the following points:
+If a distance sensor does not work, check:
 
-* the sensor exists in the robot PROTO;
+* the sensor exists in the Webots robot model;
 * the sensor name is correct;
-* the sensor is placed correctly on the robot;
+* the sensor is enabled by the wrapper;
 * the controller has been recompiled;
-* the sensor is enabled with the correct ``timeStep``;
-* the sensor wrapper ``exists`` method returns ``true``.
+* the sensor direction is correct;
+* the threshold value is adapted to the map.
 
-Example:
+If the touch sensor does not work, check:
 
-.. code-block:: java
+* the sensor is named ``touch_front``;
+* the sensor has a correct position on the robot;
+* the sensor is physically able to touch objects;
+* the touched object has a collision shape;
+* ``robot.sensors().update()`` is called at each step.
 
-   if (!bot.sensors().frontDistanceSensor().exists()) {
-     System.out.println("Front distance sensor missing");
-   }
+If the color sensor always returns ``(0,0,0)``, check:
 
-If the color sensor always returns ``(0,0,0)``, check that:
-
-* the camera exists;
-* the camera name is ``color_sensor``;
+* the camera is named ``color_sensor``;
 * the camera is enabled;
-* the camera is facing the correct direction;
-* the object is visible in the camera image.
+* the camera is oriented toward the object;
+* the object is visible by the camera.
 
-If ``wasFrontJustTouched`` never becomes ``true``, check that:
+To visualize distance sensor rays in Webots, you can enable:
 
-* ``bot.sensors().update()`` is called regularly;
-* the touch sensor exists;
-* the touch sensor has a ``boundingObject``;
-* the robot really touches the object physically.
+.. code-block:: text
+
+   View -> Optional Rendering -> Show DistanceSensor Rays
+
+This helps understand what the sensors are detecting.
 
 Summary
 -------
 
-The ``api.sensors`` package provides a clean API for reading robot sensors.
+The ``api.sensors`` package makes sensor use easier and clearer.
 
-``DistanceSensorWrapper`` simplifies distance sensor access.
+It contains:
 
-``TouchSensorWrapper`` detects current and new physical contacts.
+* ``DistanceSensorWrapper`` to read distance sensors;
+* ``TouchSensorWrapper`` to detect physical contact;
+* ``ColorSensorWrapper`` to read RGB color from a camera;
+* ``RGBColor`` to store and analyze color values;
+* ``SensorManager`` to group all sensors in one place.
 
-``ColorSensorWrapper`` uses a camera to compute the average RGB color.
-
-``RGBColor`` stores and analyzes color values.
-
-``SensorManager`` groups all sensors and provides a simple interface for behaviors.
-
-This package allows the rest of the controller to use clear commands such as:
+The behavior can then use simple methods such as:
 
 .. code-block:: java
 
-   bot.sensors().frontDistance();
-   bot.sensors().frontDetectsObject(350.0);
-   bot.sensors().isFrontTouched();
-   bot.sensors().wasFrontJustTouched();
-   bot.sensors().seesRed();
+   robot.sensors().frontDistance();
+   robot.sensors().frontDetectsObject(350.0);
+   robot.sensors().isFrontTouched();
+   robot.sensors().seesRed();
+
+This makes the robot behavior easier to read and easier to understand.

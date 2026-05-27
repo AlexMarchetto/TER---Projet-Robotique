@@ -1,5 +1,5 @@
-Core API — TERBot
-=================
+Core API
+========
 
 Overview
 --------
@@ -10,29 +10,58 @@ The ``api.core`` package contains the central class of the robot API:
 
    TERBot.java
 
-The ``TERBot`` class represents the robot at the API level.
+The ``TERBot`` class represents the robot in the Java controller.
 
-It is the main access point used by the controller and by the robot behaviors.  
-Instead of creating and managing every Webots component manually in the main controller, ``TERBot`` creates and stores all important robot modules.
+It is the main entry point of the API.
 
-The class gives access to:
+Its role is to create and connect all the important parts of the robot:
 
-* the Webots ``Supervisor``;
-* the simulation time step;
-* the drive base;
+* the Webots supervisor;
+* the motors;
 * the sensors;
 * the arm;
 * the gripper;
 * the puck manager;
 * the task scheduler;
-* the current robot behavior.
+* the robot behavior.
 
-In other words, ``TERBot`` acts as the central object that connects all parts of the robot API together.
+Thanks to this class, the main controller can stay very simple.
 
-Class location
---------------
+For example, instead of manually creating every sensor and every motor, the main controller can simply write:
 
-The class is located in:
+.. code-block:: java
+
+   TERBot robot = new TERBot();
+   robot.setBehavior(new CollectPucksBehavior(robot));
+   robot.run();
+
+Why this class exists
+---------------------
+
+Without ``TERBot``, the main controller would have to directly manage all Webots devices.
+
+It would need to:
+
+* create the Webots ``Supervisor``;
+* retrieve each motor;
+* retrieve each sensor;
+* enable sensors;
+* create the arm;
+* create the gripper;
+* find all pucks;
+* update the simulation loop;
+* update the behavior at each step.
+
+This would make the main controller long and difficult to understand.
+
+The goal of ``TERBot`` is to centralize this initialization.
+
+It acts as the link between Webots and the higher-level robot API.
+
+Package location
+----------------
+
+The file is located in:
 
 .. code-block:: text
 
@@ -45,32 +74,28 @@ The class is located in:
 Package declaration
 -------------------
 
-At the beginning of the file, the class belongs to the ``api.core`` package:
+The file starts with:
 
 .. code-block:: java
 
    package api.core;
 
-This means that the file must be located in the following folder:
+This means that the file must be located in the folder:
 
 .. code-block:: text
 
    api/core/
 
-If the package name and the folder path do not match, Java will not compile the project correctly.
+If the folder and the package name do not match, Java will not compile the project correctly.
 
-Imports
--------
-
-The class imports the Webots ``Supervisor`` class:
+TERBot source code
+------------------
 
 .. code-block:: java
+
+   package api.core;
 
    import com.cyberbotics.webots.controller.Supervisor;
-
-It also imports the different modules of the robot API:
-
-.. code-block:: java
 
    import api.actuators.Arm;
    import api.actuators.Gripper;
@@ -80,505 +105,658 @@ It also imports the different modules of the robot API:
    import api.tasks.TaskScheduler;
    import api.world.PuckManager;
 
-These imports show that ``TERBot`` depends on several parts of the API.
+   public class TERBot {
+     private final Supervisor supervisor;
+     private final int timeStep;
 
-Each imported class has a specific role:
+     private final DriveBase driveBase;
+     private final SensorManager sensorManager;
+     private final Arm arm;
+     private final Gripper gripper;
+     private final PuckManager puckManager;
+     private final TaskScheduler scheduler;
+
+     private RobotBehavior behavior;
+
+     public TERBot() {
+       /*
+        * Main Webots object.
+        * It allows the controller to communicate with the simulated world.
+        */
+       this.supervisor = new Supervisor();
+
+       /*
+        * Webots simulation time step.
+        */
+       this.timeStep = (int) Math.round(supervisor.getBasicTimeStep());
+
+       /*
+        * Initialization of the robot APIs.
+        */
+       this.driveBase = new DriveBase(supervisor);
+       this.sensorManager = new SensorManager(supervisor, timeStep);
+       this.arm = new Arm(supervisor, timeStep);
+       this.gripper = new Gripper(supervisor);
+
+       /*
+        * Puck API.
+        * Automatically finds all objects whose DEF name starts with PALET_.
+        */
+       this.puckManager = PuckManager.findAllWithPrefix(supervisor, "PALET_");
+
+       /*
+        * Simple asynchronous task API.
+        */
+       this.scheduler = new TaskScheduler();
+
+       /*
+        * Initial arm and gripper position.
+        */
+       arm.lift();
+       gripper.open();
+     }
+
+     public Supervisor supervisor() {
+       return supervisor;
+     }
+
+     public int timeStep() {
+       return timeStep;
+     }
+
+     public DriveBase motors() {
+       return driveBase;
+     }
+
+     public SensorManager sensors() {
+       return sensorManager;
+     }
+
+     public Arm arm() {
+       return arm;
+     }
+
+     public Gripper gripper() {
+       return gripper;
+     }
+
+     public PuckManager pucks() {
+       return puckManager;
+     }
+
+     public TaskScheduler scheduler() {
+       return scheduler;
+     }
+
+     public void setBehavior(RobotBehavior behavior) {
+       this.behavior = behavior;
+     }
+
+     public void run() {
+       if (behavior != null) {
+         behavior.init();
+       }
+
+       while (supervisor.step(timeStep) != -1) {
+         scheduler.update();
+
+         if (behavior != null) {
+           behavior.update();
+         }
+       }
+     }
+
+     public void stop() {
+       driveBase.stop();
+     }
+   }
+
+General organization
+--------------------
+
+The ``TERBot`` class creates the main modules of the API.
+
+The structure can be represented like this:
+
+.. code-block:: text
+
+   TERBot
+      |
+      ├── Supervisor
+      ├── DriveBase
+      ├── SensorManager
+      ├── Arm
+      ├── Gripper
+      ├── PuckManager
+      ├── TaskScheduler
+      └── RobotBehavior
+
+Each part has a specific role.
 
 .. list-table::
    :header-rows: 1
 
-   * - Class
+   * - Module
      - Role
    * - ``Supervisor``
-     - Webots object used to control the robot and access the simulated world.
+     - Communicates with the Webots simulation.
    * - ``DriveBase``
-     - Controls the robot wheels and movements.
+     - Controls the wheels and movement.
    * - ``SensorManager``
-     - Gives access to all robot sensors.
+     - Reads the robot sensors.
    * - ``Arm``
-     - Controls the robot arm.
+     - Moves the arm up and down.
    * - ``Gripper``
-     - Controls the robot gripper.
+     - Opens and closes the gripper.
    * - ``PuckManager``
-     - Manages the pucks in the Webots world.
+     - Finds and manages the pucks.
    * - ``TaskScheduler``
-     - Manages timed tasks.
+     - Updates simple timed tasks.
    * - ``RobotBehavior``
-     - Represents the current high-level behavior of the robot.
-
-Class declaration
------------------
-
-The class is declared as follows:
-
-.. code-block:: java
-
-   public class TERBot {
-
-The class is public because it must be accessible from the main controller and from other packages.
+     - Defines what the robot does during the simulation.
 
 Attributes
 ----------
 
-The class contains several private attributes.
+The ``TERBot`` class stores all main components as attributes.
 
-.. code-block:: java
-
-   private final Supervisor supervisor;
-   private final int timeStep;
-   private final DriveBase driveBase;
-   private final SensorManager sensorManager;
-   private final Arm arm;
-   private final Gripper gripper;
-   private final PuckManager puckManager;
-   private final TaskScheduler scheduler;
-   private RobotBehavior behavior;
-
-These attributes store the main parts of the robot.
-
-``supervisor``
-~~~~~~~~~~~~~~
+Supervisor
+~~~~~~~~~~
 
 .. code-block:: java
 
    private final Supervisor supervisor;
 
-The ``supervisor`` is the Webots object used to communicate with the simulated world.
+The ``Supervisor`` is the main Webots object used by the controller.
 
-It allows the controller to:
+It allows the Java program to communicate with the simulation.
 
-* step the simulation;
-* access the robot devices;
-* access objects in the world;
-* retrieve pucks using their ``DEF`` names;
-* modify the position of objects when needed.
+In this project, ``Supervisor`` is useful because the robot needs to:
 
-This project uses ``Supervisor`` instead of a simple Webots ``Robot`` because the robot needs to interact with world objects such as pucks.
+* access its own position;
+* access its own orientation;
+* retrieve devices such as motors and sensors;
+* find pucks in the world;
+* move pucks when they are carried or dropped.
 
-``timeStep``
-~~~~~~~~~~~~
+A normal Webots ``Robot`` object would be enough for simple movement, but this project uses a ``Supervisor`` because it needs access to objects in the world.
+
+Time step
+~~~~~~~~~
 
 .. code-block:: java
 
    private final int timeStep;
 
-The ``timeStep`` is the duration of one simulation step in Webots.
+The ``timeStep`` is the simulation step duration used by Webots.
 
 It is used to:
 
-* update the simulation;
+* advance the simulation;
 * enable sensors;
-* synchronize the robot controller with Webots.
+* update the controller regularly.
 
-It is retrieved from Webots using:
+It is initialized with:
 
 .. code-block:: java
 
    this.timeStep = (int) Math.round(supervisor.getBasicTimeStep());
 
-``driveBase``
-~~~~~~~~~~~~~
+This means that the controller uses the same basic time step as the Webots world.
+
+Drive base
+~~~~~~~~~~
 
 .. code-block:: java
 
    private final DriveBase driveBase;
 
-The ``driveBase`` is the API module responsible for moving the robot.
+The ``DriveBase`` controls the robot wheels.
 
-It controls the wheels and provides methods such as:
-
-* move forward;
-* move backward;
-* turn left;
-* turn right;
-* stop.
-
-Example usage:
+It provides movement methods such as:
 
 .. code-block:: java
 
-   bot.motors().forward(2.0);
-   bot.motors().stop();
+   robot.motors().forward(2.0);
+   robot.motors().turnLeft(2.0);
+   robot.motors().stop();
 
-``sensorManager``
-~~~~~~~~~~~~~~~~~
+This avoids controlling each wheel motor manually in the behavior code.
+
+Sensor manager
+~~~~~~~~~~~~~~
 
 .. code-block:: java
 
    private final SensorManager sensorManager;
 
-The ``sensorManager`` gives access to all sensors of the robot.
+The ``SensorManager`` gives access to all robot sensors.
 
-It can manage:
+It manages:
 
 * the front distance sensor;
 * the left distance sensor;
 * the right distance sensor;
-* the front touch sensor;
-* the color sensor.
+* the color sensor;
+* the front touch sensor.
 
-Example usage:
+Example:
 
 .. code-block:: java
 
-   bot.sensors().front().getValue();
-   bot.sensors().touchFront().isTouched();
+   robot.sensors().frontDistance();
+   robot.sensors().isFrontTouched();
+   robot.sensors().seesRed();
 
-``arm``
-~~~~~~~
+Arm
+~~~
 
 .. code-block:: java
 
    private final Arm arm;
 
-The ``arm`` controls the robot arm.
+The ``Arm`` controls the vertical movement of the arm.
 
-It is used to raise or lower the gripper.
-
-Example usage:
+Example:
 
 .. code-block:: java
 
-   bot.arm().lower();
-   bot.arm().lift();
+   robot.arm().lower();
+   robot.arm().lift();
 
-``gripper``
-~~~~~~~~~~~
+The arm is used when grabbing or dropping a puck.
+
+Gripper
+~~~~~~~
 
 .. code-block:: java
 
    private final Gripper gripper;
 
-The ``gripper`` controls the robot gripper.
+The ``Gripper`` controls the opening and closing of the gripper.
 
-It is used to open or close the gripper during puck collection.
-
-Example usage:
+Example:
 
 .. code-block:: java
 
-   bot.gripper().open();
-   bot.gripper().close();
+   robot.gripper().open();
+   robot.gripper().close();
 
-``puckManager``
-~~~~~~~~~~~~~~~
+The gripper is used to grab and release pucks.
+
+Puck manager
+~~~~~~~~~~~~
 
 .. code-block:: java
 
    private final PuckManager puckManager;
 
-The ``puckManager`` manages the pucks in the world.
+The ``PuckManager`` manages all pucks in the Webots world.
 
-It can be used to:
+It can:
 
-* find pucks;
-* know which puck is closest;
+* find all pucks;
+* select a puck to collect;
+* get the position of a puck;
 * attach a puck to the robot;
-* mark a puck as delivered;
-* drop a puck in the base.
+* drop a puck in a drop zone;
+* check if all pucks have been delivered.
 
-In the current code, three pucks are used:
+In the current version, pucks are detected automatically:
 
 .. code-block:: java
 
-   new String[] {"PALET_1", "PALET_2", "PALET_3"}
+   this.puckManager = PuckManager.findAllWithPrefix(supervisor, "PALET_");
 
-This means that the Webots world must contain pucks with the following ``DEF`` names:
+This means that the robot automatically finds every object whose ``DEF`` name starts with:
+
+.. code-block:: text
+
+   PALET_
+
+For example:
 
 .. code-block:: text
 
    PALET_1
    PALET_2
    PALET_3
+   PALET_4
 
-``scheduler``
-~~~~~~~~~~~~~
+This is useful because the number of pucks can change without modifying ``TERBot``.
+
+Task scheduler
+~~~~~~~~~~~~~~
 
 .. code-block:: java
 
    private final TaskScheduler scheduler;
 
-The ``scheduler`` manages tasks that last several simulation steps.
+The ``TaskScheduler`` is used to manage simple tasks that last several simulation steps.
 
-This is useful for actions that cannot be completed instantly, such as:
+For example:
 
-* lowering the arm;
-* closing the gripper;
-* lifting the arm;
-* moving backward for a short time;
-* turning for a fixed duration.
+* moving for a short time;
+* waiting while the arm moves;
+* executing timed actions.
 
-``behavior``
-~~~~~~~~~~~~
+In the current full behavior, many actions are still managed with counters, but the scheduler remains available for future improvements or simpler behaviors.
+
+Behavior
+~~~~~~~~
 
 .. code-block:: java
 
    private RobotBehavior behavior;
 
-The ``behavior`` represents the current high-level behavior of the robot.
+The ``behavior`` attribute stores the current behavior of the robot.
 
-For example, the behavior can be:
+A behavior defines what the robot does during the simulation.
 
-* a simple obstacle avoidance behavior;
-* a puck collection behavior;
-* a custom behavior created for a practical session.
+For example:
 
-Unlike the other attributes, ``behavior`` is not ``final`` because it can be assigned after the robot is created.
+* avoiding obstacles;
+* collecting pucks;
+* testing motors;
+* testing sensors.
+
+This attribute is not ``final`` because it can be changed with:
+
+.. code-block:: java
+
+   robot.setBehavior(...);
 
 Constructor
 -----------
 
-The constructor initializes all parts of the robot API.
+The constructor is the most important part of ``TERBot``.
+
+It creates and prepares the robot API.
 
 .. code-block:: java
 
    public TERBot() {
      this.supervisor = new Supervisor();
      this.timeStep = (int) Math.round(supervisor.getBasicTimeStep());
+
      this.driveBase = new DriveBase(supervisor);
      this.sensorManager = new SensorManager(supervisor, timeStep);
      this.arm = new Arm(supervisor, timeStep);
      this.gripper = new Gripper(supervisor);
-     this.puckManager = new PuckManager(supervisor, new String[] {"PALET_1", "PALET_2", "PALET_3"});
+
+     this.puckManager = PuckManager.findAllWithPrefix(supervisor, "PALET_");
+
      this.scheduler = new TaskScheduler();
+
      arm.lift();
      gripper.open();
    }
 
-Creating the Supervisor
-~~~~~~~~~~~~~~~~~~~~~~~
+Step 1: creating the Supervisor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
    this.supervisor = new Supervisor();
 
-This line creates the Webots supervisor object.
+This creates the Webots supervisor object.
 
-It is the connection between the Java code and the Webots simulation.
+It is the link between the Java controller and the Webots simulation.
 
-Retrieving the time step
-~~~~~~~~~~~~~~~~~~~~~~~~
+Step 2: reading the time step
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
    this.timeStep = (int) Math.round(supervisor.getBasicTimeStep());
 
-This line retrieves the basic time step of the simulation.
+This reads the basic time step from the Webots world.
 
-This value is required to update the robot and enable sensors correctly.
+The same value is later used in the main simulation loop.
 
-Creating the drive base
-~~~~~~~~~~~~~~~~~~~~~~~
+Step 3: creating the movement API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
    this.driveBase = new DriveBase(supervisor);
 
-This line creates the motor API.
+This creates the API that controls the wheels.
 
-The ``DriveBase`` receives the ``Supervisor`` because it needs to access the wheel motors from Webots.
+The ``DriveBase`` uses the ``Supervisor`` to retrieve the wheel motors from Webots.
 
-Creating the sensor manager
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Step 4: creating the sensor API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
    this.sensorManager = new SensorManager(supervisor, timeStep);
 
-This line creates the sensor API.
+This creates the API that manages all sensors.
 
-The ``SensorManager`` receives:
+The ``timeStep`` is given to the ``SensorManager`` because sensors must be enabled with a time step.
 
-* the ``Supervisor``, to access the sensors;
-* the ``timeStep``, to enable the sensors.
-
-Creating the arm
-~~~~~~~~~~~~~~~~
+Step 5: creating the arm and gripper
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
    this.arm = new Arm(supervisor, timeStep);
-
-This line creates the arm API.
-
-The arm needs the ``Supervisor`` to access its motor, and the ``timeStep`` to enable its position sensor if needed.
-
-Creating the gripper
-~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: java
-
    this.gripper = new Gripper(supervisor);
 
-This line creates the gripper API.
+This creates the mechanical actuator APIs.
 
-The gripper uses the Webots motors that control the left and right parts of the gripper.
+The arm receives the ``timeStep`` because it uses a position sensor.
 
-Creating the puck manager
-~~~~~~~~~~~~~~~~~~~~~~~~~
+The gripper does not need a ``timeStep`` because it only uses motors.
+
+Step 6: detecting pucks automatically
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
-   this.puckManager = new PuckManager(supervisor, new String[] {"PALET_1", "PALET_2", "PALET_3"});
+   this.puckManager = PuckManager.findAllWithPrefix(supervisor, "PALET_");
 
-This line creates the puck manager.
+This line automatically searches the Webots world for all pucks.
 
-The puck manager receives:
+Any object whose ``DEF`` name starts with ``PALET_`` is considered a puck.
 
-* the ``Supervisor``;
-* the list of puck names.
+This avoids writing a fixed list such as:
 
-These names must match the ``DEF`` names in the Webots world.
+.. code-block:: java
 
-Creating the scheduler
-~~~~~~~~~~~~~~~~~~~~~~
+   new String[] {"PALET_1", "PALET_2", "PALET_3"}
+
+With the current version, if the world contains nine pucks, for example:
+
+.. code-block:: text
+
+   PALET_1
+   PALET_2
+   PALET_3
+   PALET_4
+   PALET_5
+   PALET_6
+   PALET_7
+   PALET_8
+   PALET_9
+
+they can be loaded automatically.
+
+Step 7: creating the task scheduler
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
    this.scheduler = new TaskScheduler();
 
-This line creates the task scheduler.
+This creates the task scheduler.
 
-The scheduler will be updated at each simulation step.
+It can be used by behaviors to execute actions over time.
 
-Initial arm and gripper position
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-At the end of the constructor, the robot starts in a safe initial position:
+Step 8: setting the initial robot position
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
    arm.lift();
    gripper.open();
 
-This means:
+At the start of the simulation:
 
-* the arm starts lifted;
-* the gripper starts open.
+* the arm is lifted;
+* the gripper is opened.
 
-This is useful because the robot begins the simulation ready to search for a puck.
+This makes the robot ready to search for a puck.
 
 Access methods
 --------------
 
-The class provides several public methods to access the robot modules.
+The ``TERBot`` class provides public access methods.
 
-These methods are simple getters.
+These methods allow behaviors to use the robot modules without directly accessing the private attributes.
 
-Supervisor access
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: java
-
-   public Supervisor supervisor() { return supervisor; }
-
-This method returns the Webots ``Supervisor``.
-
-It should only be used when direct access to Webots is necessary.
-
-Time step access
-~~~~~~~~~~~~~~~~
-
-.. code-block:: java
-
-   public int timeStep() { return timeStep; }
-
-This method returns the simulation time step.
-
-Drive base access
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: java
-
-   public DriveBase motors() { return driveBase; }
-
-This method returns the drive base API.
-
-Example:
-
-.. code-block:: java
-
-   bot.motors().forward(2.0);
-
-Sensor access
-~~~~~~~~~~~~~
-
-.. code-block:: java
-
-   public SensorManager sensors() { return sensorManager; }
-
-This method returns the sensor manager.
-
-Example:
-
-.. code-block:: java
-
-   bot.sensors().front().getValue();
-
-Arm access
+supervisor
 ~~~~~~~~~~
 
 .. code-block:: java
 
-   public Arm arm() { return arm; }
+   public Supervisor supervisor() {
+     return supervisor;
+   }
 
-This method returns the arm API.
+Returns the Webots ``Supervisor``.
 
-Example:
-
-.. code-block:: java
-
-   bot.arm().lift();
-
-Gripper access
-~~~~~~~~~~~~~~
-
-.. code-block:: java
-
-   public Gripper gripper() { return gripper; }
-
-This method returns the gripper API.
+This is useful when a behavior needs direct access to the robot position or orientation.
 
 Example:
 
 .. code-block:: java
 
-   bot.gripper().open();
+   double[] position = robot.supervisor().getSelf().getPosition();
 
-Puck manager access
-~~~~~~~~~~~~~~~~~~~
+timeStep
+~~~~~~~~
 
 .. code-block:: java
 
-   public PuckManager pucks() { return puckManager; }
+   public int timeStep() {
+     return timeStep;
+   }
 
-This method returns the puck manager.
+Returns the Webots simulation time step.
+
+motors
+~~~~~~
+
+.. code-block:: java
+
+   public DriveBase motors() {
+     return driveBase;
+   }
+
+Returns the motor API.
 
 Example:
 
 .. code-block:: java
 
-   bot.pucks().findNearestAvailablePuck();
+   robot.motors().forward(3.0);
+   robot.motors().stop();
 
-Scheduler access
-~~~~~~~~~~~~~~~~
+sensors
+~~~~~~~
 
 .. code-block:: java
 
-   public TaskScheduler scheduler() { return scheduler; }
+   public SensorManager sensors() {
+     return sensorManager;
+   }
 
-This method returns the task scheduler.
+Returns the sensor API.
 
 Example:
 
 .. code-block:: java
 
-   bot.scheduler().update();
+   if (robot.sensors().frontDetectsObject(350.0)) {
+     robot.motors().turnLeft(2.0);
+   }
+
+arm
+~~~
+
+.. code-block:: java
+
+   public Arm arm() {
+     return arm;
+   }
+
+Returns the arm API.
+
+Example:
+
+.. code-block:: java
+
+   robot.arm().lower();
+
+gripper
+~~~~~~~
+
+.. code-block:: java
+
+   public Gripper gripper() {
+     return gripper;
+   }
+
+Returns the gripper API.
+
+Example:
+
+.. code-block:: java
+
+   robot.gripper().close();
+
+pucks
+~~~~~
+
+.. code-block:: java
+
+   public PuckManager pucks() {
+     return puckManager;
+   }
+
+Returns the puck manager.
+
+Example:
+
+.. code-block:: java
+
+   int puckIndex = robot.pucks().findNearestAvailablePuck();
+
+scheduler
+~~~~~~~~~
+
+.. code-block:: java
+
+   public TaskScheduler scheduler() {
+     return scheduler;
+   }
+
+Returns the task scheduler.
+
+Example:
+
+.. code-block:: java
+
+   robot.scheduler().update();
+
+In normal use, the scheduler is updated automatically inside ``run``.
 
 Behavior management
 -------------------
 
-The robot behavior can be assigned using:
+The robot behavior is assigned using:
 
 .. code-block:: java
 
@@ -586,52 +764,68 @@ The robot behavior can be assigned using:
      this.behavior = behavior;
    }
 
-This method allows the main controller to choose what the robot should do.
+A behavior is a class that defines what the robot should do.
 
 Example:
 
 .. code-block:: java
 
-   TERBot bot = new TERBot();
-   bot.setBehavior(new CollectPucksBehavior(bot));
-   bot.run();
+   TERBot robot = new TERBot();
+   robot.setBehavior(new CollectPucksBehavior(robot));
+   robot.run();
 
-In this example, the robot uses the ``CollectPucksBehavior``.
+In this example:
+
+* the robot is created;
+* the collection behavior is assigned;
+* the robot starts running.
 
 The run method
 --------------
 
-The ``run`` method starts the main control loop of the robot.
+The ``run`` method starts the simulation loop.
 
 .. code-block:: java
 
    public void run() {
-     if (behavior != null) { behavior.init(); }
+     if (behavior != null) {
+       behavior.init();
+     }
+
      while (supervisor.step(timeStep) != -1) {
        scheduler.update();
-       if (behavior != null) { behavior.update(); }
+
+       if (behavior != null) {
+         behavior.update();
+       }
      }
    }
 
-This method is one of the most important parts of the class.
+This method is the heart of the robot execution.
+
+It does three important things:
+
+1. It initializes the behavior.
+2. It advances the Webots simulation.
+3. It updates the scheduler and the behavior at each step.
 
 Behavior initialization
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Before the loop starts, the behavior is initialized:
-
 .. code-block:: java
 
-   if (behavior != null) { behavior.init(); }
+   if (behavior != null) {
+     behavior.init();
+   }
 
-The ``init`` method is called only once.
+The ``init`` method of the behavior is called once before the simulation loop starts.
 
-It can be used to prepare the behavior before the simulation starts.
+It can be used to prepare the robot.
 
-Main simulation loop
-~~~~~~~~~~~~~~~~~~~~
+For example, a behavior can lift the arm and open the gripper.
 
-The loop is:
+Simulation loop
+~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
@@ -639,47 +833,48 @@ The loop is:
      ...
    }
 
-This is the standard Webots control loop.
+This is the standard Webots loop.
 
-The loop continues as long as the simulation is running.
+At each iteration, Webots advances the simulation by one step.
+
+The loop continues until the simulation stops.
 
 Scheduler update
 ~~~~~~~~~~~~~~~~
-
-At each simulation step, the scheduler is updated first:
 
 .. code-block:: java
 
    scheduler.update();
 
-This allows timed tasks to progress.
+At each step, the scheduler is updated.
 
-For example, a task that lasts 40 steps will be updated once per simulation step.
+This allows timed tasks to continue running.
 
 Behavior update
 ~~~~~~~~~~~~~~~
 
-After the scheduler, the behavior is updated:
-
 .. code-block:: java
 
-   if (behavior != null) { behavior.update(); }
+   if (behavior != null) {
+     behavior.update();
+   }
 
-The behavior decides what the robot should do at the current simulation step.
+At each step, the behavior is updated.
 
-For example, it can decide to:
+This is where the robot decides what to do next.
+
+For example, the behavior can decide to:
 
 * move forward;
 * turn;
 * stop;
+* approach a puck;
 * lower the arm;
 * close the gripper;
 * go to the drop zone.
 
-Stop method
------------
-
-The class provides a simple stop method:
+stop
+----
 
 .. code-block:: java
 
@@ -687,18 +882,18 @@ The class provides a simple stop method:
      driveBase.stop();
    }
 
-This method stops the robot wheels.
+The ``stop`` method stops the robot wheels.
 
 It is a shortcut for:
 
 .. code-block:: java
 
-   bot.motors().stop();
+   robot.motors().stop();
 
-Example of use in the main controller
--------------------------------------
+Example main controller
+-----------------------
 
-A simple main controller can be written as follows:
+A simple controller using the API can be written like this:
 
 .. code-block:: java
 
@@ -707,86 +902,81 @@ A simple main controller can be written as follows:
 
    public class FourWheelsCollisionAvoidanceAPI {
      public static void main(String[] args) {
-       TERBot bot = new TERBot();
+       TERBot robot = new TERBot();
 
-       bot.setBehavior(new CollectPucksBehavior(bot));
+       robot.setBehavior(new CollectPucksBehavior(robot));
 
-       bot.run();
+       robot.run();
      }
    }
 
-This main controller is very short because most of the work is done by the API.
+This file is short because the robot initialization is handled by ``TERBot``.
 
 Execution order
 ---------------
 
-When the program starts, the following steps happen:
+When the controller starts, the following steps happen:
 
 .. code-block:: text
 
    1. The main controller creates a TERBot object.
-   2. TERBot creates the Supervisor.
-   3. TERBot retrieves the simulation time step.
-   4. TERBot creates the drive base.
-   5. TERBot creates the sensor manager.
-   6. TERBot creates the arm.
-   7. TERBot creates the gripper.
-   8. TERBot creates the puck manager.
+   2. TERBot creates the Webots Supervisor.
+   3. TERBot reads the simulation time step.
+   4. TERBot creates the motor API.
+   5. TERBot creates the sensor API.
+   6. TERBot creates the arm API.
+   7. TERBot creates the gripper API.
+   8. TERBot automatically detects all PALET_ objects.
    9. TERBot creates the task scheduler.
-   10. The arm is lifted.
-   11. The gripper is opened.
-   12. A behavior is assigned with setBehavior.
-   13. The run method starts the simulation loop.
-   14. At each step, the scheduler is updated.
-   15. At each step, the behavior is updated.
+   10. TERBot lifts the arm.
+   11. TERBot opens the gripper.
+   12. The main controller assigns a behavior.
+   13. TERBot calls behavior.init().
+   14. The Webots simulation loop starts.
+   15. At each step, the scheduler is updated.
+   16. At each step, the behavior is updated.
 
-Why TERBot is useful
---------------------
+How TERBot helps understanding the project
+------------------------------------------
 
-Without ``TERBot``, the main controller would need to manually create and manage all components.
+``TERBot`` makes the project easier to understand because it gives one central object to access everything.
 
-It would contain code for:
-
-* creating the Webots robot;
-* retrieving motors;
-* retrieving sensors;
-* enabling sensors;
-* controlling the arm;
-* controlling the gripper;
-* managing pucks;
-* updating tasks;
-* running behaviors.
-
-This would make the main controller long and difficult to understand.
-
-With ``TERBot``, the main controller stays simple.
-
-Example:
+Instead of writing:
 
 .. code-block:: java
 
-   TERBot bot = new TERBot();
-   bot.setBehavior(new CollectPucksBehavior(bot));
-   bot.run();
+   Motor wheel1 = robot.getMotor("wheel1");
+   DistanceSensor sensor = robot.getDistanceSensor("ds_front");
+   Motor armMotor = robot.getMotor("arm_motor");
 
-This makes the project easier to read, easier to debug, and easier to extend.
+The behavior can write:
+
+.. code-block:: java
+
+   robot.motors().forward(3.0);
+   robot.sensors().frontDistance();
+   robot.arm().lower();
+
+This makes the code closer to natural robot actions.
 
 Summary
 -------
 
-The ``TERBot`` class is the central class of the robot API.
+The ``TERBot`` class is the central class of the API.
 
-It creates and stores all main robot modules:
+It creates and connects:
 
-* ``Supervisor``;
-* ``DriveBase``;
-* ``SensorManager``;
-* ``Arm``;
-* ``Gripper``;
-* ``PuckManager``;
-* ``TaskScheduler``;
-* ``RobotBehavior``.
+* the Webots ``Supervisor``;
+* the movement API;
+* the sensor API;
+* the arm API;
+* the gripper API;
+* the puck manager;
+* the task scheduler;
+* the robot behavior.
 
-It also provides the main execution loop through the ``run`` method.
+It also contains the main Webots loop through the ``run`` method.
 
-This class makes the rest of the controller much simpler, because all robot components can be accessed through a single object.
+The main advantage of ``TERBot`` is that it hides the technical initialization and provides a simple way to control the robot.
+
+With ``TERBot``, the rest of the project can focus on the robot mission instead of low-level Webots setup.
