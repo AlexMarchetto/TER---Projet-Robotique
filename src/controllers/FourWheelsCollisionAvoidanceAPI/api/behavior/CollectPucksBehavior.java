@@ -22,6 +22,7 @@ public class CollectPucksBehavior implements RobotBehavior {
   private boolean puckDetected = false;
   private boolean puckTouched = false;
   private boolean puckAttached = false;
+  private boolean finishedMessagePrinted = false;
 
   private static final double SEARCH_SPEED = 4.0;
   private static final double APPROACH_SPEED = 0.8;
@@ -118,6 +119,16 @@ public class CollectPucksBehavior implements RobotBehavior {
 
     robot.sensors().update();
 
+    if (robot.pucks().allPucksDelivered()) {
+      mode = RobotMode.FINISHED;
+    }
+
+    if (mode == RobotMode.FINISHED) {
+      updateFinished();
+      printDebug();
+      return;
+    }
+
     if (puckAttached && currentPuckIndex != -1) {
       robot.pucks().attachPuckToRobot(currentPuckIndex);
     }
@@ -125,45 +136,17 @@ public class CollectPucksBehavior implements RobotBehavior {
     handleContact();
 
     switch (mode) {
-      case SEARCH:
-        updateSearch();
-        break;
-
-      case TOUCH_AVOID:
-        updateTouchAvoid();
-        break;
-
-      case APPROACH_PUCK:
-        updateApproachPuck();
-        break;
-
-      case LOWER_ARM:
-        updateLowerArm();
-        break;
-
-      case CLOSE_GRIPPER:
-        updateCloseGripper();
-        break;
-
-      case LIFT_ARM:
-        updateLiftArm();
-        break;
-
-      case GO_TO_DROP_ZONE:
-        updateGoToDropZone();
-        break;
-
-      case DROP_PUCK:
-        updateDropPuck();
-        break;
-
-      case LIFT_ARM_AFTER_DROP:
-        updateLiftArmAfterDrop();
-        break;
-
-      case BACK_AND_TURN_AFTER_DROP:
-        updateBackAndTurnAfterDrop();
-        break;
+      case SEARCH: updateSearch(); break;
+      case TOUCH_AVOID: updateTouchAvoid(); break;
+      case APPROACH_PUCK: updateApproachPuck(); break;
+      case LOWER_ARM: updateLowerArm(); break;
+      case CLOSE_GRIPPER: updateCloseGripper(); break;
+      case LIFT_ARM: updateLiftArm(); break;
+      case GO_TO_DROP_ZONE: updateGoToDropZone(); break;
+      case DROP_PUCK: updateDropPuck(); break;
+      case LIFT_ARM_AFTER_DROP: updateLiftArmAfterDrop(); break;
+      case BACK_AND_TURN_AFTER_DROP: updateBackAndTurnAfterDrop(); break;
+      case FINISHED: updateFinished(); break;
     }
 
     printDebug();
@@ -631,10 +614,17 @@ public class CollectPucksBehavior implements RobotBehavior {
     counter++;
 
     if (counter > 25) {
-      mode = RobotMode.BACK_AND_TURN_AFTER_DROP;
       counter = 0;
 
-      System.out.println("Arm lifted after drop. Moving away from drop zone.");
+      if (robot.pucks().allPucksDelivered()) {
+        mode = RobotMode.FINISHED;
+        System.out.println("Arm lifted after last drop. Robot finished.");
+
+      }else{
+        mode = RobotMode.BACK_AND_TURN_AFTER_DROP;
+        System.out.println("Arm lifted after drop. Moving away from drop zone.");
+      }
+      
     }
   }
 
@@ -663,6 +653,22 @@ public class CollectPucksBehavior implements RobotBehavior {
     }
 
     counter++;
+  }
+
+  private void updateFinished() {
+    robot.motors().stop();
+    robot.arm().lift();
+    robot.gripper().open();
+
+    puckAttached = false;
+    currentPuckIndex = -1;
+    carryAvoidCounter = 0;
+    carryAvoidDirection = 1;
+
+    if (!finishedMessagePrinted) {
+      System.out.println("All pucks have been delivered. Robot stopped.");
+      finishedMessagePrinted = true;
+    }
   }
 
   private int findBlockingPuckWhileCarrying() {

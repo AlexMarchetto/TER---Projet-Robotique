@@ -104,6 +104,15 @@ public class PuckManager {
     return puckNames.length;
   }
 
+  public boolean allPucksDelivered() {
+    for (int i = 0; i < puckNodes.length; i++) {
+      if (puckNodes[i] != null && !puckDelivered[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public int findNearestAvailablePuck() {
     double[] robotPosition = robot.getSelf().getPosition();
 
