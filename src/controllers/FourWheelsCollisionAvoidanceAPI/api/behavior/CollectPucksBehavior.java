@@ -96,6 +96,14 @@ public class CollectPucksBehavior implements RobotBehavior {
   private static final int CARRY_AVOID_BACK_TIME = 10;
   private static final int CARRY_AVOID_TURN_TIME = 28;
 
+  /*
+   * Lower value = stronger curve.
+   * 0.35 = soft curve
+   * 0.10 = strong curve
+   * 0.00 = very strong curve
+   */
+  private static final double CARRY_CURVE_FACTOR = 0.10;
+
   private static final double DROP_ALIGNMENT_THRESHOLD = 0.20;
 
   private int carryAvoidCounter = 0;
@@ -479,10 +487,6 @@ public class CollectPucksBehavior implements RobotBehavior {
      * Priority 1:
      * If the robot is not aligned with the drop zone,
      * it first turns toward the drop zone.
-     *
-     * Important:
-     * We do not avoid pucks during this rotation.
-     * Otherwise, the robot can detect far pucks and start avoiding too early.
      */
     if (Math.abs(angleError) > DROP_ALIGNMENT_THRESHOLD) {
       if (angleError > 0.0) {
@@ -576,9 +580,9 @@ public class CollectPucksBehavior implements RobotBehavior {
            * The robot curves around it instead of backing up.
            */
           if (side > 0.0) {
-            robot.motors().curveRight(GO_DROP_SPEED, 0.35);
+            robot.motors().curveRight(GO_DROP_SPEED, CARRY_CURVE_FACTOR);
           } else {
-            robot.motors().curveLeft(GO_DROP_SPEED, 0.35);
+            robot.motors().curveLeft(GO_DROP_SPEED, CARRY_CURVE_FACTOR);
           }
 
           System.out.println(
