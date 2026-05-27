@@ -1,0 +1,408 @@
+#VRML_SIM R2025a utf8
+
+PROTO RobotTER_TP1 [
+  field SFVec3f    translation  0 0 0.06
+  field SFRotation rotation     0 0 1 0
+  field SFFloat    bodyMass     1
+]
+{
+  Robot {
+    supervisor TRUE
+
+    translation IS translation
+    rotation IS rotation
+    controller "TP1ValidationController"
+
+    children [
+      # =========================
+      # CORPS DU ROBOT
+      # =========================
+      Transform {
+        translation 0 0 0.04
+        children [
+          DEF BODY Shape {
+            appearance PBRAppearance {
+              baseColor 0.917647 0.145098 0.145098
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.20 0.12 0.03
+            }
+          }
+        ]
+      }
+
+      # =========================
+      # CAPTEURS
+      # =========================
+
+      DistanceSensor {
+        name "ds_right"
+        translation 0.09 -0.04 0.04
+        rotation 0 0 1 -0.5
+        lookupTable [
+          0    1000 0
+          0.3  600  0
+          1    0    0
+        ]
+      }
+
+      DistanceSensor {
+        name "ds_left"
+        translation 0.09 0.04 0.04
+        rotation 0 0 1 0.5
+        lookupTable [
+          0    1000 0
+          0.3  600  0
+          1    0    0
+        ]
+      }
+
+      DistanceSensor {
+        name "ds_front"
+        translation 0.13 0 0.025
+        rotation 0 0 1 0
+        lookupTable [
+          0    1000 0
+          0.3  600  0
+          1    0    0
+        ]
+      }
+
+      Camera {
+        name "color_sensor"
+        translation 0.13 0 0.035
+        rotation 0 1 0 -1.5708
+        width 1
+        height 1
+        fieldOfView 0.4
+      }
+
+      # TouchSensor remonté pour être au niveau du robot
+      TouchSensor {
+        name "touch_front"
+        type "bumper"
+        translation 0.100 0 0.015
+
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 1
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.025 0.10 0.025
+            }
+          }
+        ]
+
+        boundingObject Box {
+          size 0.025 0.10 0.025
+        }
+      }
+
+      # =========================
+      # BRAS + PINCE
+      # =========================
+      # Le bras et les pinces n'ont pas de physics/boundingObject.
+      # Ils sont animés visuellement par les moteurs, mais ne bloquent pas le robot.
+
+      DEF ARM_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0.04 0 0.055
+          axis 0 1 0
+        }
+
+        device [
+          RotationalMotor {
+            name "arm_motor"
+            minPosition -0.8
+            maxPosition 0.8
+            maxVelocity 1.0
+            maxTorque 10
+          }
+          PositionSensor {
+            name "arm_sensor"
+          }
+        ]
+
+        endPoint Solid {
+          name "arm_solid"
+          translation 0.115 0 0.055
+
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.1 0.1 0.1
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.11 0.025 0.015
+              }
+            }
+
+            DEF GRIPPER_LEFT_JOINT HingeJoint {
+              jointParameters HingeJointParameters {
+                anchor 0.055 0.030 0
+                axis 0 0 1
+              }
+
+              device [
+                RotationalMotor {
+                  name "gripper_left_motor"
+                  minPosition -0.8
+                  maxPosition 0.3
+                  maxVelocity 1.0
+                  maxTorque 5
+                }
+              ]
+
+              endPoint Solid {
+                name "gripper_left_solid"
+                translation 0.055 0.040 0
+
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.045 0.012 0.025
+                    }
+                  }
+                ]
+              }
+            }
+
+            DEF GRIPPER_RIGHT_JOINT HingeJoint {
+              jointParameters HingeJointParameters {
+                anchor 0.055 -0.030 0
+                axis 0 0 1
+              }
+
+              device [
+                RotationalMotor {
+                  name "gripper_right_motor"
+                  minPosition -0.3
+                  maxPosition 0.8
+                  maxVelocity 1.0
+                  maxTorque 5
+                }
+              ]
+
+              endPoint Solid {
+                name "gripper_right_solid"
+                translation 0.055 -0.040 0
+
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.045 0.012 0.025
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+
+      # =========================
+      # ROUES
+      # =========================
+      # Les roues sont remontées de z = 0 à z = 0.015.
+
+      DEF WHEEL1 HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0.07 0.07 0.015
+          axis 0 1 0
+        }
+
+        device [
+          RotationalMotor {
+            name "wheel1"
+          }
+        ]
+
+        endPoint Solid {
+          name "wheel1_solid"
+          translation 0.07 0.07 0.015
+          rotation 1 0 0 1.5708
+
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.02 0.02 0.02
+                roughness 1
+              }
+              geometry Cylinder {
+                radius 0.025
+                height 0.02
+              }
+            }
+          ]
+
+          boundingObject Cylinder {
+            radius 0.025
+            height 0.02
+          }
+
+          physics Physics {
+            density -1
+            mass 0.05
+          }
+        }
+      }
+
+      DEF WHEEL2 HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0.07 -0.07 0.015
+          axis 0 1 0
+        }
+
+        device [
+          RotationalMotor {
+            name "wheel2"
+          }
+        ]
+
+        endPoint Solid {
+          name "wheel2_solid"
+          translation 0.07 -0.07 0.015
+          rotation 1 0 0 1.5708
+
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.02 0.02 0.02
+                roughness 1
+              }
+              geometry Cylinder {
+                radius 0.025
+                height 0.02
+              }
+            }
+          ]
+
+          boundingObject Cylinder {
+            radius 0.025
+            height 0.02
+          }
+
+          physics Physics {
+            density -1
+            mass 0.05
+          }
+        }
+      }
+
+      DEF WHEEL3 HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor -0.07 0.07 0.015
+          axis 0 1 0
+        }
+
+        device [
+          RotationalMotor {
+            name "wheel3"
+          }
+        ]
+
+        endPoint Solid {
+          name "wheel3_solid"
+          translation -0.07 0.07 0.015
+          rotation 1 0 0 1.5708
+
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.02 0.02 0.02
+                roughness 1
+              }
+              geometry Cylinder {
+                radius 0.025
+                height 0.02
+              }
+            }
+          ]
+
+          boundingObject Cylinder {
+            radius 0.025
+            height 0.02
+          }
+
+          physics Physics {
+            density -1
+            mass 0.05
+          }
+        }
+      }
+
+      DEF WHEEL4 HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor -0.07 -0.07 0.015
+          axis 0 1 0
+        }
+
+        device [
+          RotationalMotor {
+            name "wheel4"
+          }
+        ]
+
+        endPoint Solid {
+          name "wheel4_solid"
+          translation -0.07 -0.07 0.015
+          rotation 1 0 0 1.5708
+
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.02 0.02 0.02
+                roughness 1
+              }
+              geometry Cylinder {
+                radius 0.025
+                height 0.02
+              }
+            }
+          ]
+
+          boundingObject Cylinder {
+            radius 0.025
+            height 0.02
+          }
+
+          physics Physics {
+            density -1
+            mass 0.05
+          }
+        }
+      }
+    ]
+
+    boundingObject Transform {
+      translation 0 0 0.04
+      children [
+        Box {
+          size 0.20 0.12 0.03
+        }
+      ]
+    }
+
+    physics Physics {
+      density -1
+      mass IS bodyMass
+    }
+  }
+}
