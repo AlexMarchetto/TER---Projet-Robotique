@@ -12,9 +12,9 @@ public class SensorManager {
     // TODO 5.1
     // Initialisez les trois capteurs de distance avec les noms Webots :
     // "ds_right", "ds_left" et "ds_front".
-    this.rightDistanceSensor = new DistanceSensorWrapper(null, timeStep); // A MODIFIER
-    this.leftDistanceSensor = new DistanceSensorWrapper(null, timeStep);  // A MODIFIER
-    this.frontDistanceSensor = new DistanceSensorWrapper(null, timeStep); // A MODIFIER
+    this.rightDistanceSensor = null; // A MODIFIER
+    this.leftDistanceSensor = null;  // A MODIFIER
+    this.frontDistanceSensor = null; // A MODIFIER
 
     // Ces capteurs sont fournis complets pour ce TP.
     this.colorSensor = new ColorSensorWrapper(robot.getCamera("color_sensor"), timeStep);

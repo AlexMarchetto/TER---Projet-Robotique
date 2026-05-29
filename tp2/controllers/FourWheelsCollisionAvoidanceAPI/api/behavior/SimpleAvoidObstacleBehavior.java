@@ -15,20 +15,23 @@ public class SimpleAvoidObstacleBehavior implements RobotBehavior {
 
   @Override
   public void init() {
-    // TODO 8.1
-    // Au lancement, le bras doit etre leve et la pince ouverte.
+    // Au lancement, le bras doit etre leve et la pince ouverte
+    robot.arm().lift(); 
+    robot.gripper().open();
   }
 
   @Override
   public void update() {
-    // TODO 8.2
-    // Mettez d'abord a jour les capteurs.
+    // Mettre d'abord a jour les capteurs
+    robot.sensors().update();
 
-    // TODO 8.3
-    // Completez le comportement simple :
-    // - si un obstacle est detecte devant, tourner a gauche ;
-    // - sinon si un obstacle est detecte a gauche, tourner a droite ;
-    // - sinon si un obstacle est detecte a droite, tourner a gauche ;
-    // - sinon avancer.
+    // - si un obstacle est detecte devant, tourner a gauche
+    // - sinon si un obstacle est detecte a gauche, tourner a droite
+    // - sinon si un obstacle est detecte a droite, tourner a gauche
+    // - sinon avancer
+    if (robot.sensors().frontDetectsObject(FRONT_THRESHOLD)) { robot.motors().turnLeft(TURN_SPEED); }
+    else if (robot.sensors().leftDetectsObject(SIDE_THRESHOLD)) { robot.motors().turnRight(TURN_SPEED); }
+    else if (robot.sensors().rightDetectsObject(SIDE_THRESHOLD)) { robot.motors().turnLeft(TURN_SPEED); }
+    else { robot.motors().forward(SPEED); }
   }
 }

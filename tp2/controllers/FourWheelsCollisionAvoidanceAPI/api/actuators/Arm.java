@@ -13,30 +13,28 @@ public class Arm {
     this.armMotor = robot.getMotor("arm_motor");
     this.armSensor = robot.getPositionSensor("arm_sensor");
 
-    // TODO 6.1
-    // Activez le capteur de position du bras si celui-ci existe.
     if (armSensor != null) {
-      // A COMPLETER
+      armSensor.enable(timeStep);
     }
   }
 
   public void lift() {
-    // TODO 6.2
+    // TODO 6.1
     // Lever le bras en utilisant upPosition.
   }
 
   public void lower() {
-    // TODO 6.3
+    // TODO 6.2
     // Baisser le bras en utilisant downPosition.
   }
 
   public void moveTo(double position) {
-    // TODO 6.4
+    // TODO 6.3
     // Envoyer une position au moteur du bras si celui-ci existe.
   }
 
   public double getPosition() {
-    // TODO 6.5
+    // TODO 6.4
     // Retournez la position du bras. Si le capteur n'existe pas, retournez 0.0.
     return 0.0; // A MODIFIER
   }
