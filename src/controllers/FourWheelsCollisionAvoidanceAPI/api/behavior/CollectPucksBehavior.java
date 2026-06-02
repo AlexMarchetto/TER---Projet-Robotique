@@ -1,13 +1,13 @@
 package api.behavior;
 
-import api.core.TERBot;
+import api.core.Robot;
 import api.sensors.RGBColor;
 import api.state.RobotMode;
 import api.tasks.TimedTask;
 import api.utils.MathUtils;
 
 public class CollectPucksBehavior implements RobotBehavior {
-  private final TERBot robot;
+  private final Robot robot;
 
   private RobotMode mode = RobotMode.SEARCH;
 
@@ -73,7 +73,7 @@ public class CollectPucksBehavior implements RobotBehavior {
    */
   private static final double HIDE_PUCK_DELAY_MS = 3000.0;
 
-  public CollectPucksBehavior(TERBot robot) {
+  public CollectPucksBehavior(Robot robot) {
     this.robot = robot;
   }
 
