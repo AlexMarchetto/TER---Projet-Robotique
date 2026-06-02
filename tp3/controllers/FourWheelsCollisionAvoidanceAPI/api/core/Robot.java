@@ -10,7 +10,7 @@ import api.sensors.SensorManager;
 import api.tasks.TaskScheduler;
 import api.world.PuckManager;
 
-public class TERBot {
+public class Robot {
   private final Supervisor supervisor;
   private final int timeStep;
 
@@ -23,7 +23,7 @@ public class TERBot {
 
   private RobotBehavior behavior;
 
-  public TERBot() {
+  public Robot() {
     /*
      * Main Webots object.
      * It allows the controller to communicate with the simulated world.

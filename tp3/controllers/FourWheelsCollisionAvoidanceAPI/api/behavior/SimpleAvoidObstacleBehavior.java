@@ -1,13 +1,13 @@
 package api.behavior;
-import api.core.TERBot;
+import api.core.Robot;
 
 public class SimpleAvoidObstacleBehavior implements RobotBehavior {
-  private final TERBot robot;
+  private final Robot robot;
   private static final double SPEED = 4.0;
   private static final double TURN_SPEED = 3.0;
   private static final double FRONT_THRESHOLD = 350.0;
   private static final double SIDE_THRESHOLD = 900.0;
-  public SimpleAvoidObstacleBehavior(TERBot robot) { this.robot = robot; }
+  public SimpleAvoidObstacleBehavior(Robot robot) { this.robot = robot; }
   @Override public void init() { robot.arm().lift(); robot.gripper().open(); }
   @Override public void update() {
     robot.sensors().update();
