@@ -3,6 +3,7 @@ package api.behavior;
 import api.core.TERBot;
 import api.sensors.RGBColor;
 import api.state.RobotMode;
+import api.tasks.TimedTask;
 import api.utils.MathUtils;
 
 public class CollectPucksBehavior implements RobotBehavior {
@@ -30,30 +31,15 @@ public class CollectPucksBehavior implements RobotBehavior {
   private static final double TURN_SPEED = 4.0;
   private static final double BACK_SPEED = -2.0;
 
-  /*
-   * White lines on the platform.
-   * The puck must be dropped outside one of these two lines.
-   */
   private static final double LEFT_WHITE_LINE_X = -1.0;
   private static final double RIGHT_WHITE_LINE_X = 1.0;
 
-  /*
-   * Offset used to place the drop target outside the selected white line.
-   * Left line  -> target x = -1.0 - 0.25 = -1.25
-   * Right line -> target x =  1.0 + 0.25 =  1.25
-   */
   private static final double DROP_OUTSIDE_OFFSET = 0.25;
   private static final double DROP_Z = 0.095;
 
-  /*
-   * Limits used to avoid choosing a target too close to the top or bottom walls.
-   */
   private static final double DROP_MIN_Y = -0.75;
   private static final double DROP_MAX_Y = 0.75;
 
-  /*
-   * Distance required to consider that the robot has reached the selected drop zone.
-   */
   private static final double DROP_DISTANCE_THRESHOLD = 0.15;
 
   private double targetDropX = RIGHT_WHITE_LINE_X + DROP_OUTSIDE_OFFSET;
@@ -79,36 +65,13 @@ public class CollectPucksBehavior implements RobotBehavior {
   private static final int TOUCH_TURN_TIME = 90;
   private static final int SIDE_TURN_TIME = 40;
 
-  /*
-   * Avoidance while carrying a puck.
-   *
-   * The robot only avoids another puck if this puck is on the path
-   * to the drop zone.
-   *
-   * If the puck is still far enough, the robot curves around it.
-   * If the puck is very close, the robot backs up and turns.
-   */
-  private static final double CARRY_PUCK_AVOID_FORWARD_MIN = 0.10;
-  private static final double CARRY_PUCK_AVOID_FORWARD_MAX = 0.55;
-  private static final double CARRY_PUCK_AVOID_LATERAL_MAX = 0.14;
-
-  private static final double CARRY_PUCK_DANGER_FORWARD = 0.22;
-
-  private static final int CARRY_AVOID_BACK_TIME = 10;
-  private static final int CARRY_AVOID_TURN_TIME = 28;
-
-  /*
-   * Lower value = stronger curve.
-   * 0.35 = soft curve
-   * 0.10 = strong curve
-   * 0.00 = very strong curve
-   */
-  private static final double CARRY_CURVE_FACTOR = 0.10;
-
   private static final double DROP_ALIGNMENT_THRESHOLD = 0.20;
 
-  private int carryAvoidCounter = 0;
-  private int carryAvoidDirection = 1;
+  /*
+   * Delay before hiding a dropped puck.
+   * 3000 ms = 3 seconds.
+   */
+  private static final double HIDE_PUCK_DELAY_MS = 3000.0;
 
   public CollectPucksBehavior(TERBot robot) {
     this.robot = robot;
@@ -144,17 +107,49 @@ public class CollectPucksBehavior implements RobotBehavior {
     handleContact();
 
     switch (mode) {
-      case SEARCH: updateSearch(); break;
-      case TOUCH_AVOID: updateTouchAvoid(); break;
-      case APPROACH_PUCK: updateApproachPuck(); break;
-      case LOWER_ARM: updateLowerArm(); break;
-      case CLOSE_GRIPPER: updateCloseGripper(); break;
-      case LIFT_ARM: updateLiftArm(); break;
-      case GO_TO_DROP_ZONE: updateGoToDropZone(); break;
-      case DROP_PUCK: updateDropPuck(); break;
-      case LIFT_ARM_AFTER_DROP: updateLiftArmAfterDrop(); break;
-      case BACK_AND_TURN_AFTER_DROP: updateBackAndTurnAfterDrop(); break;
-      case FINISHED: updateFinished(); break;
+      case SEARCH:
+        updateSearch();
+        break;
+
+      case TOUCH_AVOID:
+        updateTouchAvoid();
+        break;
+
+      case APPROACH_PUCK:
+        updateApproachPuck();
+        break;
+
+      case LOWER_ARM:
+        updateLowerArm();
+        break;
+
+      case CLOSE_GRIPPER:
+        updateCloseGripper();
+        break;
+
+      case LIFT_ARM:
+        updateLiftArm();
+        break;
+
+      case GO_TO_DROP_ZONE:
+        updateGoToDropZone();
+        break;
+
+      case DROP_PUCK:
+        updateDropPuck();
+        break;
+
+      case LIFT_ARM_AFTER_DROP:
+        updateLiftArmAfterDrop();
+        break;
+
+      case BACK_AND_TURN_AFTER_DROP:
+        updateBackAndTurnAfterDrop();
+        break;
+
+      case FINISHED:
+        updateFinished();
+        break;
     }
 
     printDebug();
@@ -175,6 +170,7 @@ public class CollectPucksBehavior implements RobotBehavior {
             && mode != RobotMode.LIFT_ARM_AFTER_DROP
             && mode != RobotMode.BACK_AND_TURN_AFTER_DROP
             && mode != RobotMode.TOUCH_AVOID
+            && mode != RobotMode.FINISHED
     ) {
       int nearestPuckIndex = robot.pucks().findNearestAvailablePuck();
 
@@ -204,8 +200,6 @@ public class CollectPucksBehavior implements RobotBehavior {
         mode = RobotMode.LOWER_ARM;
         counter = 0;
         wallStuckCounter = 0;
-        carryAvoidCounter = 0;
-        carryAvoidDirection = 1;
 
         robot.motors().stop();
 
@@ -222,8 +216,6 @@ public class CollectPucksBehavior implements RobotBehavior {
         puckDetected = false;
         puckTouched = false;
         wallStuckCounter = 0;
-        carryAvoidCounter = 0;
-        carryAvoidDirection = 1;
 
         System.out.println("Contact with obstacle. Avoiding.");
       }
@@ -333,8 +325,6 @@ public class CollectPucksBehavior implements RobotBehavior {
       puckDetected = false;
       puckTouched = false;
       wallStuckCounter = 0;
-      carryAvoidCounter = 0;
-      carryAvoidDirection = 1;
 
       robot.motors().stop();
 
@@ -419,8 +409,6 @@ public class CollectPucksBehavior implements RobotBehavior {
       mode = RobotMode.LIFT_ARM;
       counter = 0;
       wallStuckCounter = 0;
-      carryAvoidCounter = 0;
-      carryAvoidDirection = 1;
 
       System.out.println(
           "Puck collected: "
@@ -466,126 +454,15 @@ public class CollectPucksBehavior implements RobotBehavior {
     double robotAngle = MathUtils.getRobotYaw(robot.supervisor());
     double angleError = MathUtils.normalizeAngle(targetAngle - robotAngle);
 
-    /*
-     * Priority 1:
-     * If the robot is not aligned with the drop zone,
-     * it first turns toward the drop zone.
-     */
     if (Math.abs(angleError) > DROP_ALIGNMENT_THRESHOLD) {
       if (angleError > 0.0) {
         robot.motors().turnLeft(TURN_SPEED);
       } else {
         robot.motors().turnRight(TURN_SPEED);
       }
-
-      return;
+    } else {
+      robot.motors().forward(GO_DROP_SPEED);
     }
-
-    /*
-     * Priority 2:
-     * If the robot is already doing an emergency avoidance,
-     * it continues the maneuver.
-     */
-    if (puckAttached && carryAvoidCounter > 0) {
-      if (carryAvoidCounter > CARRY_AVOID_TURN_TIME) {
-        robot.motors().backward(Math.abs(BACK_SPEED));
-      } else {
-        if (carryAvoidDirection > 0) {
-          robot.motors().turnLeft(TURN_SPEED);
-        } else {
-          robot.motors().turnRight(TURN_SPEED);
-        }
-      }
-
-      carryAvoidCounter--;
-
-      return;
-    }
-
-    /*
-     * Priority 3:
-     * If another puck is on the path, the robot tries to curve around it.
-     * It only backs up if the puck is very close.
-     */
-    if (puckAttached) {
-      int blockingPuckIndex = findBlockingPuckWhileCarrying();
-
-      if (blockingPuckIndex != -1) {
-        double[] puckPosition = robot.pucks().getPuckPosition(blockingPuckIndex);
-
-        double targetDx = targetDropX - position[0];
-        double targetDy = targetDropY - position[1];
-
-        double puckDx = puckPosition[0] - position[0];
-        double puckDy = puckPosition[1] - position[1];
-
-        double targetDistance = Math.sqrt(targetDx * targetDx + targetDy * targetDy);
-
-        if (targetDistance > 0.001) {
-          double ux = targetDx / targetDistance;
-          double uy = targetDy / targetDistance;
-
-          double forwardDistance = puckDx * ux + puckDy * uy;
-
-          /*
-           * Side of the puck compared to the path.
-           * side > 0  -> puck is on the left of the path
-           * side < 0  -> puck is on the right of the path
-           */
-          double side = targetDx * puckDy - targetDy * puckDx;
-
-          /*
-           * Emergency case:
-           * the puck is too close, so the robot backs up and turns.
-           */
-          if (forwardDistance < CARRY_PUCK_DANGER_FORWARD) {
-            if (side > 0.0) {
-              carryAvoidDirection = -1;
-            } else {
-              carryAvoidDirection = 1;
-            }
-
-            carryAvoidCounter = CARRY_AVOID_BACK_TIME + CARRY_AVOID_TURN_TIME;
-
-            robot.motors().stop();
-
-            System.out.println(
-                "Carrying puck: close puck detected, emergency avoidance "
-                    + robot.pucks().getPuckName(blockingPuckIndex)
-            );
-
-            return;
-          }
-
-          /*
-           * Normal case:
-           * the puck is on the path but still far enough.
-           * The robot curves around it instead of backing up.
-           */
-          if (side > 0.0) {
-            robot.motors().curveRight(GO_DROP_SPEED, CARRY_CURVE_FACTOR);
-          } else {
-            robot.motors().curveLeft(GO_DROP_SPEED, CARRY_CURVE_FACTOR);
-          }
-
-          System.out.println(
-              "Carrying puck: curving around puck "
-                  + robot.pucks().getPuckName(blockingPuckIndex)
-                  + " | forwardDistance="
-                  + forwardDistance
-                  + " | side="
-                  + side
-          );
-
-          return;
-        }
-      }
-    }
-
-    /*
-     * Normal movement to the selected drop zone.
-     */
-    robot.motors().forward(GO_DROP_SPEED);
   }
 
   private void updateDropPuck() {
@@ -600,7 +477,22 @@ public class CollectPucksBehavior implements RobotBehavior {
       puckAttached = false;
 
       if (currentPuckIndex != -1) {
-        robot.pucks().dropPuck(currentPuckIndex, targetDropX, targetDropY, DROP_Z);
+        final int droppedPuckIndex = currentPuckIndex;
+
+        robot.pucks().dropPuck(droppedPuckIndex, targetDropX, targetDropY, DROP_Z);
+
+        int delaySteps = (int) Math.round(HIDE_PUCK_DELAY_MS / robot.timeStep());
+
+        robot.scheduler().add(new TimedTask(
+            delaySteps,
+            null,
+            new Runnable() {
+              @Override
+              public void run() {
+                robot.pucks().hidePuck(droppedPuckIndex);
+              }
+            }
+        ));
       }
 
       currentPuckIndex = -1;
@@ -618,17 +510,17 @@ public class CollectPucksBehavior implements RobotBehavior {
     counter++;
 
     if (counter > 25) {
-      counter = 0;
-
       if (robot.pucks().allPucksDelivered()) {
         mode = RobotMode.FINISHED;
-        System.out.println("Arm lifted after last drop. Robot finished.");
+        counter = 0;
 
-      }else{
+        System.out.println("Arm lifted after last drop. Robot finished.");
+      } else {
         mode = RobotMode.BACK_AND_TURN_AFTER_DROP;
+        counter = 0;
+
         System.out.println("Arm lifted after drop. Moving away from drop zone.");
       }
-      
     }
   }
 
@@ -646,8 +538,6 @@ public class CollectPucksBehavior implements RobotBehavior {
       puckAttached = false;
       currentPuckIndex = -1;
       wallStuckCounter = 0;
-      carryAvoidCounter = 0;
-      carryAvoidDirection = 1;
 
       robot.motors().stop();
 
@@ -666,67 +556,11 @@ public class CollectPucksBehavior implements RobotBehavior {
 
     puckAttached = false;
     currentPuckIndex = -1;
-    carryAvoidCounter = 0;
-    carryAvoidDirection = 1;
 
     if (!finishedMessagePrinted) {
       System.out.println("All pucks have been delivered. Robot stopped.");
       finishedMessagePrinted = true;
     }
-  }
-
-  private int findBlockingPuckWhileCarrying() {
-    double[] robotPosition = robot.supervisor().getSelf().getPosition();
-
-    double targetDx = targetDropX - robotPosition[0];
-    double targetDy = targetDropY - robotPosition[1];
-
-    double targetDistance = Math.sqrt(targetDx * targetDx + targetDy * targetDy);
-
-    if (targetDistance < 0.001) {
-      return -1;
-    }
-
-    double ux = targetDx / targetDistance;
-    double uy = targetDy / targetDistance;
-
-    int bestIndex = -1;
-    double bestForwardDistance = Double.MAX_VALUE;
-
-    for (int i = 0; i < robot.pucks().count(); i++) {
-      if (i == currentPuckIndex) {
-        continue;
-      }
-
-      if (robot.pucks().isDelivered(i)) {
-        continue;
-      }
-
-      if (robot.pucks().getPuckNode(i) == null) {
-        continue;
-      }
-
-      double[] puckPosition = robot.pucks().getPuckPosition(i);
-
-      double puckDx = puckPosition[0] - robotPosition[0];
-      double puckDy = puckPosition[1] - robotPosition[1];
-
-      double forwardDistance = puckDx * ux + puckDy * uy;
-      double lateralDistance = Math.abs(puckDx * uy - puckDy * ux);
-
-      boolean puckIsInFrontOfRobot = forwardDistance > CARRY_PUCK_AVOID_FORWARD_MIN;
-      boolean puckIsNotTooFar = forwardDistance < CARRY_PUCK_AVOID_FORWARD_MAX;
-      boolean puckIsOnPath = lateralDistance < CARRY_PUCK_AVOID_LATERAL_MAX;
-
-      if (puckIsInFrontOfRobot && puckIsNotTooFar && puckIsOnPath) {
-        if (forwardDistance < bestForwardDistance) {
-          bestForwardDistance = forwardDistance;
-          bestIndex = i;
-        }
-      }
-    }
-
-    return bestIndex;
   }
 
   private void chooseNearestDropZone() {
@@ -779,8 +613,6 @@ public class CollectPucksBehavior implements RobotBehavior {
     puckDetected = false;
     puckTouched = false;
     wallStuckCounter = 0;
-    carryAvoidCounter = 0;
-    carryAvoidDirection = 1;
 
     robot.motors().stop();
   }
@@ -810,8 +642,6 @@ public class CollectPucksBehavior implements RobotBehavior {
             + ", "
             + targetDropY
             + ")"
-            + " | carryAvoidCounter="
-            + carryAvoidCounter
             + " | wallStuckCounter="
             + wallStuckCounter
     );

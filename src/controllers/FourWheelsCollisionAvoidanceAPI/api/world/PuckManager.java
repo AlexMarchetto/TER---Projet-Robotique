@@ -286,4 +286,24 @@ public class PuckManager {
 
     System.out.println("Puck dropped: " + getPuckName(index));
   }
+
+  public void hidePuck(int index) {
+    if (index < 0 || index >= puckNodes.length) {
+      return;
+    }
+
+    if (puckTranslationFields[index] != null) {
+      puckTranslationFields[index].setSFVec3f(new double[] {
+          1000.0 + index,
+          1000.0,
+          -1.0
+      });
+    }
+
+    if (puckNodes[index] != null) {
+      puckNodes[index].resetPhysics();
+    }
+
+    System.out.println("Puck hidden: " + getPuckName(index));
+  }
 }
