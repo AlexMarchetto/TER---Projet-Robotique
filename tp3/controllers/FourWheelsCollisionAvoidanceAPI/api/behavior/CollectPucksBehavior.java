@@ -1,6 +1,6 @@
 package api.behavior;
 
-import api.core.TERBot;
+import api.core.Robot;
 import api.state.RobotMode;
 import api.utils.MathUtils;
 
@@ -11,7 +11,7 @@ import api.utils.MathUtils;
  * Le depot des palets sera traite dans un TP suivant.
  */
 public class CollectPucksBehavior implements RobotBehavior {
-  private final TERBot robot;
+  private final Robot robot;
 
   private RobotMode mode = RobotMode.SEARCH;
   private int currentPuckIndex = -1;
@@ -27,7 +27,7 @@ public class CollectPucksBehavior implements RobotBehavior {
   private static final double APPROACH_TURN_GAIN = 4.0;
   private static final int APPROACH_TIMEOUT = 220;
 
-  public CollectPucksBehavior(TERBot robot) {
+  public CollectPucksBehavior(Robot robot) {
     this.robot = robot;
   }
 

@@ -1,9 +1,9 @@
 import api.behavior.SimpleAvoidObstacleBehavior;
-import api.core.TERBot;
+import api.core.Robot;
 
 public class FourWheelsCollisionAvoidanceAPI {
   public static void main(String[] args) {
-    TERBot robot = new TERBot();
+    Robot robot = new Robot();
     robot.setBehavior(new SimpleAvoidObstacleBehavior(robot));
     robot.run();
   }
