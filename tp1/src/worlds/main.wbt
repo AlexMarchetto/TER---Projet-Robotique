@@ -1,6 +1,5 @@
 #VRML_SIM R2025a utf8
 
-EXTERNPROTO "../protos/RobotTER_TP1_TODO.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "../protos/Platform.proto"
@@ -9,8 +8,8 @@ WorldInfo {
   basicTimeStep 64
 }
 Viewpoint {
-  orientation -0.14884102310850647 0.044090881190987675 0.9878776969017042 2.598209917787785
-  position 2.185428769768963 -1.490379992242177 0.8833204764303016
+  orientation -0.2428765335745465 0.45656406969996316 0.855897330114903 1.12798888554845
+  position -0.430863748573141 -1.125210445495415 0.597393542047422
 }
 TexturedBackground {
 }
@@ -18,6 +17,210 @@ TexturedBackgroundLight {
 }
 Platform {
 }
-RobotTER_TP1_TODO {
-  translation -1.27 0 0.06
+Robot {
+  translation -0.16 0 0.06
+  children [
+    DEF WHEEL3 HingeJoint {
+      device [
+        RotationalMotor {
+          name "wheel3"
+        }
+      ]
+      endPoint Solid {
+      }
+    }
+    DEF WHEEL2 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.07 0.07 0.015
+      }
+      device [
+        RotationalMotor {
+          name "wheel2"
+        }
+      ]
+      endPoint Solid {
+        translation 0.07 -0.07 0.015
+        rotation 1 0 0 1.57
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.2 0.2 0.2
+              roughness 1
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.025
+            }
+          }
+        ]
+        name "wheel2_solid"
+      }
+    }
+    Pose {
+      translation 0 0 0.04
+      children [
+        DEF BODY Shape {
+          appearance PBRAppearance {
+            baseColor 0.917647 0.145098 0.145098
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.2 0.12 0.03
+          }
+        }
+      ]
+    }
+    DistanceSensor {
+      translation 0.13 0 0.025
+      name "ds_front"
+      lookupTable [
+        0 1000 0
+        0.3 600 0
+        1 0 0
+      ]
+    }
+    Camera {
+      translation 0.13 0 0.035
+      rotation 0 1 0 -1.5708
+      name "color_sensor"
+      fieldOfView 0.4
+      width 1
+      height 1
+    }
+    TouchSensor {
+      translation 0.1 0 0.015
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.025 0.1 0.025
+          }
+        }
+      ]
+      name "touch_front"
+      boundingObject Box {
+        size 0.025 0.1 0.025
+      }
+    }
+    DEF ARM_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.04 0 0.055
+      }
+      device [
+        RotationalMotor {
+          name "arm_motor"
+          maxVelocity 1
+          minPosition -0.8
+          maxPosition 0.8
+        }
+        PositionSensor {
+          name "arm_sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.115 0 0.055
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.1 0.1 0.1
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.11 0.025 0.015
+            }
+          }
+          DEF GRIPPER_LEFT_JOINT HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+              anchor 0.055 0.03 0
+            }
+            device [
+              RotationalMotor {
+                name "gripper_left_motor"
+                maxVelocity 1
+                minPosition -0.8
+                maxPosition 0.3
+                maxTorque 5
+              }
+            ]
+            endPoint Solid {
+              translation 0.055 0.04 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.045 0.012 0.025
+                  }
+                }
+              ]
+              name "gripper_left_solid"
+            }
+          }
+        ]
+        name "arm_solid"
+      }
+    }
+    DEF WHEEL1 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.07 0.07 0.015
+      }
+      device [
+        RotationalMotor {
+          name "wheel1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.07 0.07 0.015
+        rotation 1 0 0 1.5708
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.02 0.02 0.02
+              roughness 1
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.025
+            }
+          }
+        ]
+        name "wheel1_solid"
+        boundingObject Cylinder {
+          height 0.02
+          radius 0.025
+        }
+        physics Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+  ]
+  boundingObject Pose {
+    translation 0 0 0.04
+    children [
+      Box {
+        size 0.2 0.12 0.03
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 1
+  }
+  controller "TP1ValidationController"
+  supervisor TRUE
 }
