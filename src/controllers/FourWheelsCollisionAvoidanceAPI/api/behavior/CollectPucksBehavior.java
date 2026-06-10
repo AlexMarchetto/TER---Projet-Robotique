@@ -79,6 +79,7 @@ public class CollectPucksBehavior implements RobotBehavior {
 
   @Override
   public void init() {
+    // Set the robot to its initial safe state.
     robot.arm().lift();
     robot.gripper().open();
     robot.motors().stop();
@@ -88,6 +89,7 @@ public class CollectPucksBehavior implements RobotBehavior {
   public void update() {
     stepCounter++;
 
+    // Refresh sensor values before making decisions.
     robot.sensors().update();
 
     if (robot.pucks().allPucksDelivered()) {
@@ -100,6 +102,7 @@ public class CollectPucksBehavior implements RobotBehavior {
       return;
     }
 
+    // Keep the puck attached to the robot while it is being carried.
     if (puckAttached && currentPuckIndex != -1) {
       robot.pucks().attachPuckToRobot(currentPuckIndex);
     }
@@ -158,6 +161,10 @@ public class CollectPucksBehavior implements RobotBehavior {
   private void handleContact() {
     boolean touched = robot.sensors().isFrontTouched();
 
+    /*
+     * A contact is only handled when the robot is not already picking,
+     * carrying, dropping, or avoiding an obstacle.
+     */
     if (
         stepCounter > 50
             && touched
@@ -232,6 +239,7 @@ public class CollectPucksBehavior implements RobotBehavior {
     double leftSpeed = SEARCH_SPEED;
     double rightSpeed = SEARCH_SPEED;
 
+    // Detect if the robot is probably stuck near a wall.
     if (leftValue > WALL_STUCK_THRESHOLD || rightValue > WALL_STUCK_THRESHOLD) {
       wallStuckCounter++;
     } else {
@@ -251,6 +259,10 @@ public class CollectPucksBehavior implements RobotBehavior {
       wallStuckCounter = 0;
     }
 
+    /*
+     * Search for a target puck only if the robot is not currently avoiding
+     * an obstacle and is not already carrying a puck.
+     */
     if (avoidObstacleCounter == 0 && !puckAttached) {
       int bestPuckIndex = robot.pucks().findBestAvailablePuck(0.35);
 
@@ -291,6 +303,7 @@ public class CollectPucksBehavior implements RobotBehavior {
       leftSpeed = -avoidDirection * TURN_SPEED;
       rightSpeed = avoidDirection * TURN_SPEED;
     } else {
+      // Basic obstacle avoidance using side distance sensors.
       if (leftValue > SIDE_DANGER_THRESHOLD && rightValue > SIDE_DANGER_THRESHOLD) {
         avoidDirection = 1;
         avoidObstacleCounter = SIDE_TURN_TIME;
@@ -313,6 +326,7 @@ public class CollectPucksBehavior implements RobotBehavior {
   }
 
   private void updateTouchAvoid() {
+    // Move backward first, then turn to avoid the obstacle.
     if (counter < TOUCH_BACK_TIME) {
       robot.motors().backward(Math.abs(BACK_SPEED));
     } else if (counter < TOUCH_BACK_TIME + TOUCH_TURN_TIME) {
@@ -337,6 +351,7 @@ public class CollectPucksBehavior implements RobotBehavior {
   }
 
   private void updateApproachPuck() {
+    // Abort the approach if the target puck is no longer valid.
     if (
         currentPuckIndex == -1
             || robot.pucks().getPuckNode(currentPuckIndex) == null
@@ -352,6 +367,7 @@ public class CollectPucksBehavior implements RobotBehavior {
     double distanceToPuck = robot.pucks().getDistanceToPuck(currentPuckIndex);
     double angleError = robot.pucks().getAngleErrorToPuck(currentPuckIndex);
 
+    // Apply a proportional correction to steer toward the puck.
     double correction = APPROACH_TURN_GAIN * angleError;
     correction = MathUtils.clamp(correction, -TURN_SPEED, TURN_SPEED);
 
@@ -381,6 +397,7 @@ public class CollectPucksBehavior implements RobotBehavior {
   private void updateLowerArm() {
     robot.motors().stop();
 
+    // Prepare the gripper before closing it around the puck.
     robot.arm().lower();
     robot.gripper().open();
 
@@ -454,6 +471,7 @@ public class CollectPucksBehavior implements RobotBehavior {
     double robotAngle = MathUtils.getRobotYaw(robot.supervisor());
     double angleError = MathUtils.normalizeAngle(targetAngle - robotAngle);
 
+    // Rotate until the robot is aligned with the drop zone.
     if (Math.abs(angleError) > DROP_ALIGNMENT_THRESHOLD) {
       if (angleError > 0.0) {
         robot.motors().turnLeft(TURN_SPEED);
@@ -483,6 +501,7 @@ public class CollectPucksBehavior implements RobotBehavior {
 
         int delaySteps = (int) Math.round(HIDE_PUCK_DELAY_MS / robot.timeStep());
 
+        // Hide the puck after a short delay to make the drop visible.
         robot.scheduler().add(new TimedTask(
             delaySteps,
             null,
@@ -525,6 +544,7 @@ public class CollectPucksBehavior implements RobotBehavior {
   }
 
   private void updateBackAndTurnAfterDrop() {
+    // Move away from the drop zone before searching again.
     if (counter < 35) {
       robot.motors().backward(Math.abs(BACK_SPEED));
     } else if (counter < 85) {
@@ -566,6 +586,10 @@ public class CollectPucksBehavior implements RobotBehavior {
   private void chooseNearestDropZone() {
     double[] referencePosition;
 
+    /*
+     * Use the puck position as reference when possible.
+     * Otherwise, fall back to the current robot position.
+     */
     if (currentPuckIndex != -1 && robot.pucks().getPuckNode(currentPuckIndex) != null) {
       referencePosition = robot.pucks().getPuckPosition(currentPuckIndex);
     } else {

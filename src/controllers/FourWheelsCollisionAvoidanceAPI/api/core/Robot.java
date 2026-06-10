@@ -24,40 +24,25 @@ public class Robot {
   private RobotBehavior behavior;
 
   public Robot() {
-    /*
-     * Main Webots object.
-     * It allows the controller to communicate with the simulated world.
-     */
+    // Main Webots object used to control the robot and access the simulation.
     this.supervisor = new Supervisor();
 
-    /*
-     * Webots simulation time step.
-     */
+    // Simulation step duration used by Webots.
     this.timeStep = (int) Math.round(supervisor.getBasicTimeStep());
 
-    /*
-     * Initialization of the robot APIs.
-     */
-    this.driveBase = new DriveBase(supervisor); // Motor API
-    this.sensorManager = new SensorManager(supervisor, timeStep); // Sensor API
-    this.arm = new Arm(supervisor, timeStep); // Arm API
-    this.gripper = new Gripper(supervisor); // Gripper API
+    // Initialize the main robot APIs.
+    this.driveBase = new DriveBase(supervisor);
+    this.sensorManager = new SensorManager(supervisor, timeStep);
+    this.arm = new Arm(supervisor, timeStep);
+    this.gripper = new Gripper(supervisor);
 
-    /*
-     * Puck API.
-     * Automatically finds all objects whose DEF name starts with PALET_.
-     * Example: PALET_1, PALET_2, PALET_3, PALET_4, etc.
-     */
+    // Automatically load every puck whose DEF name starts with "PALET_".
     this.puckManager = PuckManager.findAllWithPrefix(supervisor, "PALET_");
 
-    /*
-     * Simple asynchronous task API.
-     */
+    // Scheduler used to run delayed or timed actions.
     this.scheduler = new TaskScheduler();
 
-    /*
-     * Initial arm and gripper position.
-     */
+    // Set the robot to a safe initial state.
     arm.lift();
     gripper.open();
   }
@@ -103,6 +88,7 @@ public class Robot {
       behavior.init();
     }
 
+    // Main simulation loop.
     while (supervisor.step(timeStep) != -1) {
       scheduler.update();
 

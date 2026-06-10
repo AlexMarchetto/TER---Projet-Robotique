@@ -26,9 +26,11 @@ public class PuckManager {
     this.puckDelivered = new boolean[puckNames.length];
 
     for (int i = 0; i < puckNames.length; i++) {
+      // Retrieve each puck node from its DEF name.
       puckNodes[i] = robot.getFromDef(puckNames[i]);
 
       if (puckNodes[i] != null) {
+        // Store the translation field to move the puck later.
         puckTranslationFields[i] = puckNodes[i].getField("translation");
         puckDelivered[i] = false;
       } else {
@@ -76,8 +78,8 @@ public class PuckManager {
     }
 
     /*
-     * Some Webots nodes can contain child nodes in a "children" field.
-     * This is common for Group, Transform, Solid, Robot, etc.
+     * Some Webots nodes contain children inside a "children" field.
+     * This allows the search to continue recursively through the world tree.
      */
     Field childrenField = node.getField("children");
 
@@ -90,8 +92,8 @@ public class PuckManager {
     }
 
     /*
-     * Some joint nodes contain another node in an "endPoint" field.
-     * This allows the search to continue inside HingeJoint structures.
+     * Some joint nodes contain their child node inside an "endPoint" field.
+     * This is useful when pucks or objects are placed inside joint structures.
      */
     Field endPointField = node.getField("endPoint");
 
@@ -110,6 +112,7 @@ public class PuckManager {
         return false;
       }
     }
+
     return true;
   }
 
@@ -148,6 +151,7 @@ public class PuckManager {
       }
 
       double[] puckPosition = puckNodes[i].getPosition();
+
       double dx = puckPosition[0] - robotPosition[0];
       double dy = puckPosition[1] - robotPosition[1];
 
@@ -155,6 +159,7 @@ public class PuckManager {
       double targetAngle = Math.atan2(dy, dx);
       double angleError = Math.abs(MathUtils.normalizeAngle(targetAngle - robotYaw));
 
+      // The score combines distance and alignment with the robot direction.
       double score = distance + angleError * angleWeight;
 
       if (score < bestScore) {
@@ -246,6 +251,10 @@ public class PuckManager {
     double[] robotPosition = self.getPosition();
     double[] orientation = self.getOrientation();
 
+    /*
+     * Local offset of the carried puck relative to the robot.
+     * The position is converted from robot coordinates to world coordinates.
+     */
     double localX = 0.15;
     double localY = 0.0;
     double localZ = 0.09;
@@ -293,6 +302,10 @@ public class PuckManager {
     }
 
     if (puckTranslationFields[index] != null) {
+      /*
+       * Move the puck far away and below the map after it has been delivered.
+       * This avoids detecting it again during the rest of the mission.
+       */
       puckTranslationFields[index].setSFVec3f(new double[] {
           1000.0 + index,
           1000.0,
