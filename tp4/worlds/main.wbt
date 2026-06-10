@@ -1,0 +1,50 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "../protos/RobotTER.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "../protos/Platform.proto"
+
+WorldInfo {
+  basicTimeStep 64
+}
+Viewpoint {
+  orientation -0.14884102310850647 0.044090881190987675 0.9878776969017042 2.598209917787785
+  position 2.185428769768963 -1.490379992242177 0.8833204764303016
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Platform {
+}
+RobotTER {
+  translation -1.27 0 0.06
+}
+DEF PALET_1 Solid {
+  translation -0.5 0.5 0.0850041
+  rotation -0.9999934699443532 -9.589734506671008e-09 0.0036138716983296877 -5.307179586466759e-06
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.03
+        radius 0.04
+      }
+    }
+  ]
+  name "palet_rouge_1"
+  model "palet"
+  boundingObject Cylinder {
+    height 0.03
+    radius 0.04
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}

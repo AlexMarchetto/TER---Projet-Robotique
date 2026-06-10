@@ -1,10 +1,6 @@
 #VRML_SIM R2025a utf8
 
-# TP1 - Version eleve a completer
-# Le fichier s'appelle RobotTER_TP1_TODO.proto, donc le PROTO declare s'appelle aussi RobotTER_TP1_TODO.
-# Dans le monde Webots, il faut instancier RobotTER_TP1_TODO { ... }
-
-PROTO RobotTER_TP1_TODO [
+PROTO RobotTER [
   field SFVec3f    translation  0 0 0.06
   field SFRotation rotation     0 0 1 0
   field SFFloat    bodyMass     1
@@ -15,7 +11,7 @@ PROTO RobotTER_TP1_TODO [
 
     translation IS translation
     rotation IS rotation
-    controller "TP1ValidationController"
+    controller "FourWheelsCollisionAvoidanceAPI"
 
     children [
       # =========================
@@ -41,19 +37,27 @@ PROTO RobotTER_TP1_TODO [
       # CAPTEURS
       # =========================
 
-      # TODO EXERCICE 2.1
-      # Ajouter ici le capteur de distance droit.
-      # Nom attendu par le controller : "ds_right"
-      # Translation attendue : 0.09 -0.04 0.04
-      # Rotation attendue : 0 0 1 -0.5
-      # Gardez la meme lookupTable que le capteur frontal.
+      DistanceSensor {
+        name "ds_right"
+        translation 0.09 -0.04 0.04
+        rotation 0 0 1 -0.5
+        lookupTable [
+          0    1000 0
+          0.3  600  0
+          1    0    0
+        ]
+      }
 
-      # TODO EXERCICE 2.2
-      # Ajouter ici le capteur de distance gauche.
-      # Nom attendu par le controller : "ds_left"
-      # Translation attendue : 0.09 0.04 0.04
-      # Rotation attendue : 0 0 1 0.5
-      # Gardez la meme lookupTable que le capteur frontal.
+      DistanceSensor {
+        name "ds_left"
+        translation 0.09 0.04 0.04
+        rotation 0 0 1 0.5
+        lookupTable [
+          0    1000 0
+          0.3  600  0
+          1    0    0
+        ]
+      }
 
       DistanceSensor {
         name "ds_front"
@@ -75,6 +79,7 @@ PROTO RobotTER_TP1_TODO [
         fieldOfView 0.4
       }
 
+      # TouchSensor remonté pour être au niveau du robot
       TouchSensor {
         name "touch_front"
         type "bumper"
@@ -102,7 +107,7 @@ PROTO RobotTER_TP1_TODO [
       # BRAS + PINCE
       # =========================
       # Le bras et les pinces n'ont pas de physics/boundingObject.
-      # Ils sont animes visuellement par les moteurs, mais ne bloquent pas le robot.
+      # Ils sont animés visuellement par les moteurs, mais ne bloquent pas le robot.
 
       DEF ARM_JOINT HingeJoint {
         jointParameters HingeJointParameters {
@@ -174,12 +179,40 @@ PROTO RobotTER_TP1_TODO [
               }
             }
 
-            # TODO EXERCICE 3
-            # Ajouter ici la partie droite de la pince.
-            # Nom du joint attendu : GRIPPER_RIGHT_JOINT
-            # Nom du moteur attendu : "gripper_right_motor"
-            # Nom du Solid attendu : "gripper_right_solid"
-            # Attention : les valeurs ne sont pas les memes que pour la pince gauche.
+            DEF GRIPPER_RIGHT_JOINT HingeJoint {
+              jointParameters HingeJointParameters {
+                anchor 0.055 -0.030 0
+                axis 0 0 1
+              }
+
+              device [
+                RotationalMotor {
+                  name "gripper_right_motor"
+                  minPosition -0.3
+                  maxPosition 0.8
+                  maxVelocity 1.0
+                  maxTorque 5
+                }
+              ]
+
+              endPoint Solid {
+                name "gripper_right_solid"
+                translation 0.055 -0.040 0
+
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 0
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.045 0.012 0.025
+                    }
+                  }
+                ]
+              }
+            }
           ]
         }
       }
@@ -187,7 +220,7 @@ PROTO RobotTER_TP1_TODO [
       # =========================
       # ROUES
       # =========================
-      # Les roues sont remontees de z = 0 a z = 0.015.
+      # Les roues sont remontées de z = 0 à z = 0.015.
 
       DEF WHEEL1 HingeJoint {
         jointParameters HingeJointParameters {
@@ -231,29 +264,131 @@ PROTO RobotTER_TP1_TODO [
         }
       }
 
-      # TODO EXERCICE 1.1
-      # Ajouter ici la roue avant droite du robot.
-      # Nom du joint attendu : WHEEL2
-      # Nom du moteur attendu : "wheel2"
-      # Nom du Solid attendu : "wheel2_solid"
-      # Anchor et translation attendus : 0.07 -0.07 0.015
-      # Rotation attendue du Solid : 1 0 0 1.5708
+      DEF WHEEL2 HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0.07 -0.07 0.015
+          axis 0 1 0
+        }
 
-      # TODO EXERCICE 1.2
-      # Ajouter ici la roue arriere gauche du robot.
-      # Nom du joint attendu : WHEEL3
-      # Nom du moteur attendu : "wheel3"
-      # Nom du Solid attendu : "wheel3_solid"
-      # Anchor et translation attendus : -0.07 0.07 0.015
-      # Rotation attendue du Solid : 1 0 0 1.5708
+        device [
+          RotationalMotor {
+            name "wheel2"
+          }
+        ]
 
-      # TODO EXERCICE 1.3
-      # Ajouter ici la roue arriere droite du robot.
-      # Nom du joint attendu : WHEEL4
-      # Nom du moteur attendu : "wheel4"
-      # Nom du Solid attendu : "wheel4_solid"
-      # Anchor et translation attendus : -0.07 -0.07 0.015
-      # Rotation attendue du Solid : 1 0 0 1.5708
+        endPoint Solid {
+          name "wheel2_solid"
+          translation 0.07 -0.07 0.015
+          rotation 1 0 0 1.5708
+
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.02 0.02 0.02
+                roughness 1
+              }
+              geometry Cylinder {
+                radius 0.025
+                height 0.02
+              }
+            }
+          ]
+
+          boundingObject Cylinder {
+            radius 0.025
+            height 0.02
+          }
+
+          physics Physics {
+            density -1
+            mass 0.05
+          }
+        }
+      }
+
+      DEF WHEEL3 HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor -0.07 0.07 0.015
+          axis 0 1 0
+        }
+
+        device [
+          RotationalMotor {
+            name "wheel3"
+          }
+        ]
+
+        endPoint Solid {
+          name "wheel3_solid"
+          translation -0.07 0.07 0.015
+          rotation 1 0 0 1.5708
+
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.02 0.02 0.02
+                roughness 1
+              }
+              geometry Cylinder {
+                radius 0.025
+                height 0.02
+              }
+            }
+          ]
+
+          boundingObject Cylinder {
+            radius 0.025
+            height 0.02
+          }
+
+          physics Physics {
+            density -1
+            mass 0.05
+          }
+        }
+      }
+
+      DEF WHEEL4 HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor -0.07 -0.07 0.015
+          axis 0 1 0
+        }
+
+        device [
+          RotationalMotor {
+            name "wheel4"
+          }
+        ]
+
+        endPoint Solid {
+          name "wheel4_solid"
+          translation -0.07 -0.07 0.015
+          rotation 1 0 0 1.5708
+
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.02 0.02 0.02
+                roughness 1
+              }
+              geometry Cylinder {
+                radius 0.025
+                height 0.02
+              }
+            }
+          ]
+
+          boundingObject Cylinder {
+            radius 0.025
+            height 0.02
+          }
+
+          physics Physics {
+            density -1
+            mass 0.05
+          }
+        }
+      }
     ]
 
     boundingObject Transform {
