@@ -148,6 +148,8 @@ Pour réaliser cette suite de travaux pratiques, vous devez avoir les éléments
 - comprendre pourquoi les noms des moteurs et capteurs sont importants ;
 - utiliser un contrôleur de validation simple.
 
+À la fin du TP, vous devrez également être capables de rédiger un court compte rendu présentant vos réponses, vos observations et les difficultés rencontrées pendant la séance.
+
 ---
 
 # II. Fonctionnement de Webots
