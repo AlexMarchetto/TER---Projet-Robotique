@@ -77,18 +77,18 @@ Grâce à ce logiciel, il est possible de manipuler un robot sans avoir besoin d
 
 Dans ce projet, vous devrez progressivement prendre en main le robot, comprendre ses différents composants, puis programmer ses actions. Le robot sera équipé de plusieurs éléments importants :
 
-- des roues pour se déplacer ;
-- des capteurs pour percevoir son environnement ;
-- une pince pour attraper puis déposer des objets appelés **palets**.
+- des roues pour se déplacer
+- des capteurs pour percevoir son environnement
+- une pince pour attraper puis déposer des objets appelés **palets**
 
 L’objectif global du projet est de rendre le robot capable d’accomplir une mission complète de manière autonome :
 
-1. parcourir une zone de jeu ;
-2. rechercher des palets ;
-3. les attraper avec la pince ;
-4. les transporter ;
-5. les déposer dans une base prévue à cet effet ;
-6. recommencer jusqu’à avoir traité plusieurs palets.
+1. parcourir une zone de jeu
+2. rechercher des palets
+3. les attraper avec la pince
+4. les transporter
+5. les déposer dans une base prévue à cet effet
+6. recommencer jusqu’à avoir traité plusieurs palets
 
 Le projet est découpé en plusieurs travaux pratiques afin de construire progressivement les compétences nécessaires.
 
@@ -104,10 +104,10 @@ Le robot est déjà présent dans le monde Webots, mais il est volontairement in
 
 Dans ce premier TP, le robot ne sera pas encore totalement autonome. L’objectif est d’abord de comprendre :
 
-- l’environnement de travail ;
-- la structure d’un robot dans Webots ;
-- l’organisation des nœuds ;
-- la manière d’ajouter ou de modifier des composants depuis l’interface.
+- l’environnement de travail
+- la structure d’un robot dans Webots
+- l’organisation des nœuds
+- la manière d’ajouter ou de modifier des composants depuis l’interface
 
 Les modifications ne seront pas réalisées directement dans le code d’un fichier `PROTO`. Elles seront effectuées depuis l’arborescence Webots, en utilisant les champs disponibles dans l’interface graphique.
 
@@ -119,12 +119,11 @@ Les modifications ne seront pas réalisées directement dans le code d’un fich
 
 Pour réaliser cette suite de travaux pratiques, vous devez avoir les éléments suivants :
 
-- un ordinateur ;
-- le logiciel Webots ;
-- Visual Studio Code ;
-- la documentation Webots ;
-- la documentation Java ;
-- la documentation du projet.
+- un ordinateur
+- le logiciel Webots
+- Visual Studio Code
+- la documentation Webots
+- la documentation Java
 
 ### Liens utiles
 
@@ -140,13 +139,13 @@ Pour réaliser cette suite de travaux pratiques, vous devez avoir les éléments
 
 À la fin de ce TP, vous serez capables de :
 
-- identifier les principaux éléments du robot ;
-- comprendre l’organisation d’un robot dans Webots ;
-- ajouter des composants depuis l’interface graphique ;
-- modifier les champs d’un nœud Webots ;
-- ajouter des roues, des capteurs et une pince ;
-- comprendre pourquoi les noms des moteurs et capteurs sont importants ;
-- utiliser un contrôleur de validation simple.
+- identifier les principaux éléments du robot
+- comprendre l’organisation d’un robot dans Webots
+- ajouter des composants depuis l’interface graphique
+- modifier les champs d’un nœud Webots
+- ajouter des roues, des capteurs et une pince
+- comprendre pourquoi les noms des moteurs et capteurs sont importants
+- utiliser un contrôleur de validation simple
 
 À la fin du TP, vous devrez également être capables de rédiger un court compte rendu présentant vos réponses, vos observations et les difficultés rencontrées pendant la séance.
 
@@ -191,11 +190,11 @@ Au centre de l’interface se trouve la zone de visualisation. C’est dans cett
 
 Cette zone permet de voir :
 
-- le monde simulé ;
-- la plateforme de jeu ;
-- le robot ;
-- les obstacles ou objets présents dans l’environnement ;
-- les déplacements du robot pendant l’exécution du programme.
+- le monde simulé
+- la plateforme de jeu
+- le robot
+- les obstacles ou objets présents dans l’environnement
+- les déplacements du robot pendant l’exécution du programme
 
 C’est également dans cette zone que vous pouvez vérifier si le comportement du robot correspond à ce qui était attendu.
 
@@ -211,12 +210,12 @@ Le contrôleur est le programme qui donne des instructions au robot.
 
 C’est dans ce fichier que vous écrirez le code permettant au robot de réaliser différentes actions, comme :
 
-- faire tourner les roues ;
-- avancer ou reculer ;
-- lire les valeurs des capteurs ;
-- ouvrir ou fermer la pince ;
-- prendre une décision selon ce que le robot détecte ;
-- enchaîner plusieurs actions pour réaliser une mission complète.
+- faire tourner les roues
+- avancer ou reculer
+- lire les valeurs des capteurs
+- ouvrir ou fermer la pince
+- prendre une décision selon ce que le robot détecte
+- enchaîner plusieurs actions pour réaliser une mission complète
 
 Dans ce TP, le contrôleur utilisé sert principalement à vérifier que les éléments attendus ont bien été ajoutés au robot.
 
@@ -232,14 +231,14 @@ Dans Webots, tous les éléments de la simulation sont décrits à l’aide de n
 
 Chaque nœud possède des champs, c’est-à-dire des paramètres modifiables. Ces champs permettent par exemple de changer :
 
-- la position d’un objet ;
-- sa rotation ;
-- sa taille ;
-- sa couleur ;
-- sa forme ;
-- ses propriétés physiques ;
-- le contrôleur associé à un robot ;
-- le nom d’un moteur ou d’un capteur.
+- la position d’un objet
+- sa rotation
+- sa taille
+- sa couleur
+- sa forme
+- ses propriétés physiques
+- le contrôleur associé à un robot
+- le nom d’un moteur ou d’un capteur
 
 Par exemple, le nœud du robot contient un champ indiquant quel contrôleur doit être utilisé. Lorsque la simulation démarre, Webots sait ainsi quel programme lancer pour piloter le robot.
 
@@ -310,10 +309,10 @@ Une fois le monde ouvert, vous devriez voir apparaître la scène de simulation 
 
 Prenez quelques minutes pour :
 
-- vous déplacer dans la scène ;
-- zoomer sur le robot ;
-- observer les différents éléments déjà présents ;
-- développer le nœud `Robot` dans l’arborescence.
+- vous déplacer dans la scène
+- zoomer sur le robot
+- observer les différents éléments déjà présents
+- développer le nœud `Robot` dans l’arborescence
 
 ---
 
@@ -325,9 +324,9 @@ L’objectif n’est pas encore de programmer un comportement complet, mais de c
 
 Le robot fourni est volontairement incomplet. Vous devez le finaliser en ajoutant ou en complétant certains éléments depuis l’interface graphique :
 
-- les roues du robot ;
-- les deux capteurs de distance latéraux ;
-- la partie droite de la pince.
+- les roues du robot
+- les deux capteurs de distance latéraux
+- la partie droite de la pince
 
 > **Attention aux noms :** le contrôleur Java récupère les moteurs et les capteurs grâce à leur nom. Si un nom est différent de celui attendu, le contrôleur ne pourra pas trouver l’élément.
 
@@ -347,13 +346,13 @@ Avant de modifier le robot, observez sa structure dans l’arborescence de Webot
 
 Dans la partie gauche de l’interface, développez le nœud du robot. Repérez les éléments suivants :
 
-- le corps du robot ;
-- la roue déjà présente, si elle existe ;
-- les emplacements où devront être ajoutées les autres roues ;
-- le bras ;
-- la partie déjà présente de la pince ;
-- les capteurs déjà présents ;
-- le contrôleur associé au robot.
+- le corps du robot
+- la roue déjà présente, si elle existe
+- les emplacements où devront être ajoutées les autres roues
+- le bras
+- la partie déjà présente de la pince
+- les capteurs déjà présents
+- le contrôleur associé au robot
 
 Pour chaque élément, notez son nom dans Webots et expliquez rapidement son rôle.
 
@@ -399,9 +398,9 @@ translation x y z
 
 Dans ce projet :
 
-- `x` permet de placer un élément vers l’avant ou l’arrière du robot ;
-- `y` permet de placer un élément vers la gauche ou la droite ;
-- `z` permet de placer un élément en hauteur.
+- `x` permet de placer un élément vers l’avant ou l’arrière du robot
+- `y` permet de placer un élément vers la gauche ou la droite
+- `z` permet de placer un élément en hauteur
 
 Exemple :
 
@@ -413,11 +412,11 @@ Cela signifie que l’objet est placé légèrement vers l’avant, sur un côt�
 
 Avant de commencer, sélectionnez la roue déjà présente et observez :
 
-- son champ `translation` ;
-- le champ `anchor` de son `HingeJoint` ;
-- son champ `rotation` ;
-- son moteur ;
-- son `Solid`.
+- son champ `translation`
+- le champ `anchor` de son `HingeJoint`
+- son champ `rotation`
+- son moteur
+- son `Solid`
 
 ---
 
@@ -513,9 +512,9 @@ Ensuite, modifiez le champ `anchor`. Le champ `anchor` correspond au point de ro
 
 Explication :
 
-- `x` place la roue vers l’avant ou vers l’arrière ;
-- `y` place la roue à gauche ou à droite ;
-- `z` règle la hauteur de la roue.
+- `x` place la roue vers l’avant ou vers l’arrière
+- `y` place la roue à gauche ou à droite
+- `z` règle la hauteur de la roue
 
 Les roues avant ont une valeur de `x` positive. Les roues arrière ont une valeur de `x` négative. Les roues gauche et droite ont des valeurs de `y` opposées.
 
@@ -614,8 +613,8 @@ Shape
 
 Dans ce `Shape`, ajoutez ensuite :
 
-- un `PBRAppearance` dans le champ `appearance` ;
-- un `Cylinder` dans le champ `geometry`.
+- un `PBRAppearance` dans le champ `appearance`
+- un `Cylinder` dans le champ `geometry`
 
 Dans le `PBRAppearance`, modifiez les champs suivants :
 
@@ -706,8 +705,8 @@ Vous devez maintenant répéter cette manipulation pour obtenir les quatre roues
 
 Le robot possède déjà un capteur de distance frontal. Vous devez maintenant ajouter deux capteurs de distance latéraux :
 
-- un capteur à droite ;
-- un capteur à gauche.
+- un capteur à droite
+- un capteur à gauche
 
 Ces capteurs permettront au robot de détecter ce qui se trouve sur ses côtés.
 
@@ -780,9 +779,9 @@ Vous devez voir apparaître les rayons de détection des capteurs.
 
 Vérifiez que :
 
-- `ds_front` regarde vers l’avant ;
-- `ds_right` regarde légèrement vers la droite ;
-- `ds_left` regarde légèrement vers la gauche.
+- `ds_front` regarde vers l’avant
+- `ds_right` regarde légèrement vers la droite
+- `ds_left` regarde légèrement vers la gauche
 
 ---
 
@@ -792,8 +791,8 @@ Le bras du robot possède déjà une partie de la pince. Pour que la pince soit 
 
 La pince est composée de deux parties :
 
-- une partie gauche déjà présente ;
-- une partie droite à ajouter.
+- une partie gauche déjà présente
+- une partie droite à ajouter
 
 La partie droite doit être ajoutée dans le nœud `arm_solid`, juste après le joint de la pince gauche.
 
@@ -877,8 +876,8 @@ Shape
 
 Dans le `Shape`, ajoutez :
 
-- un `PBRAppearance` dans `appearance` ;
-- une `Box` dans `geometry`.
+- un `PBRAppearance` dans `appearance`
+- une `Box` dans `geometry`
 
 Dans la `Box`, modifiez le champ `size` avec :
 
@@ -936,10 +935,10 @@ Modifiez la vitesse et le temps de déplacement.
 
 Après chaque modification :
 
-1. sauvegardez le fichier ;
-2. compilez le contrôleur ;
-3. rechargez le monde Webots ;
-4. observez le comportement du robot.
+1. sauvegardez le fichier
+2. compilez le contrôleur
+3. rechargez le monde Webots
+4. observez le comportement du robot
 
 ---
 
@@ -969,25 +968,25 @@ Répondez aux questions suivantes :
 
 À la fin du TP, le robot doit contenir :
 
-- quatre roues ;
-- quatre moteurs de roues nommés `wheel1`, `wheel2`, `wheel3` et `wheel4` ;
-- un capteur frontal `ds_front` ;
-- un capteur droit `ds_right` ;
-- un capteur gauche `ds_left` ;
-- un capteur de contact `touch_front` ;
-- une caméra `color_sensor` ;
-- un bras motorisé avec `arm_motor` ;
-- un capteur de position du bras `arm_sensor` ;
-- une pince gauche avec `gripper_left_motor` ;
-- une pince droite avec `gripper_right_motor`.
+- quatre roues
+- quatre moteurs de roues nommés `wheel1`, `wheel2`, `wheel3` et `wheel4`
+- un capteur frontal `ds_front`
+- un capteur droit `ds_right`
+- un capteur gauche `ds_left`
+- un capteur de contact `touch_front`
+- une caméra `color_sensor`
+- un bras motorisé avec `arm_motor`
+- un capteur de position du bras `arm_sensor`
+- une pince gauche avec `gripper_left_motor`
+- une pince droite avec `gripper_right_motor`
 
 Le contrôleur de validation doit afficher des messages `[OK]` dans la console Webots.
 
 Lorsque la validation est réussie, le robot doit effectuer une courte démonstration :
 
-1. ouvrir et fermer la pince ;
-2. avancer pendant quelques instants ;
-3. s’arrêter.
+1. ouvrir et fermer la pince
+2. avancer pendant quelques instants
+3. s’arrêter
 
 ---
 

@@ -33,11 +33,11 @@ Dans le **TP1**, vous avez finalisé la structure du robot directement dans Webo
 
 Vous avez notamment ajouté :
 
-- les roues ;
-- les capteurs ;
-- le bras ;
-- la pince ;
-- un contrôleur de validation.
+- les roues
+- les capteurs
+- le bras
+- la pince
+- un contrôleur de validation
 
 Dans ce **TP2**, vous allez travailler davantage sur le **code Java du contrôleur**.
 
@@ -46,11 +46,11 @@ Le comportement de collecte sera étudié dans les TP suivants.
 
 Dans ce TP, vous allez compléter une API permettant de :
 
-- commander les roues ;
-- lire les capteurs ;
-- manipuler le bras ;
-- manipuler la pince ;
-- lancer un comportement simple d’évitement d’obstacles.
+- commander les roues
+- lire les capteurs
+- manipuler le bras
+- manipuler la pince
+- lancer un comportement simple d’évitement d’obstacles
 
 ---
 
@@ -79,12 +79,12 @@ Liens utiles :
 
 À la fin de ce TP, vous devez être capables de :
 
-- comprendre l’organisation générale du contrôleur Java ;
-- compléter des fonctions simples dans les classes de l’API ;
-- commander les roues du robot avec des méthodes réutilisables ;
-- lire les valeurs des capteurs de distance ;
-- commander le bras et la pince ;
-- lancer un comportement simple d’évitement d’obstacles.
+- comprendre l’organisation générale du contrôleur Java
+- compléter des fonctions simples dans les classes de l’API
+- commander les roues du robot avec des méthodes réutilisables
+- lire les valeurs des capteurs de distance
+- commander le bras et la pince
+- lancer un comportement simple d’évitement d’obstacles
 
 ---
 
@@ -110,9 +110,9 @@ Chaque partie de l’API possède un rôle précis :
 
 Cette organisation rend le code :
 
-- plus lisible ;
-- plus simple à modifier ;
-- plus facile à réutiliser dans les TP suivants.
+- plus lisible
+- plus simple à modifier
+- plus facile à réutiliser dans les TP suivants
 
 Par exemple, au lieu de contrôler chaque roue séparément, on pourra simplement écrire :
 
@@ -179,9 +179,9 @@ C’est le premier fichier exécuté par Webots lorsque la simulation démarre.
 
 Son rôle est de :
 
-1. créer le robot ;
-2. lui associer un comportement ;
-3. lancer son exécution.
+1. créer le robot
+2. lui associer un comportement
+3. lancer son exécution
 
 Exemple :
 
@@ -201,12 +201,12 @@ La classe `TERBot` représente le cœur du contrôleur.
 
 Elle fait le lien entre :
 
-- Webots ;
-- les moteurs ;
-- les capteurs ;
-- le bras ;
-- la pince ;
-- le comportement du robot.
+- Webots
+- les moteurs
+- les capteurs
+- le bras
+- la pince
+- le comportement du robot
 
 Lors de sa création, `TERBot` crée un objet `Supervisor`.
 
@@ -218,10 +218,10 @@ Le `Supervisor` est un objet Webots qui permet au contrôleur de communiquer ave
 
 Il permet notamment de récupérer :
 
-- les moteurs ;
-- les capteurs ;
-- le pas de temps de la simulation ;
-- certaines informations sur le monde.
+- les moteurs
+- les capteurs
+- le pas de temps de la simulation
+- certaines informations sur le monde
 
 La classe `TERBot` récupère ensuite le `timeStep`, qui correspond au pas de temps utilisé par Webots.
 
@@ -253,9 +253,9 @@ while (supervisor.step(timeStep) != -1) {
 
 À chaque passage dans la boucle :
 
-1. Webots avance la simulation ;
-2. le scheduler est mis à jour ;
-3. le comportement du robot est exécuté.
+1. Webots avance la simulation
+2. le scheduler est mis à jour
+3. le comportement du robot est exécuté
 
 C’est donc dans la méthode `update()` du comportement que seront prises les décisions du robot.
 
@@ -337,8 +337,8 @@ Il faut également initialiser sa vitesse à `0.0`.
 
 La méthode `setSpeed(double speed)` doit :
 
-1. mémoriser la vitesse courante ;
-2. appliquer cette vitesse au moteur Webots.
+1. mémoriser la vitesse courante
+2. appliquer cette vitesse au moteur Webots
 
 ---
 
@@ -366,8 +366,8 @@ La classe `MotorGroup` permet d’appliquer la même commande à plusieurs roues
 
 Elle sera utilisée pour regrouper :
 
-- les roues gauches ;
-- les roues droites.
+- les roues gauches
+- les roues droites
 
 ### Exemple
 
@@ -459,9 +459,9 @@ La classe `DistanceSensorWrapper` encapsule un capteur de distance Webots.
 
 Elle permet de :
 
-- l’activer ;
-- lire sa valeur ;
-- vérifier s’il détecte un objet selon un seuil.
+- l’activer
+- lire sa valeur
+- vérifier s’il détecte un objet selon un seuil
 
 ### Travail à faire
 
@@ -619,10 +619,10 @@ Il s’agit d’un comportement simple d’évitement d’obstacles.
 
 Le robot :
 
-1. lit les valeurs des capteurs ;
-2. vérifie si un obstacle est détecté ;
-3. avance si aucun obstacle n’est présent ;
-4. tourne si un obstacle est détecté.
+1. lit les valeurs des capteurs
+2. vérifie si un obstacle est détecté
+3. avance si aucun obstacle n’est présent
+4. tourne si un obstacle est détecté
 
 Exemple simplifié :
 
@@ -636,9 +636,9 @@ if (robot.sensors().frontDetectsObject(FRONT_THRESHOLD)) {
 
 Ce comportement montre le lien entre :
 
-- les capteurs ;
-- les moteurs ;
-- la logique de décision.
+- les capteurs
+- les moteurs
+- la logique de décision
 
 ---
 
@@ -654,10 +654,10 @@ FourWheelsCollisionAvoidanceAPI
 
 Le robot doit :
 
-- lever le bras ;
-- ouvrir la pince ;
-- avancer lorsqu’il n’y a pas d’obstacle ;
-- tourner lorsqu’un obstacle est détecté.
+- lever le bras
+- ouvrir la pince
+- avancer lorsqu’il n’y a pas d’obstacle
+- tourner lorsqu’un obstacle est détecté
 
 ---
 
@@ -665,12 +665,12 @@ Le robot doit :
 
 Votre travail est validé si :
 
-- le projet compile sans erreur ;
-- le robot avance lorsque rien n’est détecté ;
-- le robot tourne si le capteur frontal détecte un obstacle ;
-- le robot tourne du côté opposé si un capteur latéral détecte un obstacle ;
-- la pince s’ouvre au lancement du comportement ;
-- le bras se lève au lancement du comportement.
+- le projet compile sans erreur
+- le robot avance lorsque rien n’est détecté
+- le robot tourne si le capteur frontal détecte un obstacle
+- le robot tourne du côté opposé si un capteur latéral détecte un obstacle
+- la pince s’ouvre au lancement du comportement
+- le bras se lève au lancement du comportement
 
 ---
 
@@ -702,18 +702,18 @@ Vous avez vu que le contrôleur est divisé en plusieurs classes afin de rendre 
 
 Cette API permet de commander le robot avec des méthodes simples, par exemple pour :
 
-- faire avancer les roues ;
-- lire les capteurs ;
-- lever le bras ;
-- ouvrir la pince.
+- faire avancer les roues
+- lire les capteurs
+- lever le bras
+- ouvrir la pince
 
 Vous avez également compris le rôle de la classe `TERBot`, qui sert de lien entre Webots, les différentes API du robot et le comportement à exécuter.
 
 Dans ce TP, vous avez complété plusieurs parties importantes :
 
-- l’API moteurs, avec `Wheel`, `MotorGroup` et `DriveBase` ;
-- l’API capteurs, avec `DistanceSensorWrapper` et `SensorManager` ;
-- l’API du bras et de la pince, avec `Arm` et `Gripper`.
+- l’API moteurs, avec `Wheel`, `MotorGroup` et `DriveBase`
+- l’API capteurs, avec `DistanceSensorWrapper` et `SensorManager`
+- l’API du bras et de la pince, avec `Arm` et `Gripper`
 
 Le comportement utilisé, `SimpleAvoidObstacleBehavior`, était déjà fourni.  
 Il permet de montrer comment les API sont utilisées ensemble : le robot lit ses capteurs, décide s’il y a un obstacle, puis commande ses moteurs pour avancer ou tourner.
@@ -724,13 +724,13 @@ Il permet de montrer comment les API sont utilisées ensemble : le robot lit ses
 
 À la fin de ce TP, vous devez être capables de :
 
-- expliquer le rôle général d’une API dans le contrôleur ;
-- identifier les principales classes du contrôleur ;
-- comprendre le lien entre `FourWheelsCollisionAvoidanceAPI`, `TERBot` et le comportement du robot ;
-- compléter des méthodes simples pour commander les moteurs ;
-- lire les valeurs des capteurs ;
-- commander le bras et la pince ;
-- tester un comportement simple d’évitement d’obstacles.
+- expliquer le rôle général d’une API dans le contrôleur
+- identifier les principales classes du contrôleur
+- comprendre le lien entre `FourWheelsCollisionAvoidanceAPI`, `TERBot` et le comportement du robot
+- compléter des méthodes simples pour commander les moteurs
+- lire les valeurs des capteurs
+- commander le bras et la pince
+- tester un comportement simple d’évitement d’obstacles
 
 ---
 
@@ -740,8 +740,8 @@ Ce TP servira de base pour les prochains travaux pratiques.
 
 Les fonctions complétées ici seront réutilisées pour créer des comportements plus complexes, notamment :
 
-- la détection des palets ;
-- l’approche d’un palet ;
-- la prise d’un palet ;
-- le transport ;
-- le dépôt dans une zone définie.
+- la détection des palets
+- l’approche d’un palet
+- la prise d’un palet
+- le transport
+- le dépôt dans une zone définie

@@ -39,9 +39,9 @@ Dans le **TP1**, vous avez finalisé la structure du robot directement dans Webo
 
 Dans le **TP2**, vous avez complété une première API permettant de commander :
 
-- les roues ;
-- les capteurs ;
-- le bras ;
+- les roues
+- les capteurs
+- le bras
 - la pince.
 
 Dans ce **TP3**, vous allez commencer à travailler autour des **palets**.
@@ -89,16 +89,16 @@ Liens utiles :
 
 À la fin de ce TP, vous devez être capables de :
 
-- comprendre le rôle des palets dans le monde Webots ;
-- comprendre le rôle des noms `DEF` ;
-- comprendre l’intérêt du préfixe `PALET_` ;
-- compléter la classe `PuckManager` ;
-- récupérer un palet dans le monde Webots ;
-- accéder aux informations d’un palet ;
-- comprendre pourquoi le robot ne doit pas utiliser directement la position exacte des palets ;
-- utiliser les capteurs pour détecter un objet ;
-- comprendre les premiers modes du robot ;
-- lire et compléter une première partie du comportement de récupération.
+- comprendre le rôle des palets dans le monde Webots
+- comprendre le rôle des noms `DEF`
+- comprendre l’intérêt du préfixe `PALET_`
+- compléter la classe `PuckManager`
+- récupérer un palet dans le monde Webots
+- accéder aux informations d’un palet
+- comprendre pourquoi le robot ne doit pas utiliser directement la position exacte des palets
+- utiliser les capteurs pour détecter un objet
+- comprendre les premiers modes du robot
+- lire et compléter une première partie du comportement de récupération
 
 ---
 
@@ -219,19 +219,19 @@ La classe `PuckManager` centralise les informations sur les palets.
 
 Elle permet de stocker :
 
-- les noms des palets ;
-- les nœuds Webots associés ;
-- leur champ `translation` ;
+- les noms des palets
+- les nœuds Webots associés
+- leur champ `translation`
 - leur état.
 
 Elle permet notamment de :
 
-- connaître le nombre de palets présents dans le monde ;
-- récupérer un palet à partir de son indice ;
-- connaître le nom d’un palet ;
-- savoir si un palet est déjà livré ;
-- identifier un palet proche de la zone de contact du robot ;
-- préparer plus tard l’attachement et le dépôt d’un palet.
+- connaître le nombre de palets présents dans le monde
+- récupérer un palet à partir de son indice
+- connaître le nom d’un palet
+- savoir si un palet est déjà livré
+- identifier un palet proche de la zone de contact du robot
+- préparer plus tard l’attachement et le dépôt d’un palet
 
 ---
 
@@ -272,9 +272,9 @@ api/world/PuckManager.java
 
 La classe utilise l’objet `Supervisor` de Webots pour accéder :
 
-- au monde ;
-- aux nœuds ;
-- aux champs des palets.
+- au monde
+- aux nœuds
+- aux champs des palets
 
 ---
 
@@ -308,10 +308,10 @@ puckDelivered[i] = false;
 
 Pour chaque palet :
 
-1. récupérer le nœud Webots avec `getFromDef` ;
-2. récupérer le champ `translation` ;
-3. initialiser le palet comme non livré ;
-4. afficher un message d’avertissement si le palet n’est pas trouvé.
+1. récupérer le nœud Webots avec `getFromDef`
+2. récupérer le champ `translation`
+3. initialiser le palet comme non livré
+4. afficher un message d’avertissement si le palet n’est pas trouvé
 
 ---
 
@@ -335,12 +335,12 @@ collectDefNamesWithPrefix(...)
 
 La recherche doit :
 
-1. récupérer la racine du monde ;
-2. récupérer le champ `children` de la racine ;
-3. parcourir tous les enfants ;
-4. vérifier le nom `DEF` de chaque nœud ;
-5. ajouter les noms commençant par `PALET_` ;
-6. continuer la recherche dans les sous-nœuds.
+1. récupérer la racine du monde
+2. récupérer le champ `children` de la racine
+3. parcourir tous les enfants
+4. vérifier le nom `DEF` de chaque nœud
+5. ajouter les noms commençant par `PALET_`
+6. continuer la recherche dans les sous-nœuds
 
 ### Exemple de récupération de la racine
 
@@ -370,10 +370,10 @@ Ces méthodes sont utilisées pour suivre les palets dans la simulation.
 
 Elles permettent notamment de récupérer :
 
-- le nœud Webots du palet ;
-- le nom du palet ;
-- la position du palet ;
-- l’état du palet.
+- le nœud Webots du palet
+- le nom du palet
+- la position du palet
+- l’état du palet
 
 ### Vérification des indices
 
@@ -433,12 +433,12 @@ Par exemple, lorsque le `TouchSensor` touche un objet, le programme peut utilise
 
 Dans ce TP, `PuckManager` doit permettre de :
 
-- charger automatiquement les palets présents dans le monde ;
-- stocker leurs noms ;
-- accéder à leur nœud Webots ;
-- savoir si un palet est déjà livré ou non ;
-- identifier quel palet est en contact avec le robot ;
-- préparer les futures étapes d’attachement et de dépôt.
+- charger automatiquement les palets présents dans le monde
+- stocker leurs noms
+- accéder à leur nœud Webots
+- savoir si un palet est déjà livré ou non
+- identifier quel palet est en contact avec le robot
+- préparer les futures étapes d’attachement et de dépôt
 
 Il ne doit pas être utilisé pour donner au robot une trajectoire parfaite vers un palet.
 
@@ -570,11 +570,11 @@ La recherche doit se faire à partir des capteurs du robot.
 
 Le robot peut utiliser :
 
-- le capteur de distance frontal ;
-- le capteur de distance gauche ;
-- le capteur de distance droit ;
-- éventuellement la caméra couleur si elle est utilisée ;
-- le capteur de contact pour confirmer qu’un objet a été touché.
+- le capteur de distance frontal
+- le capteur de distance gauche
+- le capteur de distance droit
+- éventuellement la caméra couleur si elle est utilisée
+- le capteur de contact pour confirmer qu’un objet a été touché
 
 L’objectif est que le robot adopte un comportement autonome :
 
@@ -658,11 +658,11 @@ Lorsque le robot considère qu’il a atteint un palet, il exécute une séquenc
 
 La séquence est la suivante :
 
-1. baisser le bras ;
-2. ouvrir la pince si besoin ;
-3. fermer la pince ;
-4. lever le bras ;
-5. terminer la séquence du TP.
+1. baisser le bras
+2. ouvrir la pince si besoin
+3. fermer la pince
+4. lever le bras
+5. terminer la séquence du TP
 
 ---
 
@@ -740,18 +740,18 @@ robot.run();
 
 Votre travail est validé si :
 
-- le projet compile sans erreur ;
-- les palets sont détectés automatiquement dans la console par `PuckManager` ;
-- le nombre de palets chargés est cohérent ;
-- le robot n’utilise pas directement la position exacte des palets pour se guider ;
-- le robot cherche les palets avec ses capteurs ;
-- le robot réagit lorsqu’un capteur de distance détecte un objet ;
-- le robot passe en mode `APPROACH_PUCK` lorsqu’un objet est détecté ;
-- le robot lance une séquence de prise après un contact valide ;
-- le bras descend ;
-- la pince se ferme ;
-- le bras se lève ;
-- le robot termine correctement la première séquence.
+- le projet compile sans erreur
+- les palets sont détectés automatiquement dans la console par `PuckManager`
+- le nombre de palets chargés est cohérent
+- le robot n’utilise pas directement la position exacte des palets pour se guider
+- le robot cherche les palets avec ses capteurs
+- le robot réagit lorsqu’un capteur de distance détecte un objet
+- le robot passe en mode `APPROACH_PUCK` lorsqu’un objet est détecté
+- le robot lance une séquence de prise après un contact valide
+- le bras descend
+- la pince se ferme
+- le bras se lève
+- le robot termine correctement la première séquence
 
 ---
 
@@ -810,10 +810,10 @@ PALET_
 
 Vous avez complété la classe `PuckManager`, qui permet de stocker les informations liées aux palets :
 
-- leur nom ;
-- leur nœud Webots ;
-- leur position dans le monde Webots ;
-- leur état.
+- leur nom
+- leur nœud Webots
+- leur position dans le monde Webots
+- leur état
 
 Cependant, il est important de retenir que ces informations ne doivent pas être utilisées pour guider directement le robot vers les palets.
 
@@ -842,15 +842,15 @@ SEARCH
 
 À la fin de ce TP, vous devez être capables de :
 
-- expliquer le rôle de `PuckManager` ;
-- comprendre l’intérêt des noms `DEF` dans Webots ;
-- récupérer un objet Webots avec `getFromDef` ;
-- accéder à un champ Webots avec `getField` ;
-- comprendre pourquoi le robot ne doit pas utiliser directement la position exacte des palets ;
-- utiliser les capteurs pour détecter un objet ;
-- comprendre le rôle du `TouchSensor` dans la confirmation du contact ;
-- comprendre le rôle de `RobotMode` ;
-- suivre une première logique de récupération d’un palet.
+- expliquer le rôle de `PuckManager`
+- comprendre l’intérêt des noms `DEF` dans Webots
+- récupérer un objet Webots avec `getFromDef`
+- accéder à un champ Webots avec `getField`
+- comprendre pourquoi le robot ne doit pas utiliser directement la position exacte des palets
+- utiliser les capteurs pour détecter un objet
+- comprendre le rôle du `TouchSensor` dans la confirmation du contact
+- comprendre le rôle de `RobotMode`
+- suivre une première logique de récupération d’un palet
 
 ---
 
@@ -860,11 +860,11 @@ Ce TP prépare les prochains travaux pratiques.
 
 Les notions vues ici seront réutilisées pour mettre en place une mission plus complète :
 
-- améliorer la détection des palets avec les capteurs ;
-- rendre l’approche plus fiable ;
-- saisir un palet ;
-- transporter un palet ;
-- déposer un palet dans une zone définie ;
-- répéter la mission pour plusieurs palets.
+- améliorer la détection des palets avec les capteurs
+- rendre l’approche plus fiable
+- saisir un palet
+- transporter un palet
+- déposer un palet dans une zone définie
+- répéter la mission pour plusieurs palets
 
 Le dépôt des palets et la mission complète seront traités dans le prochain TP.

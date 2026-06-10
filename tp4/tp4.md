@@ -45,11 +45,11 @@ Dans le **TP1**, vous avez construit la structure du robot dans Webots.
 
 Dans le **TP2**, vous avez complété une première API Java permettant de commander :
 
-- les moteurs ;
-- les roues ;
-- les capteurs ;
-- le bras ;
-- la pince.
+- les moteurs
+- les roues
+- les capteurs
+- le bras
+- la pince
 
 Dans le **TP3**, vous avez découvert la gestion des palets avec `PuckManager` et mis en place une première logique de récupération.
 
@@ -57,13 +57,13 @@ Dans ce **TP4**, vous allez mettre en place un comportement plus complet.
 
 Le robot devra :
 
-1. parcourir la carte ;
-2. chercher des palets avec ses capteurs ;
-3. récupérer un palet ;
-4. se déplacer jusqu’à une base ;
-5. déposer le palet dans cette base ;
-6. repartir chercher un autre palet ;
-7. recommencer jusqu’à ce que tous les palets soient traités.
+1. parcourir la carte
+2. chercher des palets avec ses capteurs
+3. récupérer un palet
+4. se déplacer jusqu’à une base
+5. déposer le palet dans cette base
+6. repartir chercher un autre palet
+7. recommencer jusqu’à ce que tous les palets soient traités
 
 Ce TP correspond donc à la première version complète de la mission du robot.
 
@@ -94,15 +94,15 @@ Liens utiles :
 
 À la fin de ce TP, vous devez être capables de :
 
-- comprendre la logique générale d’un comportement autonome ;
-- utiliser les capteurs pour rechercher un palet ;
-- différencier un obstacle proche d’un objet à approcher ;
-- déclencher une séquence de prise après contact ;
-- transporter un palet ;
-- se diriger vers une zone de dépôt ;
-- déposer le palet dans la base ;
-- revenir en mode recherche ;
-- organiser un comportement complexe avec plusieurs modes.
+- comprendre la logique générale d’un comportement autonome
+- utiliser les capteurs pour rechercher un palet
+- différencier un obstacle proche d’un objet à approcher
+- déclencher une séquence de prise après contact
+- transporter un palet
+- se diriger vers une zone de dépôt
+- déposer le palet dans la base
+- revenir en mode recherche
+- organiser un comportement complexe avec plusieurs modes
 
 ---
 
@@ -315,10 +315,10 @@ Le seuil maximal permet d’éviter de confondre certains murs très proches ave
 
 Un problème important est que les capteurs de distance peuvent détecter aussi bien :
 
-- un palet ;
-- un mur ;
-- un obstacle ;
-- une bordure de la carte.
+- un palet
+- un mur
+- un obstacle
+- une bordure de la carte
 
 Le robot doit donc éviter de considérer tous les objets comme des palets.
 
@@ -565,11 +565,11 @@ DROP_PUCK
 
 La séquence de dépôt peut être la suivante :
 
-1. arrêter le robot ;
-2. ouvrir la pince ;
-3. baisser légèrement le bras ;
-4. placer le palet dans la zone de dépôt ;
-5. marquer le palet comme livré.
+1. arrêter le robot
+2. ouvrir la pince
+3. baisser légèrement le bras
+4. placer le palet dans la zone de dépôt
+5. marquer le palet comme livré
 
 Exemple :
 
@@ -595,10 +595,10 @@ Après le dépôt, le robot ne doit pas reprendre immédiatement le palet qu’i
 
 Il peut donc :
 
-1. lever le bras ;
-2. reculer ;
-3. tourner légèrement ;
-4. revenir en mode `SEARCH`.
+1. lever le bras
+2. reculer
+3. tourner légèrement
+4. revenir en mode `SEARCH`
 
 Exemple de modes :
 
@@ -731,21 +731,21 @@ robot.run();
 
 Votre travail est validé si :
 
-- le projet compile sans erreur ;
-- le robot démarre correctement ;
-- le bras se lève au lancement ;
-- la pince s’ouvre au lancement ;
-- le robot traverse la carte pour chercher un palet ;
-- le robot réagit lorsqu’un capteur détecte un objet ;
-- le robot s’approche d’un objet détecté ;
-- le robot déclenche la prise lorsqu’un contact valide est détecté ;
-- le bras descend ;
-- la pince se ferme ;
-- le bras se lève ;
-- le robot se dirige vers la base ;
-- le robot dépose le palet dans la base ;
-- le robot repart chercher un autre palet ;
-- le comportement peut se répéter.
+- le projet compile sans erreur
+- le robot démarre correctement
+- le bras se lève au lancement
+- la pince s’ouvre au lancement
+- le robot traverse la carte pour chercher un palet
+- le robot réagit lorsqu’un capteur détecte un objet
+- le robot s’approche d’un objet détecté
+- le robot déclenche la prise lorsqu’un contact valide est détecté
+- le bras descend
+- la pince se ferme
+- le bras se lève
+- le robot se dirige vers la base
+- le robot dépose le palet dans la base
+- le robot repart chercher un autre palet
+- le comportement peut se répéter
 
 ---
 
@@ -792,15 +792,15 @@ Dans ce TP, vous avez mis en place une première version complète de la mission
 
 Le robot est maintenant capable de :
 
-- parcourir la carte ;
-- rechercher un palet avec ses capteurs ;
-- s’approcher d’un objet détecté ;
-- confirmer un contact ;
-- récupérer un palet ;
-- transporter le palet ;
-- aller jusqu’à une base ;
-- déposer le palet ;
-- repartir chercher un autre palet.
+- parcourir la carte
+- rechercher un palet avec ses capteurs
+- s’approcher d’un objet détecté
+- confirmer un contact
+- récupérer un palet
+- transporter le palet
+- aller jusqu’à une base
+- déposer le palet
+- repartir chercher un autre palet
 
 Vous avez également utilisé une organisation par modes avec `RobotMode`.
 
@@ -827,15 +827,15 @@ Cette structure rend le code plus clair, plus lisible et plus facile à amélior
 
 À la fin de ce TP, vous devez être capables de :
 
-- expliquer le fonctionnement général de l’algorithme de collecte ;
-- utiliser les capteurs pour chercher un objet ;
-- gérer une séquence de prise avec un bras et une pince ;
-- transporter un palet ;
-- définir une zone de dépôt ;
-- déplacer le robot vers une base ;
-- déposer un palet ;
-- gérer un comportement avec plusieurs modes ;
-- tester et corriger un comportement robotique complet.
+- expliquer le fonctionnement général de l’algorithme de collecte
+- utiliser les capteurs pour chercher un objet
+- gérer une séquence de prise avec un bras et une pince
+- transporter un palet
+- définir une zone de dépôt
+- déplacer le robot vers une base
+- déposer un palet
+- gérer un comportement avec plusieurs modes
+- tester et corriger un comportement robotique complet
 
 ---
 
@@ -845,11 +845,11 @@ Ce TP constitue une première version fonctionnelle de la mission.
 
 Dans les prochains travaux, il sera possible d’améliorer :
 
-- la stratégie de recherche ;
-- l’évitement des murs ;
-- la fiabilité de l’approche ;
-- la détection des palets ;
-- la trajectoire vers la base ;
-- le dépôt de plusieurs palets ;
-- le comportement du robot lorsqu’il est bloqué ;
-- la coopération ou la compétition entre plusieurs robots.
+- la stratégie de recherche
+- l’évitement des murs
+- la fiabilité de l’approche
+- la détection des palets
+- la trajectoire vers la base
+- le dépôt de plusieurs palets
+- le comportement du robot lorsqu’il est bloqué
+- la coopération ou la compétition entre plusieurs robots
