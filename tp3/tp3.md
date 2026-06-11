@@ -46,6 +46,10 @@ Dans le **TP2**, vous avez complété une première API permettant de commander 
 
 Dans ce **TP3**, vous allez commencer à travailler autour des **palets**.
 
+![Vue globale du TP3 dans Webots](images/tp3_vue_globale.png)
+
+*Figure 1 — Vue globale du TP3 avec le robot et les palets dans Webots.*
+
 L’objectif est de comprendre comment les palets sont représentés dans le monde Webots, comment ils peuvent être retrouvés par le contrôleur, et comment le robot peut lancer une première séquence de récupération.
 
 Ce TP introduit une nouvelle partie importante du projet : la gestion des objets présents dans le monde Webots.
@@ -194,6 +198,10 @@ DEF PALET_3 Solid {
 }
 ```
 
+![Palets nommés dans Webots](images/tp3_palets_def.png)
+
+*Figure 2 — Exemple de palets nommés avec le préfixe PALET_ dans Webots.*
+
 Dans ce TP, tous les palets doivent suivre la même convention de nommage :
 
 ```text
@@ -233,6 +241,10 @@ Elle permet notamment de :
 - identifier un palet proche de la zone de contact du robot
 - préparer plus tard l’attachement et le dépôt d’un palet
 
+![Rôle de PuckManager](images/tp3_role_puckmanager.png)
+
+*Figure 3 — Rôle de PuckManager dans la gestion des palets du monde Webots.*
+
 ---
 
 ## Attention importante
@@ -246,6 +258,10 @@ Le robot connaît la position exacte de PALET_3.
 Il calcule l’angle vers PALET_3.
 Il se dirige directement vers PALET_3.
 ```
+
+![Bonne et mauvaise utilisation de PuckManager](images/tp3_bonne_mauvaise_utilisation_puckmanager.png)
+
+*Figure 4 — Différence entre une détection par capteurs et une utilisation directe de la position des palets.*
 
 Cette solution fonctionne dans une simulation, mais elle n’est pas réaliste pour un robot autonome.  
 Dans un vrai comportement autonome, le robot doit utiliser ses capteurs pour détecter ce qui se trouve autour de lui.
@@ -289,6 +305,9 @@ Exemple :
 ```java
 puckNodes[i] = robot.getFromDef(puckNames[i]);
 ```
+![Initialisation d’un palet dans PuckManager](images/tp3_initialisation_palet.png)
+
+*Figure 5 — Initialisation d’un palet dans PuckManager à partir de son nom DEF.*
 
 Ensuite, si le nœud existe, vous devez récupérer son champ `translation`.
 
@@ -341,6 +360,10 @@ La recherche doit :
 4. vérifier le nom `DEF` de chaque nœud
 5. ajouter les noms commençant par `PALET_`
 6. continuer la recherche dans les sous-nœuds
+
+![Recherche automatique des palets](images/tp3_recherche_automatique_palets.png)
+
+*Figure 6 — Recherche automatique des palets dans le monde Webots grâce au préfixe PALET_.*
 
 ### Exemple de récupération de la racine
 
@@ -490,6 +513,10 @@ Pour ce TP, les modes utiles sont les suivants :
 | `CLOSE_GRIPPER` | Fermer la pince pour saisir le palet |
 | `LIFT_ARM` | Lever le bras après la prise |
 | `FINISHED` | Arrêter le robot lorsque la séquence est terminée |
+
+![Modes du robot pour la récupération d’un palet](images/tp3_modes_robot.png)
+
+*Figure 7 — Enchaînement des modes du robot pendant la première récupération d’un palet.*
 
 ---
 
@@ -663,6 +690,10 @@ La séquence est la suivante :
 3. fermer la pince
 4. lever le bras
 5. terminer la séquence du TP
+
+![Séquence de prise d’un palet](images/tp3_sequence_prise_palet.png)
+
+*Figure 8 — Séquence de prise d’un palet avec le bras et la pince du robot.*
 
 ---
 
