@@ -178,7 +178,7 @@ Dans le projet, on peut retrouver :
 
 L’arborescence permet de visualiser la structure complète du monde simulé. Elle sert aussi à sélectionner un élément pour consulter ou modifier ses propriétés.
 
-> ![Arborescence générale du monde Webots](images/arborescence_webots.png)
+![Arborescence générale du monde Webots](images/arborescence_webots.png)
 
 *Figure 1 — Arborescence générale du monde Webots.*
 
@@ -296,6 +296,9 @@ worlds/
 controllers/
 protos/
 ```
+![Projet ouvert dans Visual Studio Code](images/vscode_projet_ouvert.png)
+
+*Figure 8 — Projet ouvert dans Visual Studio Code avec l’arborescence des fichiers.*
 
 ---
 
@@ -313,6 +316,10 @@ Prenez quelques minutes pour :
 - zoomer sur le robot
 - observer les différents éléments déjà présents
 - développer le nœud `Robot` dans l’arborescence
+
+![Projet ouvert dans Webots](images/ouverture_projet_webots.png)
+
+*Figure 9 — Projet ouvert dans Webots avec le monde de simulation chargé.*
 
 ---
 
@@ -555,6 +562,10 @@ robot.getMotor("wheel1");
 
 Si le nom du moteur est mal écrit, le contrôleur ne pourra pas le trouver.
 
+![Ajout du moteur de la roue](images/ajout_moteur_roue.png)
+
+*Figure 10 — Ajout d’un RotationalMotor dans le champ device du HingeJoint.*
+
 ---
 
 ## 18. Ajouter le `Solid` de la roue
@@ -577,6 +588,10 @@ Sélectionnez le `Solid`, puis modifiez son champ `name`.
 | `WHEEL4` | `wheel4_solid` |
 
 Modifiez ensuite le champ `translation` du `Solid`. Cette valeur doit être identique à la valeur du champ `anchor`.
+
+![Ajout du Solid de la roue](images/ajout_solid_roue.png)
+
+*Figure 11 — Ajout du Solid représentant la roue dans le champ endPoint.*
 
 | Roue | Valeur du champ `translation` |
 |---|---|
@@ -632,6 +647,10 @@ Dans le `Cylinder`, modifiez les champs suivants :
 
 À ce stade, la roue doit être visible dans la zone de simulation.
 
+![Apparence de la roue](images/apparence_roue.png)
+
+*Figure 12 — Configuration de l’apparence de la roue avec un Shape et un Cylinder.*
+
 ---
 
 ## 20. Ajouter le `boundingObject`
@@ -658,6 +677,10 @@ Donnez à ce `Cylinder` les mêmes dimensions que la roue visible :
 | `height` | `0.02` |
 
 Le `boundingObject` est indispensable pour que Webots prenne correctement la roue en compte dans la physique de la simulation.
+
+![BoundingObject de la roue](images/boundingobject_roue.png)
+
+*Figure 13 — Configuration du boundingObject utilisé pour les collisions de la roue.*
 
 ---
 
@@ -686,6 +709,10 @@ Modifiez ensuite les champs suivants :
 
 La valeur `density = -1` indique à Webots qu’il doit utiliser directement la masse donnée dans le champ `mass`.
 
+![Propriétés physiques de la roue](images/physics_roue.png)
+
+*Figure 14 — Ajout des propriétés physiques de la roue avec une masse de 0.05.*
+
 ---
 
 ## 22. Répéter la manipulation pour les autres roues
@@ -698,6 +725,10 @@ Vous devez maintenant répéter cette manipulation pour obtenir les quatre roues
 | Avant droite | `WHEEL2` | `wheel2` | `wheel2_solid` | `0.07 -0.07 0.015` |
 | Arrière gauche | `WHEEL3` | `wheel3` | `wheel3_solid` | `-0.07 0.07 0.015` |
 | Arrière droite | `WHEEL4` | `wheel4` | `wheel4_solid` | `-0.07 -0.07 0.015` |
+
+![Robot avec ses quatre roues](images/robot_quatre_roues.png)
+
+*Figure 15 — Robot complété avec ses quatre roues.*
 
 ---
 
@@ -727,6 +758,10 @@ Ajoutez un nouveau nœud de type :
 DistanceSensor
 ```
 
+![Ajout du capteur droit](images/ajout_capteur_droit.png)
+
+*Figure 16 — Ajout du capteur de distance droit nommé ds_right.*
+
 Sélectionnez le capteur ajouté, puis modifiez ses champs.
 
 | Champ | Valeur |
@@ -753,6 +788,10 @@ Ajoutez un deuxième nœud de type :
 DistanceSensor
 ```
 
+![Ajout du capteur gauche](images/ajout_capteur_gauche.png)
+
+*Figure 17 — Ajout du capteur de distance gauche nommé ds_left.*
+
 Sélectionnez ce capteur, puis modifiez ses champs.
 
 | Champ | Valeur |
@@ -777,6 +816,10 @@ View → Optional Rendering → Show DistanceSensor Rays
 
 Vous devez voir apparaître les rayons de détection des capteurs.
 
+![Rayons des capteurs de distance](images/rayons_capteurs_distance.png)
+
+*Figure 18 — Visualisation des rayons des capteurs de distance dans Webots.*
+
 Vérifiez que :
 
 - `ds_front` regarde vers l’avant
@@ -793,6 +836,10 @@ La pince est composée de deux parties :
 
 - une partie gauche déjà présente
 - une partie droite à ajouter
+
+![Pince incomplète](images/pince_incomplete.png)
+
+*Figure 19 — Pince incomplète avant l’ajout de la partie droite.*
 
 La partie droite doit être ajoutée dans le nœud `arm_solid`, juste après le joint de la pince gauche.
 
@@ -829,6 +876,10 @@ Dans le champ `jointParameters`, modifiez les valeurs suivantes :
 | `anchor` | `0.055 -0.030 0` |
 | `axis` | `0 0 1` |
 
+![Joint de la pince droite](images/joint_pince_droite.png)
+
+*Figure 20 — Ajout du HingeJoint correspondant à la pince droite.*
+
 ---
 
 ## 27. Ajouter le moteur de la pince droite
@@ -851,6 +902,10 @@ Modifiez les champs du moteur avec les valeurs suivantes :
 
 Le nom `gripper_right_motor` est obligatoire, car le contrôleur Java l’utilise pour ouvrir et fermer la pince.
 
+![Moteur de la pince droite](images/moteur_pince_droite.png)
+
+*Figure 21 — Ajout du moteur gripper_right_motor pour contrôler la pince droite.*
+
 ---
 
 ## 28. Ajouter le `Solid` de la pince droite
@@ -867,6 +922,10 @@ Modifiez les champs du `Solid` avec les valeurs suivantes :
 |---|---|
 | `name` | `gripper_right_solid` |
 | `translation` | `0.055 -0.040 0` |
+
+![Solid de la pince droite](images/solid_pince_droite.png)
+
+*Figure 22 — Ajout du Solid représentant la partie droite de la pince.*
 
 Dans le champ `children` de ce `Solid`, ajoutez un :
 
@@ -887,6 +946,10 @@ Dans la `Box`, modifiez le champ `size` avec :
 
 Vous pouvez utiliser une couleur noire pour que la pince droite ressemble à la pince gauche.
 
+![Pince complète](images/pince_complete.png)
+
+*Figure 23 — Pince complète avec les parties gauche et droite.*
+
 ---
 
 # VIII. Comprendre le rôle du contrôleur
@@ -896,6 +959,10 @@ Vous pouvez utiliser une couleur noire pour que la pince droite ressemble à la 
 Le fichier [`TP1ValidationController.java`](controllers/TP1ValidationController/TP1ValidationController.java) est le programme associé au robot. Il permet de vérifier que les différents éléments ont bien été ajoutés depuis l’interface graphique de Webots.
 
 Il ne vérifie pas uniquement la présence visuelle des éléments dans Webots. Il essaye surtout de récupérer les moteurs et les capteurs grâce à leur nom.
+
+![Contrôleur de validation dans VS Code](images/tp1_validation_controller.png)
+
+*Figure 24 — Fichier TP1ValidationController.java ouvert dans Visual Studio Code.*
 
 Répondez aux questions suivantes :
 
