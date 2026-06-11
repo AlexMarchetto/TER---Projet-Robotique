@@ -23,31 +23,31 @@ public class Robot {
 
   public Robot() {
     /*
-     * Main Webots object.
-     * It allows the controller to communicate with the simulated world.
+     * Objet Webots principal.
+     * Il permet au contrôleur de communiquer avec l'environnement simulé.
      */
     this.supervisor = new Supervisor();
 
     /*
-     * Webots simulation time step.
+     * Intervalle de temps utilisé entre deux étapes de la simulation Webots.
      */
     this.timeStep = (int) Math.round(supervisor.getBasicTimeStep());
 
     /*
-     * Initialization of the robot APIs.
+     * Initialisation des API du robot.
      */
-    this.driveBase = new DriveBase(supervisor); // Motor API
-    this.sensorManager = new SensorManager(supervisor, timeStep); // Sensor API
-    this.arm = new Arm(supervisor, timeStep); // Arm API
-    this.gripper = new Gripper(supervisor); // Gripper API
+    this.driveBase = new DriveBase(supervisor); // API Moteur
+    this.sensorManager = new SensorManager(supervisor, timeStep); // API des capteurs
+    this.arm = new Arm(supervisor, timeStep); // API du bras
+    this.gripper = new Gripper(supervisor); // API de la pince
 
     /*
-     * Simple asynchronous task API.
+     * API simple pour les tâches asynchrones.
      */
     this.scheduler = new TaskScheduler();
 
     /*
-     * Initial arm and gripper position.
+     * Position initiale du bras et de la pince.
      */
     arm.lift();
     gripper.open();

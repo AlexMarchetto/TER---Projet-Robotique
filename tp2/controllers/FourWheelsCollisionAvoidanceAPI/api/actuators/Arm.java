@@ -6,6 +6,7 @@ import com.cyberbotics.webots.controller.Supervisor;
 public class Arm {
   private final Motor armMotor;
   private final PositionSensor armSensor;
+
   private double upPosition = -0.65;
   private double downPosition = 0.35;
 
@@ -13,6 +14,7 @@ public class Arm {
     this.armMotor = robot.getMotor("arm_motor");
     this.armSensor = robot.getPositionSensor("arm_sensor");
 
+    // Activer le capteur de position pour lire la position actuelle du bras.
     if (armSensor != null) {
       armSensor.enable(timeStep);
     }
