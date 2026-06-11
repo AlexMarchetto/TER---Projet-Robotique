@@ -14,7 +14,7 @@
   - [1.1 Conception du contrôleur](#11-conception-du-contrôleur)
   - [1.2 Organisation des fichiers](#12-organisation-des-fichiers)
   - [1.3 Point d’entrée du contrôleur](#13-point-dentrée-du-contrôleur)
-  - [1.4 Rôle de la classe TERBot](#14-rôle-de-la-classe-terbot)
+  - [1.4 Rôle de la classe Robot](#14-rôle-de-la-classe-robot)
   - [1.5 Travail à réaliser](#15-travail-à-réaliser)
 - [2. Complétion de l’API moteurs](#2-complétion-de-lapi-moteurs)
 - [3. Complétion de l’API capteurs](#3-complétion-de-lapi-capteurs)
@@ -108,6 +108,10 @@ Chaque partie de l’API possède un rôle précis :
 | `api.tasks` | Gérer des actions dans le temps |
 | `api.utils` | Fournir des fonctions utilitaires |
 
+![Architecture générale du contrôleur Java](images/tp2_architecture_controleur.png)
+
+*Figure 1 — Architecture générale du contrôleur Java autour des différentes parties de l’API.*
+
 Cette organisation rend le code :
 
 - plus lisible
@@ -148,7 +152,7 @@ controllers/
         │   ├── RobotBehavior.java
         │   └── SimpleAvoidObstacleBehavior.java
         ├── core/
-        │   └── TERBot.java
+        │   └── Robot.java
         ├── motors/
         │   ├── Wheel.java
         │   ├── MotorGroup.java
@@ -186,18 +190,22 @@ Son rôle est de :
 Exemple :
 
 ```java
-TERBot robot = new TERBot();
+Robot robot = new Robot();
 robot.setBehavior(new SimpleAvoidObstacleBehavior(robot));
 robot.run();
 ```
 
 Dans ce TP, le comportement utilisé est un comportement simple d’évitement d’obstacles.
 
+![Démarrage du contrôleur](images/tp2_demarrage_controleur.png) 
+
+*Figure 2 — Démarrage du contrôleur : création du robot, choix du comportement et lancement de la boucle principale.*
+
 ---
 
-## 1.4 Rôle de la classe TERBot
+## 1.4 Rôle de la classe Robot
 
-La classe `TERBot` représente le cœur du contrôleur.
+La classe `Robot` représente le cœur du contrôleur.
 
 Elle fait le lien entre :
 
@@ -208,7 +216,7 @@ Elle fait le lien entre :
 - la pince
 - le comportement du robot
 
-Lors de sa création, `TERBot` crée un objet `Supervisor`.
+Lors de sa création, `Robot` crée un objet `Supervisor`.
 
 ```java
 this.supervisor = new Supervisor();
@@ -223,7 +231,7 @@ Il permet notamment de récupérer :
 - le pas de temps de la simulation
 - certaines informations sur le monde
 
-La classe `TERBot` récupère ensuite le `timeStep`, qui correspond au pas de temps utilisé par Webots.
+La classe `Robot` récupère ensuite le `timeStep`, qui correspond au pas de temps utilisé par Webots.
 
 ```java
 this.timeStep = (int) Math.round(supervisor.getBasicTimeStep());
@@ -259,6 +267,10 @@ while (supervisor.step(timeStep) != -1) {
 
 C’est donc dans la méthode `update()` du comportement que seront prises les décisions du robot.
 
+![Rôle de la classe Robot](images/tp2_role_robot.png)
+
+*Figure 3 — Rôle de la classe Robot comme point central entre Webots, les capteurs, les moteurs et les comportements.*
+
 ---
 
 ## 1.5 Travail à réaliser
@@ -273,7 +285,7 @@ Votre objectif est de compléter les méthodes manquantes dans les fichiers indi
 | Fichier | Rôle | Action |
 |---|---|---|
 | `FourWheelsCollisionAvoidanceAPI.java` | Point d’entrée du contrôleur Webots | À lire |
-| `TERBot.java` | Classe principale qui regroupe les API | À lire |
+| `Robot.java` | Classe principale qui regroupe les API | À lire |
 | `api/motors/Wheel.java` | Commande d’une roue | À compléter |
 | `api/motors/MotorGroup.java` | Commande d’un groupe de roues | À compléter |
 | `api/motors/DriveBase.java` | Déplacements du robot | À compléter |
@@ -295,6 +307,10 @@ Elle est composée de trois classes principales :
 - `MotorGroup`
 - `DriveBase`
 
+![Organisation de l’API moteurs](images/tp2_api_moteurs.png) 
+
+*Figure 4 — Organisation de l’API moteurs avec les classes Wheel, MotorGroup et DriveBase.*
+
 ---
 
 ## 2.1 Classe Wheel
@@ -307,6 +323,10 @@ Elle encapsule un moteur Webots de type `Motor` et fournit des méthodes simples
 - `forward`
 - `backward`
 - `stop`
+
+![Roue et moteur Webots](images/tp2_wheel_motor.png)
+
+*Figure 5 — Lien entre une roue du robot et le moteur Webots utilisé pour la faire tourner.*
 
 ### Rôle de la classe
 
@@ -443,6 +463,10 @@ rightWheels = new MotorGroup(frontRight, rearRight);
 | 3.7 | `curveRight(speed, factor)` | Le robot avance en courbe vers la droite |
 | 3.8 | `stop()` | Toutes les roues sont arrêtées |
 
+![Mouvements de la base roulante](images/tp2_mouvements_drivebase.png) 
+
+*Figure 6 — Effet des vitesses des roues sur les déplacements du robot.*
+
 ---
 
 # 3. Complétion de l’API capteurs
@@ -450,6 +474,10 @@ rightWheels = new MotorGroup(frontRight, rearRight);
 L’API capteurs permet de lire plus facilement les valeurs des capteurs Webots.
 
 Dans ce TP, vous allez utiliser principalement les capteurs de distance.
+
+![Capteurs du robot](images/tp2_capteurs.png)
+
+*Figure 7 — Position des capteurs utilisés par l’API capteurs du robot.*
 
 ---
 
@@ -500,6 +528,10 @@ if (frontSensor.detectsObject(350.0)) {
 La classe `SensorManager` centralise l’accès aux capteurs du robot.
 
 Elle évite de récupérer les capteurs directement dans le comportement.
+
+![Rôle de SensorManager](images/tp2_sensor_manager.png)
+
+*Figure 8 — SensorManager regroupe les capteurs du robot et fournit des méthodes simples pour les utiliser.*
 
 ### Capteurs utilisés
 
@@ -707,7 +739,7 @@ Cette API permet de commander le robot avec des méthodes simples, par exemple p
 - lever le bras
 - ouvrir la pince
 
-Vous avez également compris le rôle de la classe `TERBot`, qui sert de lien entre Webots, les différentes API du robot et le comportement à exécuter.
+Vous avez également compris le rôle de la classe `Robot`, qui sert de lien entre Webots, les différentes API du robot et le comportement à exécuter.
 
 Dans ce TP, vous avez complété plusieurs parties importantes :
 
@@ -726,7 +758,7 @@ Il permet de montrer comment les API sont utilisées ensemble : le robot lit ses
 
 - expliquer le rôle général d’une API dans le contrôleur
 - identifier les principales classes du contrôleur
-- comprendre le lien entre `FourWheelsCollisionAvoidanceAPI`, `TERBot` et le comportement du robot
+- comprendre le lien entre `FourWheelsCollisionAvoidanceAPI`, `Robot` et le comportement du robot
 - compléter des méthodes simples pour commander les moteurs
 - lire les valeurs des capteurs
 - commander le bras et la pince
