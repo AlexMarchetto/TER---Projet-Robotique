@@ -8,7 +8,6 @@ import api.behavior.RobotBehavior;
 import api.motors.DriveBase;
 import api.sensors.SensorManager;
 import api.tasks.TaskScheduler;
-import api.world.PuckManager;
 
 public class Robot {
   private final Supervisor supervisor;
@@ -18,45 +17,37 @@ public class Robot {
   private final SensorManager sensorManager;
   private final Arm arm;
   private final Gripper gripper;
-  private final PuckManager puckManager;
   private final TaskScheduler scheduler;
 
   private RobotBehavior behavior;
 
   public Robot() {
     /*
-     * Main Webots object.
-     * It allows the controller to communicate with the simulated world.
+     * Objet Webots principal.
+     * Il permet au contrôleur de communiquer avec l'environnement simulé.
      */
     this.supervisor = new Supervisor();
 
     /*
-     * Webots simulation time step.
+     * Intervalle de temps utilisé entre deux étapes de la simulation Webots.
      */
     this.timeStep = (int) Math.round(supervisor.getBasicTimeStep());
 
     /*
-     * Initialization of the robot APIs.
+     * Initialisation des API du robot.
      */
-    this.driveBase = new DriveBase(supervisor); // Motor API
-    this.sensorManager = new SensorManager(supervisor, timeStep); // Sensor API
-    this.arm = new Arm(supervisor, timeStep); // Arm API
-    this.gripper = new Gripper(supervisor); // Gripper API
+    this.driveBase = new DriveBase(supervisor); // API Moteur
+    this.sensorManager = new SensorManager(supervisor, timeStep); // API des capteurs
+    this.arm = new Arm(supervisor, timeStep); // API du bras
+    this.gripper = new Gripper(supervisor); // API de la pince
 
     /*
-     * Puck API.
-     * Automatically finds all objects whose DEF name starts with PALET_.
-     * Example: PALET_1, PALET_2, PALET_3, PALET_4, etc.
-     */
-    this.puckManager = PuckManager.findAllWithPrefix(supervisor, "PALET_");
-
-    /*
-     * Simple asynchronous task API.
+     * API simple pour les tâches asynchrones.
      */
     this.scheduler = new TaskScheduler();
 
     /*
-     * Initial arm and gripper position.
+     * Position initiale du bras et de la pince.
      */
     arm.lift();
     gripper.open();
@@ -84,10 +75,6 @@ public class Robot {
 
   public Gripper gripper() {
     return gripper;
-  }
-
-  public PuckManager pucks() {
-    return puckManager;
   }
 
   public TaskScheduler scheduler() {
