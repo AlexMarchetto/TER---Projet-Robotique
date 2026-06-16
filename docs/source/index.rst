@@ -55,6 +55,10 @@ Contents
    :caption: TP
 
    tp1/index
+   tp2/index
+   tp3/index
+   tp4/index
+   tp5/index
 
 Indices and tables
 ------------------
